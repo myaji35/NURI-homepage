@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NURI - 기술로 만드는 포용적 농업 생태계</title>
+    <meta name="description" content="AI 기반 컨소시엄형 장애인표준사업장 스마트팜. 누리셀 3세대 지능형 시스템과 병풀 국산화로 연 매출 50~100억 원 목표">
+
+    <!-- NURI 경로 자동 감지 (로컬 vs GitHub Pages) -->
+    <script src="path-config.js"></script>
+
+    <style>
+        /* SLDS Design Tokens */
+        :root {
+            --color-brand: #00A1E0;
+            --color-brand-dark: #0070D2;
+            --color-success: #50C878;
+            --color-warning: #FFB75D;
+            --color-text-default: #16325C;
+            --color-text-weak: #706E6B;
+            --color-background: #F3F2F2;
+            --color-background-alt: #FAFAF9;
+            --spacing-unit: 1rem;
+            --radius-border: 0.25rem;
+            --shadow-card: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: "Salesforce Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--color-background);
+            color: var(--color-text-default);
+            line-height: 1.6;
+        }
+
+        /* =================
+           Header - SLDS Style
+           ================= */
+        .slds-header {
+            background: white;
+            border-bottom: 3px solid var(--color-brand);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.07);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .slds-header-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-unit);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+        .slds-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-brand);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .slds-nav {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        .slds-nav-link {
+            color: var(--color-text-default);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+            padding: 0.5rem 0;
+            border-bottom: 2px solid transparent;
+        }
+        .slds-nav-link:hover {
+            color: var(--color-brand);
+            border-bottom-color: var(--color-brand);
+        }
+        .slds-button {
+            background: var(--color-brand);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.25rem;
+            border-radius: var(--radius-border);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+        .slds-button:hover {
+            background: var(--color-brand-dark);
+            box-shadow: 0 2px 4px rgba(0,112,210,0.3);
+        }
+        .slds-button-neutral {
+            background: white;
+            color: var(--color-brand);
+            border: 1px solid var(--color-brand);
+        }
+
+        /* =================
+           Hero Section - Full Screen Impact
+           ================= */
+        .hero-section {
+            position: relative;
+            height: 90vh;
+            min-height: 600px;
+            max-height: 900px;
+            background: linear-gradient(135deg, rgba(0, 20, 40, 0.75) 0%, rgba(0, 112, 210, 0.65) 100%),
+                        url('images/K1NUIRIfarm01_Main_Entrance_Perspective.png') center/cover no-repeat;
+            background-attachment: fixed;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+            pointer-events: none;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 2rem;
+            text-align: center;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(0, 161, 224, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            backdrop-filter: blur(10px);
+            text-transform: uppercase;
+        }
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            line-height: 1.15;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            letter-spacing: -1px;
+        }
+        .hero-title .highlight {
+            color: var(--color-brand);
+            background: linear-gradient(135deg, #00A1E0, #50C878);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+            font-size: 5rem;
+        }
+        .hero-subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 3rem;
+            opacity: 0.95;
+            line-height: 1.6;
+            font-weight: 400;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .hero-actions {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .hero-scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        /* =================
+           Stats Bar
+           ================= */
+        .stats-bar {
+            background: white;
+            padding: 2rem var(--spacing-unit);
+            box-shadow: var(--shadow-card);
+        }
+        .stats-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+        }
+        .stat-card {
+            text-align: center;
+            padding: 1rem;
+            border-radius: var(--radius-border);
+            background: var(--color-background-alt);
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-brand);
+            margin-bottom: 0.25rem;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--color-text-weak);
+            font-weight: 500;
+        }
+
+        /* =================
+           Main Layout - 3 Column SLDS
+           ================= */
+        .main-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 3rem var(--spacing-unit);
+        }
+
+        /* SLDS Card Component */
+        .slds-card {
+            background: white;
+            border-radius: var(--radius-border);
+            box-shadow: var(--shadow-card);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        .slds-card-header {
+            background: var(--color-background-alt);
+            border-bottom: 2px solid var(--color-brand);
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .slds-card-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--color-text-default);
+        }
+        .slds-card-body {
+            padding: 1.5rem;
+        }
+        .slds-card-footer {
+            background: var(--color-background-alt);
+            border-top: 1px solid #E5E5E5;
+            padding: 1rem 1.5rem;
+            text-align: center;
+        }
+
+        /* Section Spacing */
+        .section {
+            margin-bottom: 3rem;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-text-default);
+            margin-bottom: 0.75rem;
+        }
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--color-text-weak);
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Value Cards */
+        .value-card {
+            padding: 1.5rem;
+            border-left: 4px solid var(--color-brand);
+            background: var(--color-background-alt);
+            border-radius: var(--radius-border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .value-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,161,224,0.2);
+        }
+        .value-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .value-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--color-text-default);
+        }
+        .value-desc {
+            color: var(--color-text-weak);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Feature List */
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #E5E5E5;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        .feature-list li:before {
+            content: "✓";
+            color: var(--color-success);
+            font-weight: 700;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, #E8F4F8 0%, #D8EEF7 100%);
+            border-left: 4px solid var(--color-brand);
+            padding: 1.5rem;
+            border-radius: var(--radius-border);
+            margin-top: 1.5rem;
+        }
+        .highlight-box h3 {
+            color: var(--color-brand);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--color-text-default) 0%, var(--color-brand-dark) 100%);
+            color: white;
+            padding: 4rem var(--spacing-unit);
+            border-radius: var(--radius-border);
+            text-align: center;
+        }
+        .cta-title {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .cta-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+        .cta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+            text-align: left;
+        }
+        .cta-benefit {
+            background: rgba(255,255,255,0.15);
+            padding: 1.25rem;
+            border-radius: var(--radius-border);
+            backdrop-filter: blur(10px);
+        }
+        .cta-benefit h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--color-text-default);
+            color: white;
+            padding: 3rem var(--spacing-unit) 1.5rem;
+        }
+        .footer-container {
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        .footer-link {
+            display: block;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            transition: color 0.2s;
+        }
+        .footer-link:hover {
+            color: white;
+        }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 1.5rem;
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2rem; }
+            .slds-nav { display: none; }
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+            .hero-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- SLDS Header with Mega Menu -->
+    <header class="slds-header">
+        <div class="slds-header-container">
+            <a href="./" class="slds-brand">
+                🌱 NURI
+            </a>
+            <nav class="slds-nav">
+                <!-- Mega Menu Item 1: NURI 소개 -->
+                <div class="mega-menu-item">
+                    <a href="#about" class="slds-nav-link">NURI 소개 ▾</a>
+                    <div class="mega-menu-dropdown">
+                        <div class="mega-menu-column">
+                            <h4>회사 소개</h4>
+                            <a href="#about">비전 & 미션</a>
+                            <a href="#about">ESG 가치</a>
+                            <a href="#technology">핵심 기술</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mega Menu Item 2: 사업 영역 -->
+                <div class="mega-menu-item">
+                    <a href="#centella" class="slds-nav-link">사업 영역 ▾</a>
+                    <div class="mega-menu-dropdown">
+                        <div class="mega-menu-column">
+                            <h4>주력 사업</h4>
+                            <a href="#centella">병풀 국산화</a>
+                            <a href="#technology">스마트팜 기술</a>
+                            <a href="#about">계열사 소개</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mega Menu Item 3: 사업장 -->
+                <div class="mega-menu-item">
+                    <a href="./goesan.html" class="slds-nav-link">사업장 ▾</a>
+                    <div class="mega-menu-dropdown mega-menu-wide">
+                        <div class="mega-menu-column">
+                            <h4>k1NURIfarm01 (괴산)</h4>
+                            <a href="./goesan.html">🏭 사업장 소개</a>
+                            <a href="./dashboard.html">🎯 실시간 관제</a>
+                            <a href="./5year-plan.html">📊 5개년 계획</a>
+                        </div>
+                        <div class="mega-menu-column">
+                            <h4>채용 정보</h4>
+                            <a href="./goesan.html#employment">장애인 채용</a>
+                            <a href="./goesan.html#employment">일반직원 채용</a>
+                        </div>
+                        <div class="mega-menu-column">
+                            <h4>향후 사업장</h4>
+                            <a href="#" style="opacity: 0.5;">k2 (2027 예정)</a>
+                            <a href="#" style="opacity: 0.5;">j1 (2028 계획)</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mega Menu Item 4: 투자자 정보 -->
+                <div class="mega-menu-item">
+                    <a href="#partnership" class="slds-nav-link">투자자 정보 ▾</a>
+                    <div class="mega-menu-dropdown">
+                        <div class="mega-menu-column">
+                            <h4>협력 & 투자</h4>
+                            <a href="#centella">사업 개요</a>
+                            <a href="#partnership">파트너십 제안</a>
+                            <a href="#partnership">컨소시엄 참여</a>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="mailto:contact@nuri.farm" class="slds-button">문의하기</a>
+            </nav>
+        </div>
+    </header>
+
+    <style>
+        /* Mega Menu Styles */
+        .mega-menu-item {
+            position: relative;
+            display: inline-block;
+        }
+
+        .mega-menu-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid var(--color-border);
+            border-top: 3px solid var(--color-brand);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-radius: 0 0 var(--radius-border) var(--radius-border);
+            min-width: 240px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+            display: flex;
+            gap: 2rem;
+            padding: 1.5rem;
+        }
+
+        .mega-menu-wide {
+            min-width: 420px;
+        }
+
+        .mega-menu-item:hover .mega-menu-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .mega-menu-column {
+            flex: 1;
+        }
+
+        .mega-menu-column h4 {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--color-text-weak);
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--color-background);
+            padding-bottom: 0.5rem;
+        }
+
+        .mega-menu-column a {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: var(--color-text-default);
+            text-decoration: none;
+            border-radius: var(--radius-border);
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .mega-menu-column a:hover {
+            background: var(--color-background);
+            color: var(--color-brand);
+            padding-left: 1rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .mega-menu-item {
+                display: block;
+                width: 100%;
+            }
+
+            .mega-menu-dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                border: none;
+                border-left: 3px solid var(--color-brand);
+                margin-left: 1rem;
+                padding: 0.5rem 1rem;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+
+            .mega-menu-item:hover .mega-menu-dropdown {
+                max-height: 500px;
+            }
+        }
+    </style>
+
+    <!-- Hero Section - Impact First -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <div class="hero-badge">
+                🌍 Korea's First AI Smart Farm for All
+            </div>
+
+            <h1 class="hero-title">
+                <span class="highlight">AI</span>로 만드는<br/>
+                포용적 농업 생태계
+            </h1>
+
+            <p class="hero-subtitle">
+                장애인표준사업장 × 3세대 스마트팜 × 병풀 국산화<br/>
+                충북 괴산에서 시작하는 <strong>대한민국 농업 혁신</strong>
+            </p>
+
+            <div class="hero-actions">
+                <a href="./goesan.html" class="slds-button" style="background: white; color: var(--color-brand-dark); font-size: 1.1rem; padding: 1rem 2.5rem; font-weight: 700; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
+                    📍 NuriFarm 괴산점 둘러보기
+                </a>
+                <a href="#centella" class="slds-button slds-button-neutral" style="background: transparent; border: 2px solid white; color: white; font-size: 1.1rem; padding: 1rem 2.5rem; font-weight: 700;">
+                    📖 비전 자세히 보기
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="hero-scroll-indicator">
+            <svg width="30" height="50" viewBox="0 0 30 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1" y="1" width="28" height="48" rx="14" stroke="white" stroke-width="2"/>
+                <circle cx="15" cy="15" r="4" fill="white">
+                    <animate attributeName="cy" from="15" to="35" dur="1.5s" repeatCount="indefinite"/>
+                    <animate attributeName="opacity" from="1" to="0" dur="1.5s" repeatCount="indefinite"/>
+                </circle>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Stats Bar - Key Metrics -->
+    <section class="stats-bar">
+        <div class="stats-container">
+            <div class="stat-card" style="border-top: 4px solid var(--color-success);">
+                <div class="stat-number">72.7%</div>
+                <div class="stat-label">장애인 고용률</div>
+                <div style="font-size: 0.7rem; color: var(--color-text-weak); margin-top: 0.25rem;">40명/55명 (5차년)</div>
+            </div>
+            <div class="stat-card" style="border-top: 4px solid var(--color-warning);">
+                <div class="stat-number">51억 원</div>
+                <div class="stat-label">연 매출 목표</div>
+                <div style="font-size: 0.7rem; color: var(--color-text-weak); margin-top: 0.25rem;">5차년 병풀 사업</div>
+            </div>
+            <div class="stat-card" style="border-top: 4px solid var(--color-brand);">
+                <div class="stat-number">8억 원</div>
+                <div class="stat-label">정부 인건비 지원</div>
+                <div style="font-size: 0.7rem; color: var(--color-text-weak); margin-top: 0.25rem;">연간 (5차년)</div>
+            </div>
+            <div class="stat-card" style="border-top: 4px solid #9370DB;">
+                <div class="stat-number">3세대+</div>
+                <div class="stat-label">AI 스마트팜</div>
+                <div style="font-size: 0.7rem; color: var(--color-text-weak); margin-top: 0.25rem;">누리셀 시스템</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- About Section -->
+        <section class="section" id="about">
+            <div class="section-header">
+                <h2 class="section-title">NURI가 만드는 사회적 가치</h2>
+                <p class="section-subtitle">기술 혁신과 사회 통합을 동시에 추구하는 컨소시엄형 표준사업장</p>
+            </div>
+
+            <div class="grid-4">
+                <div class="value-card">
+                    <div class="value-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#00A1E0" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+                    <h3 class="value-title">장애인 일자리 창출</h3>
+                    <p class="value-desc">
+                        정규직 고용과 적정 임금 보장. 괴산군과 협력하여
+                        1차년 5명으로 시작, 5차년 40명까지 단계적 확대 (이후 추가 채용 없음)
+                    </p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#50C878" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+                    <h3 class="value-title">ESG 경영 지원</h3>
+                    <p class="value-desc">
+                        연계고용 감면 제도로 대기업 고용 부담금 최대 50% 절감.
+                        아모레퍼시픽, 동국제약 등 파트너십 추진
+                    </p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#50C878" stroke-width="2"><path d="M12 2v6.5"></path><path d="M7 8 3 4m14 4 4-4M2 17a5 5 0 0 0 10 0c0-3.06-2-4-4-9"></path><path d="M22 17a5 5 0 0 1-10 0c0-3.06 2-4 4-9"></path></svg></div>
+                    <h3 class="value-title">병풀(시카) 국산화</h3>
+                    <p class="value-desc">
+                        수입 의존도 95% 시장을 공략. 무농약 청정 재배로
+                        화장품·제약 원료 연 50~100억 매출 목표
+                    </p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FFB75D" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg></div>
+                    <h3 class="value-title">3세대 AI 기술</h3>
+                    <p class="value-desc">
+                        누리셀 LangGraph Multi-Agent + GraphRAG로
+                        생산성 3~5배 향상. Farm8 기술 파트너십 검증 완료
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Section -->
+        <section class="section" id="technology">
+            <div class="section-header">
+                <h2 class="section-title">누리셀: 3세대 지능형 스마트팜</h2>
+                <p class="section-subtitle">Software Defined Farm - 소프트웨어가 정의하는 농장</p>
+            </div>
+
+            <div class="slds-card">
+                <div class="slds-card-header">
+                    <h3 class="slds-card-title">왜 3세대 이상인가?</h3>
+                </div>
+                <div class="slds-card-body">
+                    <div class="grid-2">
+                        <div>
+                            <h4 style="color: var(--color-brand); margin-bottom: 1rem; font-size: 1.1rem;">세대별 비교</h4>
+                            <ul class="feature-list">
+                                <li><strong>1세대</strong>: 원격 제어 (리모컨) - 기본 포함</li>
+                                <li><strong>2세대</strong>: 규칙 기반 자동화 (타이머) - 기본 포함</li>
+                                <li><strong>3세대</strong>: 데이터 기반 AI (자율주행) - <strong>누리셀 핵심</strong></li>
+                                <li><strong>3세대+</strong>: 생성형 에이전트 협업 (AI 농장장) - <strong>누리셀 지향점</strong></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--color-brand); margin-bottom: 1rem; font-size: 1.1rem;">Farm8 대비 경쟁 우위</h4>
+                            <ul class="feature-list">
+                                <li><strong>기술</strong>: H/W 자동화 → S/W & AI (3세대)</li>
+                                <li><strong>작물</strong>: 저가 샐러드 → 고가 원료 (병풀 10배+)</li>
+                                <li><strong>통신</strong>: 유선 중심 → LoRa 무선 메시 (시공비 70% 절감)</li>
+                                <li><strong>사회가치</strong>: 일반 → 장애인 고용 72.7% + ESG</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="slds-card">
+                    <div class="slds-card-header">
+                        <h3 class="slds-card-title">🧠 AI Brain - Multi-Agent</h3>
+                    </div>
+                    <div class="slds-card-body">
+                        <p style="margin-bottom: 1rem; color: var(--color-text-weak);">
+                            LangGraph 기반 에이전트가 상황을 판단하여 최적 제어
+                        </p>
+                        <ul class="feature-list">
+                            <li><strong>환경 제어 에이전트</strong>: 온도/습도/CO2/조도 최적화</li>
+                            <li><strong>병해충 진단 에이전트</strong>: Vision AI 조기 탐지</li>
+                            <li><strong>설비 관리 에이전트</strong>: 고장 감지 및 예측 정비</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="slds-card">
+                    <div class="slds-card-header">
+                        <h3 class="slds-card-title">🧠 Knowledge Memory - GraphRAG</h3>
+                    </div>
+                    <div class="slds-card-body">
+                        <p style="margin-bottom: 1rem; color: var(--color-text-weak);">
+                            과거 재배 경험을 지식 그래프로 학습하여 예측 방제
+                        </p>
+                        <ul class="feature-list">
+                            <li><strong>인과관계 학습</strong>: "작년 습도 80% → 흰가루병 발생"</li>
+                            <li><strong>패턴 인식</strong>: 유사 상황 감지 → 조기 대응</li>
+                            <li><strong>Neo4j 지식 그래프</strong>: 데이터 간 맥락 이해</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>⚡ Wireless Nerves + Efficiency</h3>
+                <div class="grid-2">
+                    <div>
+                        <strong>ESP32 + LoRa 메시 네트워크</strong>
+                        <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                            <li>Plug & Play 확장 (레고처럼 센서 추가)</li>
+                            <li>시공비 70% 절감 (유선 불필요)</li>
+                            <li>자가 치유 (한 센서 고장 시 우회)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <strong>MLOps + Process Mining</strong>
+                        <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                            <li>생육 병목 구간 실시간 탐지</li>
+                            <li>LSTM 수확일 예측 (정확도 85%+)</li>
+                            <li>에너지 효율 30% 개선</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 누리셀 적층형 랙 시스템 상세 설명 -->
+            <div class="slds-card" style="margin-top: 2rem;">
+                <div class="slds-card-header">
+                    <h3 class="slds-card-title">📦 누리셀 적층형 랙 시스템 - 특허 출원 기술</h3>
+                </div>
+                <div class="slds-card-body">
+                    <!-- 누리셀 랙 이미지 -->
+                    <div style="margin-bottom: 2rem;">
+                        <img src="images/nuricell_rack.png" alt="누리셀 적층형 랙 시스템" style="width: 100%; border-radius: var(--radius-border); box-shadow: var(--shadow-card);">
+                        <p style="text-align: center; margin-top: 1rem; color: var(--color-text-weak); font-size: 0.9rem;">
+                            누리셀 적층형 랙 시스템 - LED 조명 일체형 원형 재배 포트
+                        </p>
+                    </div>
+
+                    <!-- 누리셀 구조 상세 설명 -->
+                    <div style="background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%); padding: 2rem; border-radius: var(--radius-border); margin-bottom: 2rem;">
+                        <h4 style="font-size: 1.3rem; font-weight: 700; color: var(--color-brand-dark); margin-bottom: 1rem;">
+                            🏗️ 누리셀 구조: 4층 적층형 × 5연동 = 2,240개 재배 유닛
+                        </h4>
+                        <div class="grid-2" style="gap: 1.5rem;">
+                            <div>
+                                <h5 style="color: var(--color-brand); font-weight: 700; margin-bottom: 0.75rem;">📐 1개 하우스 구조</h5>
+                                <ul style="list-style: none; padding: 0;">
+                                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #E5E5E5;">
+                                        <strong>4층 적층형 랙:</strong> 각 층마다 독립 제어
+                                    </li>
+                                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #E5E5E5;">
+                                        <strong>4열 구성:</strong> 중앙 통로 양쪽 2열씩
+                                    </li>
+                                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #E5E5E5;">
+                                        <strong>28칸 (열 당):</strong> 원형 재배 포트 28개
+                                    </li>
+                                    <li style="padding: 0.5rem 0;">
+                                        <strong style="color: var(--color-brand);">= 448개 누리셀/하우스</strong> (4층 × 4열 × 28칸)
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 style="color: var(--color-brand); font-weight: 700; margin-bottom: 0.75rem;">🏭 전체 농장 규모</h5>
+                                <ul style="list-style: none; padding: 0;">
+                                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #E5E5E5;">
+                                        <strong>5연동 하우스:</strong> A, B, C, D, E동
+                                    </li>
+                                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #E5E5E5;">
+                                        <strong>하우스당 재배 면적:</strong> 약 100평 (500평 하우스 / 5동)
+                                    </li>
+                                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #E5E5E5;">
+                                        <strong>적층 효과:</strong> 100평 × 4층 = <strong style="color: var(--color-success);">400평 상당 생산</strong>
+                                    </li>
+                                    <li style="padding: 0.5rem 0;">
+                                        <strong style="color: var(--color-brand);">= 총 2,240개 누리셀</strong> (448 × 5동)
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 누리셀 핵심 기술 -->
+                    <div class="grid-3">
+                        <div style="background: white; padding: 1.5rem; border-radius: var(--radius-border); box-shadow: var(--shadow-card);">
+                            <div style="font-size: 2rem; margin-bottom: 0.75rem;">💡</div>
+                            <h5 style="font-weight: 700; margin-bottom: 0.5rem; color: var(--color-brand-dark);">LED 조명 일체형</h5>
+                            <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
+                                각 원형 포트에 <strong>LED 풀스펙트럼 조명</strong>이 내장되어 있습니다. 작물별 최적 파장(청색 450nm, 적색 660nm)을 AI가 자동 조절하여 광합성 효율을 극대화합니다.
+                            </p>
+                        </div>
+
+                        <div style="background: white; padding: 1.5rem; border-radius: var(--radius-border); box-shadow: var(--shadow-card);">
+                            <div style="font-size: 2rem; margin-bottom: 0.75rem;">🔄</div>
+                            <h5 style="font-weight: 700; margin-bottom: 0.5rem; color: var(--color-brand-dark);">양액 순환 시스템</h5>
+                            <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
+                                각 층마다 <strong>독립 양액 공급 라인</strong>이 설치되어 있으며, 사용하지 않은 양액은 하단 탱크로 회수되어 재사용됩니다. <strong>물 사용량 80% 절감</strong> 효과.
+                            </p>
+                        </div>
+
+                        <div style="background: white; padding: 1.5rem; border-radius: var(--radius-border); box-shadow: var(--shadow-card);">
+                            <div style="font-size: 2rem; margin-bottom: 0.75rem;">🤖</div>
+                            <h5 style="font-weight: 700; margin-bottom: 0.5rem; color: var(--color-brand-dark);">AGV 자동 이송 시스템</h5>
+                            <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
+                                수확 시점이 되면 <strong>AGV(무인운반차)가 누리셀을 통째로 작업동으로 자동 이송</strong>합니다. 발달장애·경계성장애인 근로자가 <strong>밝고 쾌적한 작업동에서 편안하게 수확·포장 작업</strong>을 수행합니다. 랙 환경의 압박감 제거.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Farm8 기술 파트너십 검증 -->
+                    <div style="background: #FFF5E6; padding: 1.5rem; border-radius: var(--radius-border); border-left: 4px solid var(--color-warning); margin-top: 2rem;">
+                        <h5 style="font-weight: 700; margin-bottom: 0.75rem; color: var(--color-warning);">🤝 Farm8 기술 파트너십 - MOU 체결</h5>
+                        <p style="font-size: 0.95rem; color: var(--color-text-default); line-height: 1.7;">
+                            누리셀 적층형 랙 시스템은 <strong>(주)가가호호의 독자 기술</strong>로 개발되었으며, <strong>Farm8(국내 1위 스마트팜)</strong>과 MOU를 체결하여 기술 검증을 완료했습니다.
+                            Farm8은 누리셀의 <strong>4층 적층형 구조 및 AGV 자동 이송 시스템</strong>을 검토한 결과, 기존 단층 수경재배 대비 <strong>생산성 3~5배 향상</strong> 가능성을 확인했습니다.
+                            특히, <strong>AGV 기반 누리셀 자동 이송 시스템</strong>은 발달장애·경계성장애인 근로자가 랙 환경에서 벗어나 작업동에서 편안하게 일할 수 있도록 하는 핵심 기술로, <strong>가가호호 자체 특허 출원 진행 중</strong>입니다 (출원번호: 10-2024-0161602).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Physical AI Section -->
+        <section class="section" id="physical-ai">
+            <div class="section-header">
+                <h2 class="section-title">🤖 피지컬 AI - 로봇 자동화 시스템</h2>
+                <p class="section-subtitle">Software Defined Robot Farm - AI가 제어하는 물리적 작업 자동화</p>
+            </div>
+
+            <!-- 피지컬 AI 개요 -->
+            <div class="slds-card" style="background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%); border: 2px solid var(--color-brand);">
+                <div class="slds-card-body">
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--color-brand-dark); margin-bottom: 1rem;">
+                        💡 피지컬 AI란? - 디지털 지능을 물리 세계로 확장
+                    </h3>
+                    <p style="font-size: 1.1rem; color: var(--color-text-default); line-height: 1.8; margin-bottom: 1.5rem;">
+                        기존 스마트팜은 <strong>센서로 읽고 → AI가 판단하고 → 사람이 실행</strong>하는 구조였습니다.
+                        누리셀 3세대+는 <strong>센서로 읽고 → AI가 판단하고 → 로봇이 실행</strong>하는 <strong style="color: var(--color-brand);">완전 자동화 피지컬 AI 시스템</strong>입니다.
+                        장애인 근로자는 무거운 육체 노동 대신, <strong>AI와 로봇을 관리·감독하는 스마트 워커</strong>로 전환됩니다.
+                    </p>
+                    <div style="background: white; padding: 1.5rem; border-radius: var(--radius-border); border-left: 4px solid var(--color-success);">
+                        <p style="font-size: 1rem; color: var(--color-text-weak); margin: 0;">
+                            <strong style="color: var(--color-success);">🎯 핵심 가치:</strong>
+                            장애인이 <strong>"할 수 없는 일"을 로봇에게 맡기고</strong>, <strong>"할 수 있는 일"에 집중</strong>할 수 있도록 설계된 포용적 자동화 시스템입니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 피지컬 AI 4대 핵심 시스템 -->
+            <div class="grid-2">
+                <!-- 1. 자동 관수 로봇 -->
+                <div class="slds-card">
+                    <div class="slds-card-header" style="background: linear-gradient(135deg, #00A1E0 0%, #0070D2 100%); color: white;">
+                        <h3 class="slds-card-title" style="color: white;">💧 자동 관수·양액 로봇</h3>
+                    </div>
+                    <div class="slds-card-body">
+                        <p style="margin-bottom: 1rem; color: var(--color-text-weak); font-size: 0.95rem;">
+                            <strong>문제:</strong> 물통/양액통 들기 → 장애인 근로자에게 가장 힘든 작업
+                        </p>
+                        <p style="margin-bottom: 1rem; color: var(--color-brand); font-weight: 700;">
+                            ✅ 해결: 레일 기반 자동 관수 로봇 (누리셀 특허 출원 예정)
+                        </p>
+                        <ul class="feature-list">
+                            <li><strong>AI 센서 연동:</strong> 토양 수분 20% 이하 → 자동 급수</li>
+                            <li><strong>레일 이동:</strong> 5동 하우스 순회 관수 (시간당 500주)</li>
+                            <li><strong>양액 자동 혼합:</strong> 작물별 NPK 비율 AI 최적화</li>
+                            <li><strong>휠체어 작업자 대응:</strong> 작업자는 태블릿으로 원격 모니터링만</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 2. 수확 작업 시스템 (누리셀 이동식) -->
+                <div class="slds-card">
+                    <div class="slds-card-header" style="background: linear-gradient(135deg, #50C878 0%, #3CB371 100%); color: white;">
+                        <h3 class="slds-card-title" style="color: white;">🌿 수확 작업 시스템 (누리셀 이동식)</h3>
+                    </div>
+                    <div class="slds-card-body">
+                        <p style="margin-bottom: 1rem; color: var(--color-text-weak); font-size: 0.95rem;">
+                            <strong>문제:</strong> 랙 환경에서 직접 수확 → 발달장애·경계성장애인에게 압박감
+                        </p>
+                        <p style="margin-bottom: 1rem; color: var(--color-success); font-weight: 700;">
+                            ✅ 해결: 누리셀을 작업동으로 이동 → 밝고 쾌적한 공간에서 작업
+                        </p>
+                        <ul class="feature-list">
+                            <li><strong>Vision AI 수확 시기 판단:</strong> LSTM 예측 → "오늘 A동 누리셀 #42~#58 수확 권장"</li>
+                            <li><strong>누리셀 자동 이동:</strong> AGV(무인운반차)가 해당 누리셀을 작업동으로 운반</li>
+                            <li><strong>작업동 환경:</strong> 발달장애인 근로자가 밝은 조명·넓은 공간에서 편안하게 수확·포장</li>
+                            <li><strong>AI 음성 안내:</strong> "오른쪽 잎부터 수확하세요" 단계별 작업 지시</li>
+                            <li><strong>무게 센서 자동 분류:</strong> 규격 미달 자동 제거 → 근로자는 포장만 집중</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 3. 방제 드론 -->
+                <div class="slds-card">
+                    <div class="slds-card-header" style="background: linear-gradient(135deg, #FFB75D 0%, #FF9A3C 100%); color: white;">
+                        <h3 class="slds-card-title" style="color: white;">🚁 병해충 방제 드론</h3>
+                    </div>
+                    <div class="slds-card-body">
+                        <p style="margin-bottom: 1rem; color: var(--color-text-weak); font-size: 0.95rem;">
+                            <strong>문제:</strong> 농약 분무 → 호흡기·피부 위험 (장애인 근로자 건강 우려)
+                        </p>
+                        <p style="margin-bottom: 1rem; color: var(--color-warning); font-weight: 700;">
+                            ✅ 해결: 자율비행 방제 드론 (Farm8 협력)
+                        </p>
+                        <ul class="feature-list">
+                            <li><strong>Vision AI 병해 조기 감지:</strong> 카메라 촬영 → 흰가루병 85% 정확도 탐지</li>
+                            <li><strong>정밀 국소 방제:</strong> 감염된 구역만 선택적 분무 (농약 50% 절감)</li>
+                            <li><strong>자율비행 경로 생성:</strong> SLAM 알고리즘으로 장애물 회피</li>
+                            <li><strong>야간 자동 작업:</strong> 근로자 퇴근 후 무인 방제</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 4. 환경 제어 로봇 -->
+                <div class="slds-card">
+                    <div class="slds-card-header" style="background: linear-gradient(135deg, #9370DB 0%, #7B68EE 100%); color: white;">
+                        <h3 class="slds-card-title" style="color: white;">🌡️ 환경 제어 로봇 (천창/측창 자동화)</h3>
+                    </div>
+                    <div class="slds-card-body">
+                        <p style="margin-bottom: 1rem; color: var(--color-text-weak); font-size: 0.95rem;">
+                            <strong>문제:</strong> 천창/측창 수동 개폐 → 장애인 근로자 접근 불가
+                        </p>
+                        <p style="margin-bottom: 1rem; color: #9370DB; font-weight: 700;">
+                            ✅ 해결: BLDC 모터 기반 자동 개폐기 (누리셀 통합 제어)
+                        </p>
+                        <ul class="feature-list">
+                            <li><strong>AI 온도 예측 제어:</strong> "30분 후 32도 예상" → 미리 천창 개방</li>
+                            <li><strong>강풍 자동 감지:</strong> 풍속 15m/s 초과 시 긴급 폐쇄</li>
+                            <li><strong>CO2 자동 공급:</strong> 농도 300ppm 이하 → CO2 발생기 가동</li>
+                            <li><strong>스마트폰 원격 제어:</strong> 근로자가 집에서도 긴급 대응 가능</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 피지컬 AI 기술 스택 -->
+            <div class="slds-card" style="margin-top: 2rem;">
+                <div class="slds-card-header">
+                    <h3 class="slds-card-title">⚙️ 피지컬 AI 기술 스택</h3>
+                </div>
+                <div class="slds-card-body">
+                    <div class="grid-3">
+                        <div>
+                            <h4 style="color: var(--color-brand); margin-bottom: 0.75rem; font-size: 1.05rem;">🧠 AI Layer</h4>
+                            <ul class="feature-list" style="font-size: 0.9rem;">
+                                <li><strong>Vision AI:</strong> YOLOv8 (병해충 탐지)</li>
+                                <li><strong>Predictive AI:</strong> LSTM (수확일 예측)</li>
+                                <li><strong>Optimization AI:</strong> 강화학습 (에너지 최적화)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--color-brand); margin-bottom: 0.75rem; font-size: 1.05rem;">🤖 Robot Layer</h4>
+                            <ul class="feature-list" style="font-size: 0.9rem;">
+                                <li><strong>ROS2:</strong> Robot Operating System</li>
+                                <li><strong>SLAM:</strong> 자율주행 경로 생성</li>
+                                <li><strong>BLDC Motor:</strong> 정밀 제어 구동기</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--color-brand); margin-bottom: 0.75rem; font-size: 1.05rem;">📡 Communication Layer</h4>
+                            <ul class="feature-list" style="font-size: 0.9rem;">
+                                <li><strong>ESP32 + LoRa:</strong> 무선 메시 네트워크</li>
+                                <li><strong>MQTT:</strong> IoT 메시지 브로커</li>
+                                <li><strong>WebSocket:</strong> 실시간 대시보드</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Farm8 vs 누리셀 피지컬 AI 비교 -->
+            <div class="highlight-box" style="margin-top: 2rem; background: #FFF5E6; border-left-color: var(--color-warning);">
+                <h3 style="color: var(--color-warning);">🏆 Farm8 vs 누리셀 - 피지컬 AI 비교</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                    <thead style="background: var(--color-background-alt);">
+                        <tr>
+                            <th style="padding: 1rem; text-align: left; border: 1px solid var(--color-border);">구분</th>
+                            <th style="padding: 1rem; text-align: left; border: 1px solid var(--color-border);">Farm8 (2세대)</th>
+                            <th style="padding: 1rem; text-align: left; border: 1px solid var(--color-border); background: #E8F4F8;">누리셀 3세대+ (Physical AI)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 1rem; border: 1px solid var(--color-border);"><strong>자동화 수준</strong></td>
+                            <td style="padding: 1rem; border: 1px solid var(--color-border);">Rule 기반 (타이머/온도계)</td>
+                            <td style="padding: 1rem; border: 1px solid var(--color-border); background: #F0F9FF;"><strong>AI + 로봇 완전 자동화</strong></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem; border: 1px solid var(--color-border);"><strong>관수 시스템</strong></td>
+                            <td style="padding: 1rem; border: 1px solid var(--color-border);">수동 물통 운반 (노동 집약)</td>
+                            <td style="padding: 1rem; border: 1px solid var(--color-border); background: #F0F9FF;"><strong>레일 로봇 자동 관수</strong> (특허 출원 예정)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem; border: 1px solid var(--color-border);"><strong>수확 방식</strong></td>
+                            <td style="padding: 1rem; border: 1px solid var(--color-border);">100% 인력 수확</td>
+                            <td style="padding: 1rem; border: 1px solid var(--color-border); background: #F0F9FF;"><strong>인간-로봇 협업</strong> (컨베이어 자동 이동)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem; border: 1px solid var(--color-border);"><strong>방제</strong></td>
+                            <td style="padding: 1rem; border: 1px solid var(--color-border);">사람이 분무기 들고 직접 살포</td>
+                            <td style="padding: 1rem; border: 1px solid var(--color-border); background: #F0F9FF;"><strong>자율비행 드론</strong> (Vision AI 병해 감지)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem; border: 1px solid var(--color-border);"><strong>장애인 고용</strong></td>
+                            <td style="padding: 1rem; border: 1px solid var(--color-border);">❌ 육체 노동 필요 → 고용 어려움</td>
+                            <td style="padding: 1rem; border: 1px solid var(--color-border); background: #F0F9FF;"><strong>✅ 로봇 관리·감독 역할</strong> → 72.7% 고용률</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Centella (병풀) Section -->
+        <section class="section" id="centella">
+            <div class="section-header">
+                <h2 class="section-title">병풀(시카) 사업: 게임 체인저</h2>
+                <p class="section-subtitle">수입 대체 국산화로 연 매출 50~100억 원 목표</p>
+            </div>
+
+            <div class="slds-card">
+                <div class="slds-card-header">
+                    <h3 class="slds-card-title">📊 시장 기회</h3>
+                </div>
+                <div class="slds-card-body">
+                    <div class="grid-3">
+                        <div class="stat-card" style="background: linear-gradient(135deg, var(--color-brand) 0%, var(--color-brand-dark) 100%); color: white;">
+                            <div class="stat-number" style="color: white;">9,000억</div>
+                            <div class="stat-label" style="color: rgba(255,255,255,0.9);">글로벌 병풀 시장</div>
+                        </div>
+                        <div class="stat-card" style="background: linear-gradient(135deg, #FF6B6B 0%, #EE5A52 100%); color: white;">
+                            <div class="stat-number" style="color: white;">95%</div>
+                            <div class="stat-label" style="color: rgba(255,255,255,0.9);">국내 수입 의존도</div>
+                        </div>
+                        <div class="stat-card" style="background: linear-gradient(135deg, var(--color-success) 0%, #3CB371 100%); color: white;">
+                            <div class="stat-number" style="color: white;">50~100억</div>
+                            <div class="stat-label" style="color: rgba(255,255,255,0.9);">누리팜 목표 매출</div>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box" style="margin-top: 2rem;">
+                        <h3>🎯 타겟 고객사</h3>
+                        <div class="grid-3">
+                            <div>
+                                <strong style="color: var(--color-brand);">1군 (화장품)</strong>
+                                <p style="font-size: 0.9rem; margin-top: 0.5rem;">아모레퍼시픽<br/>LG생활건강<br/>한국콜마, 코스맥스</p>
+                            </div>
+                            <div>
+                                <strong style="color: var(--color-brand);">2군 (제약)</strong>
+                                <p style="font-size: 0.9rem; margin-top: 0.5rem;">동국제약 (마데카솔)<br/>대웅제약</p>
+                            </div>
+                            <div>
+                                <strong style="color: var(--color-brand);">3군 (건기식)</strong>
+                                <p style="font-size: 0.9rem; margin-top: 0.5rem;">KGC인삼공사<br/>한국야쿠르트</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-card">
+                <div class="slds-card-header">
+                    <h3 class="slds-card-title">🚀 핵심 영업 무기: 연계고용 감면 제도</h3>
+                </div>
+                <div class="slds-card-body">
+                    <div style="background: linear-gradient(135deg, #FFB75D 0%, #FFA500 100%); color: white; padding: 2rem; border-radius: var(--radius-border); text-align: center; margin-bottom: 1.5rem;">
+                        <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">
+                            병풀 원료 10억 원 구매 → 고용 부담금 5억 원 감면
+                        </div>
+                        <div style="font-size: 1.2rem; opacity: 0.95;">
+                            = 실질 원료비 <strong>50% 할인</strong> 효과
+                        </div>
+                    </div>
+
+                    <div class="grid-3">
+                        <div class="value-card" style="border-left-color: var(--color-success);">
+                            <h4 style="color: var(--color-success); margin-bottom: 0.5rem;">✅ Cost Save</h4>
+                            <p style="font-size: 0.9rem;">구매액 최대 50% 부담금 감면</p>
+                        </div>
+                        <div class="value-card" style="border-left-color: var(--color-brand);">
+                            <h4 style="color: var(--color-brand); margin-bottom: 0.5rem;">✅ ESG Value</h4>
+                            <p style="font-size: 0.9rem;">"장애인이 키운 시카" 스토리</p>
+                        </div>
+                        <div class="value-card" style="border-left-color: var(--color-warning);">
+                            <h4 style="color: var(--color-warning); margin-bottom: 0.5rem;">✅ High Quality</h4>
+                            <p style="font-size: 0.9rem;">유효 성분 2~3배, 중금속 제로</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NuriFarm Goesan -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">NuriFarm 괴산점 (1호 사업장)</h2>
+                <p class="section-subtitle">충청북도 괴산군 사리면 방축리 449, 531-1, 2, 3 (4필지)</p>
+            </div>
+
+            <div class="slds-card">
+                <div class="slds-card-body">
+                    <div class="grid-4">
+                        <div class="value-card" style="border-left-color: var(--color-success);">
+                            <div class="value-icon" style="font-size: 2rem;">📍</div>
+                            <h4 style="font-size: 0.9rem; color: var(--color-text-weak); margin-bottom: 0.25rem;">위치</h4>
+                            <p style="font-weight: 700;">괴산군 사리면 방축리</p>
+                        </div>
+                        <div class="value-card" style="border-left-color: var(--color-brand);">
+                            <div class="value-icon" style="font-size: 2rem;">📐</div>
+                            <h4 style="font-size: 0.9rem; color: var(--color-text-weak); margin-bottom: 0.25rem;">규모</h4>
+                            <p style="font-weight: 700;">부지 2,000평 / 하우스 500평</p>
+                        </div>
+                        <div class="value-card" style="border-left-color: var(--color-warning);">
+                            <div class="value-icon" style="font-size: 2rem;">👥</div>
+                            <h4 style="font-size: 0.9rem; color: var(--color-text-weak); margin-bottom: 0.25rem;">고용 (5차년 최종)</h4>
+                            <p style="font-weight: 700;">장애인 40명 + 작업지원인 10명 + 관리직 5명</p>
+                        </div>
+                        <div class="value-card" style="border-left-color: #9370DB;">
+                            <div class="value-icon" style="font-size: 2rem;">📅</div>
+                            <h4 style="font-size: 0.9rem; color: var(--color-text-weak); margin-bottom: 0.25rem;">개소</h4>
+                            <p style="font-weight: 700;">2027년 Q1 예정</p>
+                        </div>
+                    </div>
+
+                    <!-- 괴산점 이미지 갤러리 -->
+                    <div style="margin-top: 2rem;">
+                        <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--color-text-default);">
+                            📸 NuriFarm 괴산점 시설 렌더링
+                        </h3>
+                        <p style="font-size: 1rem; color: var(--color-text-weak); margin-bottom: 1.5rem; line-height: 1.8;">
+                            2026년 상반기 개소 예정인 <strong style="color: var(--color-brand);">NuriFarm 괴산점</strong>은 단순한 스마트팜을 넘어, <strong>장애인과 비장애인이 함께 일하는 포용적 농업 공간</strong>입니다.
+                            2,000평 부지에 최첨단 누리셀 3세대 스마트팜 하우스와 함께 직원 기숙사, 다목적홀, 카페를 갖춘 <strong style="color: var(--color-brand);">통합형 농업 복합 시설</strong>로 설계되었습니다.
+                            장애인 근로자 40명이 휠체어로 이동 가능한 넓은 통로와 높이 조절 가능한 작업대에서 편안하게 근무할 수 있으며,
+                            AI가 환경을 자동 제어해 누구나 쉽게 작물을 재배할 수 있습니다.
+                            <strong style="color: var(--color-success);">누리팜과 괴산군의 컨소시엄</strong>으로 운영되며, 정부 지원금 20~30억 원과 인건비 지원 연 8억 원을 활용해 지속 가능한 사회적 기업 모델을 구축합니다.
+                        </p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
+                            <!-- 마스터 플랜 -->
+                            <div style="background: white; border-radius: var(--radius-border); overflow: hidden; box-shadow: var(--shadow-card); transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <img src="images/01_MasterPlan_Render.png" alt="NuriFarm 괴산점 마스터플랜" style="width: 100%; height: 250px; object-fit: cover;">
+                                <div style="padding: 1rem;">
+                                    <h4 style="font-weight: 700; margin-bottom: 0.5rem; color: var(--color-brand-dark);">🗺️ 마스터 플랜 - 지속가능한 농업 생태계</h4>
+                                    <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
+                                        2,000평 부지에 <strong>5동의 스마트팜 하우스</strong>가 일렬로 배치되어 효율적인 작물 관리를 실현합니다.
+                                        중앙 관리동에서 AI가 전체 하우스를 통합 제어하며, 직원 기숙사와 다목적홀이 인접해 <strong>생활-근무 통합형 복지 환경</strong>을 제공합니다.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- 메인 건물 -->
+                            <div style="background: white; border-radius: var(--radius-border); overflow: hidden; box-shadow: var(--shadow-card); transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <img src="images/k1NURIfarm01_rendering.png" alt="K1 NURI Farm 메인 건물" style="width: 100%; height: 250px; object-fit: cover;">
+                                <div style="padding: 1rem;">
+                                    <h4 style="font-weight: 700; margin-bottom: 0.5rem; color: var(--color-brand-dark);">🏢 메인 건물 - 기술과 디자인의 만남</h4>
+                                    <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
+                                        <strong>K1NURIfarm01</strong>은 현대적인 콘크리트와 유리 외관에 친환경 목재를 결합한 미래형 스마트팜입니다.
+                                        3층 관리동은 AI 제어실, 연구실, 사무실로 구성되며, 후면의 투명한 유리 하우스에서 직접 <strong>작물 생육 과정을 관찰</strong>할 수 있습니다.
+                                        장애인 근로자를 위한 엘리베이터와 경사로가 모든 층에 설치되어 있습니다.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- 정문 입구 -->
+                            <div style="background: white; border-radius: var(--radius-border); overflow: hidden; box-shadow: var(--shadow-card); transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <img src="images/K1NUIRIfarm01_Main_Entrance_Perspective.png" alt="정문 입구 투시도" style="width: 100%; height: 250px; object-fit: cover;">
+                                <div style="padding: 1rem;">
+                                    <h4 style="font-weight: 700; margin-bottom: 0.5rem; color: var(--color-brand-dark);">🚪 정문 입구 - 첫인상이 만드는 신뢰</h4>
+                                    <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
+                                        <strong>"K1NURIfarm01"</strong> 사인이 새겨진 메인 게이트는 방문객을 맞이하는 첫 번째 공간입니다.
+                                        좌측 보안 게이트에서 출입 관리를 하며, 우측으로는 <strong>휠체어 접근 가능한 완만한 경사로</strong>가 설치되어 있습니다.
+                                        후면에 보이는 유리 하우스는 병풀과 바질이 재배되는 누리셀 3세대 시스템의 심장부입니다.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- 다목적홀 -->
+                            <div style="background: white; border-radius: var(--radius-border); overflow: hidden; box-shadow: var(--shadow-card); transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <img src="images/multipurpose_hall_interior.png" alt="다목적홀 내부" style="width: 100%; height: 250px; object-fit: cover;">
+                                <div style="padding: 1rem;">
+                                    <h4 style="font-weight: 700; margin-bottom: 0.5rem; color: var(--color-brand-dark);">🏛️ 다목적홀 - 쉬고, 배우고, 소통하는 공간</h4>
+                                    <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
+                                        3층 높이의 개방감 있는 다목적홀은 <strong>카페테리아, 교육 공간, 휴게실</strong>을 겸합니다.
+                                        중앙의 계단형 좌석에서는 스마트팜 기술 교육과 직원 회의가 진행되며, 전면 유리창 너머로 <strong>실시간 작물 생육 모니터링 대시보드</strong>가 보입니다.
+                                        장애인 직원들이 편안하게 휴식하고 동료들과 소통할 수 있도록 바리스타 카페와 라운지 공간이 마련되어 있습니다.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- 부지 설계도 -->
+                            <div style="background: white; border-radius: var(--radius-border); overflow: hidden; box-shadow: var(--shadow-card); transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <img src="images/02_Site_Blueprint.png" alt="부지 설계도" style="width: 100%; height: 250px; object-fit: cover;">
+                                <div style="padding: 1rem;">
+                                    <h4 style="font-weight: 700; margin-bottom: 0.5rem; color: var(--color-brand-dark);">📐 부지 설계도 - 치밀한 공간 전략</h4>
+                                    <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
+                                        <strong>4필지(499, 531-1, 531-2, 531-3)</strong>를 통합한 2,000평 부지에 5동의 하우스가 격자형으로 배치됩니다.
+                                        각 하우스는 8.6m 간격으로 배치되어 채광을 최대화하고, 중앙 통로는 <strong>소형 트럭 진입 가능</strong>한 4m 폭으로 설계되어 수확물 운송이 용이합니다.
+                                        좌측 하단의 인덱스 건축선과 도로 접점 표시는 괴산군 건축 심의를 위한 법적 도면입니다.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- 조닝 컨셉 -->
+                            <div style="background: white; border-radius: var(--radius-border); overflow: hidden; box-shadow: var(--shadow-card); transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <img src="images/03_Zoning_Concept_ISO.png" alt="조닝 컨셉 ISO" style="width: 100%; height: 250px; object-fit: cover;">
+                                <div style="padding: 1rem;">
+                                    <h4 style="font-weight: 700; margin-bottom: 0.5rem; color: var(--color-brand-dark);">🏗️ 조닝 컨셉 - 기능별 최적 배치</h4>
+                                    <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
+                                        부지는 4개 기능 구역으로 나뉩니다.
+                                        <strong style="color: var(--color-success);">Smart Farm (녹색)</strong> 5동은 중앙에 배치되어 핵심 생산 공간을 확보하고,
+                                        <strong style="color: #FFB75D);">Cafe & Office (주황)</strong>는 정문 인접 위치로 방문객 응대에 최적화됩니다.
+                                        <strong style="color: #00A1E0);">Manufacturing Factory (파랑)</strong>는 병풀 가공 시설이며,
+                                        <strong style="color: #FFD700);">Dormitory (노랑)</strong>는 후면에 배치되어 직원들의 프라이버시를 보호합니다.
+                                        모든 구역은 원형 순환 동선(Circulation)으로 연결됩니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box" style="margin-top: 2rem;">
+                        <h3>🌾 재배 작물 포트폴리오</h3>
+                        <div class="grid-4">
+                            <div>
+                                <strong>🍃 상추류</strong><br/>
+                                <span style="font-size: 0.85rem; color: var(--color-text-weak);">Cash Cow - 안정 수익</span>
+                            </div>
+                            <div>
+                                <strong>🌿 바질</strong><br/>
+                                <span style="font-size: 0.85rem; color: var(--color-text-weak);">High Margin - 단가 3~5배</span>
+                            </div>
+                            <div>
+                                <strong>🥬 허브류</strong><br/>
+                                <span style="font-size: 0.85rem; color: var(--color-text-weak);">Niche - 소포장 판매</span>
+                            </div>
+                            <div>
+                                <strong>🍃 병풀</strong><br/>
+                                <span style="font-size: 0.85rem; color: var(--color-text-weak);">Future - 단가 10배+</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-card-footer">
+                    <a href="./goesan.html" class="slds-button">괴산점 상세 보기 →</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Partnership CTA -->
+    <section class="cta-section" id="partnership">
+        <h2 class="cta-title">컨소시엄 파트너가 되어주세요</h2>
+        <p class="cta-subtitle">공공기관·기업과 함께 사회적 가치를 만들어갑니다</p>
+
+        <div class="cta-grid">
+            <div class="cta-benefit">
+                <h3>✅ 장애인 의무고용률 충족</h3>
+                <p>컨소시엄형 사업장 연계로 부담금 최대 50% 감면</p>
+            </div>
+            <div class="cta-benefit">
+                <h3>✅ 병풀 원료 안정 공급</h3>
+                <p>화장품·제약 원료를 국산 청정 품질로 납품</p>
+            </div>
+            <div class="cta-benefit">
+                <h3>✅ ESG 보고서 활용</h3>
+                <p>사회공헌 스토리와 임팩트 리포트 제공</p>
+            </div>
+            <div class="cta-benefit">
+                <h3>✅ 정부 지원금 단독 수혜</h3>
+                <p>장애인표준사업장 인증 및 공단 지원금 20~30억 원 공모 선정 혜택 (Farm8 기술 자문만 협력)</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 2.5rem;">
+            <a href="mailto:partnership@nuri.farm" class="slds-button" style="background: white; color: var(--color-brand-dark); font-size: 1.1rem; padding: 1rem 2.5rem;">
+                파트너십 문의하기
+            </a>
+            <a href="tel:043-XXX-XXXX" class="slds-button slds-button-neutral" style="background: rgba(255,255,255,0.2); border-color: white; color: white; font-size: 1.1rem; padding: 1rem 2.5rem;">
+                전화 상담 (043-XXX-XXXX)
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>NURI</h3>
+                    <p style="color: rgba(255,255,255,0.8); margin-bottom: 1rem;">
+                        AI 기반 컨소시엄형<br/>
+                        장애인표준사업장 스마트팜
+                    </p>
+                    <p style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">
+                        운영: 주식회사 가가호호 (Gagahoho, Inc.)<br/>
+                        대표: 강승식<br/>
+                        고용노동부 인증후보업체
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h3>사업장</h3>
+                    <a href="./goesan.html" class="footer-link">NuriFarm 괴산점 (1호)</a>
+                    <a href="#" class="footer-link">2호점 (2027년 계획)</a>
+                    <a href="#" class="footer-link">3호점 (2028년 계획)</a>
+                </div>
+                <div class="footer-section">
+                    <h3>파트너십</h3>
+                    <a href="mailto:partnership@nuri.farm" class="footer-link">컨소시엄 문의</a>
+                    <a href="mailto:order@nuri.farm" class="footer-link">병풀 원료 주문</a>
+                    <a href="mailto:recruit@nuri.farm" class="footer-link">채용 문의</a>
+                </div>
+                <div class="footer-section">
+                    <h3>문의</h3>
+                    <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">
+                        📧 contact@nuri.farm<br/>
+                        📞 043-XXX-XXXX<br/>
+                        📍 충북 괴산군 사리면 방축리 449
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 NURI / Gagahoho, Inc. Powered by BMAD Elite 4, NuriCell & Ruby on Rails.</p>
+                <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+                    기술 파트너: Farm8 (국내 1위 스마트팜) | 누리셀 3세대 지능형 시스템 | 특허 출원: 2건 (진행 중)
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
