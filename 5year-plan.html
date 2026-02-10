@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NuriFarm 괴산점 5개년 재투자 시뮬레이션 | NURI</title>
+    <style>
+        :root {
+            /* Salesforce Lightning Design System Colors */
+            --color-brand: #00A1E0;
+            --color-brand-dark: #0070D2;
+            --color-success: #50C878;
+            --color-warning: #FFB75D;
+            --color-error: #EA001E;
+            --color-background: #F3F2F2;
+            --color-background-alt: #FAFAF9;
+            --color-border: #DDDBDA;
+            --color-text-default: #16325C;
+            --color-text-weak: #706E6B;
+            --color-text-inverse: #FFFFFF;
+            --spacing-xx-small: 0.25rem;
+            --spacing-x-small: 0.5rem;
+            --spacing-small: 0.75rem;
+            --spacing-medium: 1rem;
+            --spacing-large: 1.5rem;
+            --spacing-x-large: 2rem;
+            --spacing-xx-large: 3rem;
+            --radius-border: 0.25rem;
+            --shadow-card: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--color-background);
+            color: var(--color-text-default);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--color-brand-dark) 0%, var(--color-brand) 100%);
+            color: white;
+            padding: var(--spacing-large) var(--spacing-x-large);
+            box-shadow: var(--shadow-card);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-small);
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-x-large);
+        }
+
+        /* Control Panel */
+        .control-panel {
+            background: white;
+            border-radius: var(--radius-border);
+            box-shadow: var(--shadow-card);
+            padding: var(--spacing-x-large);
+            margin-bottom: var(--spacing-x-large);
+        }
+
+        .control-panel h2 {
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-large);
+            color: var(--color-brand-dark);
+        }
+
+        .slider-group {
+            margin-bottom: var(--spacing-large);
+        }
+
+        .slider-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: var(--spacing-small);
+            color: var(--color-text-default);
+        }
+
+        .slider-group input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: var(--color-background);
+            outline: none;
+        }
+
+        .slider-group input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--color-brand);
+            cursor: pointer;
+        }
+
+        .slider-value {
+            display: inline-block;
+            background: var(--color-brand);
+            color: white;
+            padding: var(--spacing-xx-small) var(--spacing-small);
+            border-radius: var(--radius-border);
+            font-weight: 600;
+            margin-left: var(--spacing-small);
+        }
+
+        /* Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: var(--spacing-large);
+            margin-bottom: var(--spacing-x-large);
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: var(--radius-border);
+            box-shadow: var(--shadow-card);
+            padding: var(--spacing-large);
+        }
+
+        .chart-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: var(--spacing-medium);
+            color: var(--color-brand-dark);
+            border-bottom: 2px solid var(--color-brand);
+            padding-bottom: var(--spacing-small);
+        }
+
+        /* Timeline */
+        .timeline {
+            background: white;
+            border-radius: var(--radius-border);
+            box-shadow: var(--shadow-card);
+            padding: var(--spacing-x-large);
+            margin-bottom: var(--spacing-x-large);
+        }
+
+        .timeline h2 {
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-large);
+            color: var(--color-brand-dark);
+        }
+
+        .year-block {
+            border-left: 4px solid var(--color-brand);
+            padding-left: var(--spacing-large);
+            margin-bottom: var(--spacing-large);
+            position: relative;
+        }
+
+        .year-block::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--color-brand);
+        }
+
+        .year-block h3 {
+            font-size: 1.3rem;
+            color: var(--color-brand-dark);
+            margin-bottom: var(--spacing-medium);
+        }
+
+        .year-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-medium);
+            margin-top: var(--spacing-medium);
+        }
+
+        .metric-box {
+            background: var(--color-background-alt);
+            padding: var(--spacing-medium);
+            border-radius: var(--radius-border);
+            border-left: 3px solid var(--color-success);
+        }
+
+        .metric-label {
+            font-size: 0.875rem;
+            color: var(--color-text-weak);
+            margin-bottom: var(--spacing-xx-small);
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-brand-dark);
+        }
+
+        /* Summary Cards */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-large);
+            margin-bottom: var(--spacing-x-large);
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: var(--radius-border);
+            box-shadow: var(--shadow-card);
+            padding: var(--spacing-large);
+            text-align: center;
+            border-top: 4px solid var(--color-brand);
+        }
+
+        .summary-card .icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-small);
+        }
+
+        .summary-card h3 {
+            font-size: 0.875rem;
+            color: var(--color-text-weak);
+            margin-bottom: var(--spacing-small);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .summary-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-brand-dark);
+        }
+
+        .summary-card .delta {
+            font-size: 0.875rem;
+            color: var(--color-success);
+            margin-top: var(--spacing-xx-small);
+        }
+
+        /* Canvas for Chart.js */
+        canvas {
+            max-height: 300px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            .year-metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>📊 NuriFarm 괴산점 5개년 재투자 시뮬레이션</h1>
+        <p>매출 → 이익 → 재투자 순환으로 시설 확장 및 고용 증대 계획</p>
+    </div>
+
+    <div class="container">
+        <!-- Summary Cards -->
+        <div class="summary-grid">
+            <div class="summary-card">
+                <div class="icon">💰</div>
+                <h3>2030년 예상 연매출</h3>
+                <div class="value" id="totalRevenue2030">-</div>
+                <div class="delta" id="revenueDelta">-</div>
+            </div>
+            <div class="summary-card">
+                <div class="icon">🏭</div>
+                <h3>2030년 총 하우스 동수</h3>
+                <div class="value" id="totalGreenhouses2030">-</div>
+                <div class="delta" id="greenhouseDelta">-</div>
+            </div>
+            <div class="summary-card">
+                <div class="icon">👥</div>
+                <h3>2030년 총 고용 인원</h3>
+                <div class="value" id="totalEmployees2030">-</div>
+                <div class="delta" id="employeeDelta">-</div>
+            </div>
+            <div class="summary-card">
+                <div class="icon">♻️</div>
+                <h3>누적 ESG 임팩트</h3>
+                <div class="value" id="esgImpact">-</div>
+                <div class="delta">장애인 일자리 창출</div>
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <h2>🎛️ 시뮬레이션 파라미터 조정</h2>
+
+            <div class="slider-group">
+                <label>
+                    재투자 비율 (영업이익 대비)
+                    <span class="slider-value" id="reinvestRateValue">70%</span>
+                </label>
+                <input type="range" id="reinvestRate" min="50" max="90" value="70" step="5">
+            </div>
+
+            <div class="slider-group">
+                <label>
+                    병풀 판매가 상승률 (연간)
+                    <span class="slider-value" id="byungpulPriceGrowthValue">5%</span>
+                </label>
+                <input type="range" id="byungpulPriceGrowth" min="0" max="15" value="5" step="1">
+            </div>
+
+            <div class="slider-group">
+                <label>
+                    에너지 비용 절감률 (AI 최적화)
+                    <span class="slider-value" id="energySavingValue">30%</span>
+                </label>
+                <input type="range" id="energySaving" min="10" max="50" value="30" step="5">
+            </div>
+
+            <div class="slider-group">
+                <label>
+                    동당 증설 투자비
+                    <span class="slider-value" id="expansionCostValue">2.5억원</span>
+                </label>
+                <input type="range" id="expansionCost" min="200" max="350" value="250" step="10">
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h3>📈 연도별 매출 추이</h3>
+                <canvas id="revenueChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>💵 작목별 매출 구성</h3>
+                <canvas id="cropRevenueChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>🏗️ 시설 확장 계획</h3>
+                <canvas id="facilityChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>👷 고용 인원 증가</h3>
+                <canvas id="employmentChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="timeline">
+            <h2>📅 5개년 상세 로드맵</h2>
+            <div id="timelineContent"></div>
+        </div>
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // 데이터 모델
+        class NuriFarmSimulation {
+            constructor() {
+                // 초기 설정 (2026년)
+                this.baseYear = 2026;
+                this.initialState = {
+                    byungpul: { greenhouses: 1, price: 8000, harvestPerYear: 4, plantsPerCell: 20 },
+                    basil: { greenhouses: 2, price: 15000, harvestPerYear: 12, kgPerCell: 2 },
+                    ssam: { greenhouses: 2, price: 12000, harvestPerYear: 18, boxPerCell: 1 }
+                };
+                this.cellsPerGreenhouse = 448; // 4층 × 4열 × 28칸
+                this.initialEmployees = { disabled: 40, regular: 15 };
+
+                // 파라미터 (슬라이더로 조정 가능)
+                this.reinvestRate = 0.70;
+                this.byungpulPriceGrowth = 0.05;
+                this.energySaving = 0.30;
+                this.expansionCostPerGreenhouse = 250_000_000;
+
+                // 비용 구조
+                this.variableCostRate = 0.40; // 매출의 40% (종자, 양액, 전력, 포장)
+                this.fixedCostPerYear = 200_000_000; // 인건비 + 관리비 2억
+            }
+
+            // 특정 연도의 매출 계산
+            calculateRevenue(year, state) {
+                const yearIndex = year - this.baseYear;
+                const byungpulPrice = this.initialState.byungpul.price * Math.pow(1 + this.byungpulPriceGrowth, yearIndex);
+
+                const byungpulRevenue = state.byungpul * this.cellsPerGreenhouse * this.initialState.byungpul.plantsPerCell * byungpulPrice * this.initialState.byungpul.harvestPerYear;
+                const basilRevenue = state.basil * this.cellsPerGreenhouse * this.initialState.basil.kgPerCell * this.initialState.basil.price * this.initialState.basil.harvestPerYear;
+                const ssamRevenue = state.ssam * this.cellsPerGreenhouse * this.initialState.ssam.boxPerCell * this.initialState.ssam.price * this.initialState.ssam.harvestPerYear;
+
+                return {
+                    byungpul: byungpulRevenue,
+                    basil: basilRevenue,
+                    ssam: ssamRevenue,
+                    total: byungpulRevenue + basilRevenue + ssamRevenue
+                };
+            }
+
+            // 5개년 시뮬레이션 실행
+            simulate() {
+                const results = [];
+                let currentState = { ...this.initialState, byungpul: this.initialState.byungpul.greenhouses, basil: this.initialState.basil.greenhouses, ssam: this.initialState.ssam.greenhouses };
+                let cumulativeCash = 0;
+
+                for (let year = this.baseYear; year <= this.baseYear + 4; year++) {
+                    const revenue = this.calculateRevenue(year, currentState);
+                    const variableCost = revenue.total * this.variableCostRate * (1 - this.energySaving);
+                    const fixedCost = this.fixedCostPerYear + (currentState.byungpul + currentState.basil + currentState.ssam - 5) * 20_000_000; // 동당 추가 관리비
+                    const operatingProfit = revenue.total - variableCost - fixedCost;
+                    const reinvestAmount = operatingProfit * this.reinvestRate;
+
+                    cumulativeCash += reinvestAmount;
+
+                    // 재투자로 증설 가능 동수 계산
+                    const newGreenhouses = Math.floor(cumulativeCash / this.expansionCostPerGreenhouse);
+                    if (newGreenhouses > 0) {
+                        // 병풀 우선 증설 (수익성 높음)
+                        currentState.byungpul += Math.ceil(newGreenhouses * 0.5);
+                        currentState.basil += Math.floor(newGreenhouses * 0.3);
+                        currentState.ssam += Math.floor(newGreenhouses * 0.2);
+                        cumulativeCash -= newGreenhouses * this.expansionCostPerGreenhouse;
+                    }
+
+                    const totalGreenhouses = currentState.byungpul + currentState.basil + currentState.ssam;
+                    const employees = {
+                        disabled: this.initialEmployees.disabled + (totalGreenhouses - 5) * 6,
+                        regular: this.initialEmployees.regular + (totalGreenhouses - 5) * 2
+                    };
+
+                    results.push({
+                        year,
+                        revenue,
+                        variableCost,
+                        fixedCost,
+                        operatingProfit,
+                        reinvestAmount,
+                        cumulativeCash,
+                        greenhouses: { ...currentState },
+                        totalGreenhouses,
+                        employees
+                    });
+                }
+
+                return results;
+            }
+        }
+
+        // 전역 변수
+        let simulation = new NuriFarmSimulation();
+        let simulationResults = [];
+        let charts = {};
+
+        // 차트 초기화
+        function initCharts() {
+            // 매출 추이 차트
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            charts.revenue = new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: '총 매출',
+                        data: [],
+                        borderColor: '#00A1E0',
+                        backgroundColor: 'rgba(0, 161, 224, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { display: true }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return (value / 100000000).toFixed(1) + '억';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 작목별 매출 구성 (2030년 기준)
+            const cropCtx = document.getElementById('cropRevenueChart').getContext('2d');
+            charts.crop = new Chart(cropCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['병풀', '바질', '쌈채소'],
+                    datasets: [{
+                        data: [],
+                        backgroundColor: ['#50C878', '#FFB75D', '#00A1E0']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+
+            // 시설 확장
+            const facilityCtx = document.getElementById('facilityChart').getContext('2d');
+            charts.facility = new Chart(facilityCtx, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [
+                        { label: '병풀', data: [], backgroundColor: '#50C878' },
+                        { label: '바질', data: [], backgroundColor: '#FFB75D' },
+                        { label: '쌈채소', data: [], backgroundColor: '#00A1E0' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        x: { stacked: true },
+                        y: { stacked: true, beginAtZero: true }
+                    }
+                }
+            });
+
+            // 고용 인원
+            const employmentCtx = document.getElementById('employmentChart').getContext('2d');
+            charts.employment = new Chart(employmentCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [
+                        { label: '장애인', data: [], borderColor: '#50C878', tension: 0.4 },
+                        { label: '일반직원', data: [], borderColor: '#00A1E0', tension: 0.4 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        }
+
+        // 시뮬레이션 실행 및 차트 업데이트
+        function runSimulation() {
+            simulationResults = simulation.simulate();
+            updateCharts();
+            updateSummary();
+            updateTimeline();
+        }
+
+        function updateCharts() {
+            const years = simulationResults.map(r => r.year);
+
+            // 매출 추이
+            charts.revenue.data.labels = years;
+            charts.revenue.data.datasets[0].data = simulationResults.map(r => r.revenue.total);
+            charts.revenue.update();
+
+            // 작목별 매출 (2030년)
+            const lastYear = simulationResults[simulationResults.length - 1];
+            charts.crop.data.datasets[0].data = [lastYear.revenue.byungpul, lastYear.revenue.basil, lastYear.revenue.ssam];
+            charts.crop.update();
+
+            // 시설 확장
+            charts.facility.data.labels = years;
+            charts.facility.data.datasets[0].data = simulationResults.map(r => r.greenhouses.byungpul);
+            charts.facility.data.datasets[1].data = simulationResults.map(r => r.greenhouses.basil);
+            charts.facility.data.datasets[2].data = simulationResults.map(r => r.greenhouses.ssam);
+            charts.facility.update();
+
+            // 고용 인원
+            charts.employment.data.labels = years;
+            charts.employment.data.datasets[0].data = simulationResults.map(r => r.employees.disabled);
+            charts.employment.data.datasets[1].data = simulationResults.map(r => r.employees.regular);
+            charts.employment.update();
+        }
+
+        function updateSummary() {
+            const lastYear = simulationResults[simulationResults.length - 1];
+            const firstYear = simulationResults[0];
+
+            document.getElementById('totalRevenue2030').textContent = (lastYear.revenue.total / 100000000).toFixed(1) + '억원';
+            document.getElementById('revenueDelta').textContent = '▲ ' + (((lastYear.revenue.total / firstYear.revenue.total - 1) * 100).toFixed(0)) + '% 증가';
+
+            document.getElementById('totalGreenhouses2030').textContent = lastYear.totalGreenhouses + '동';
+            document.getElementById('greenhouseDelta').textContent = '▲ ' + (lastYear.totalGreenhouses - firstYear.totalGreenhouses) + '동 증설';
+
+            const totalEmployees = lastYear.employees.disabled + lastYear.employees.regular;
+            document.getElementById('totalEmployees2030').textContent = totalEmployees + '명';
+            document.getElementById('employeeDelta').textContent = '▲ ' + (totalEmployees - (firstYear.employees.disabled + firstYear.employees.regular)) + '명 증가';
+
+            const esgImpact = (lastYear.employees.disabled - firstYear.employees.disabled);
+            document.getElementById('esgImpact').textContent = '+' + esgImpact + '명';
+        }
+
+        function updateTimeline() {
+            const container = document.getElementById('timelineContent');
+            container.innerHTML = '';
+
+            simulationResults.forEach((result, index) => {
+                const yearBlock = document.createElement('div');
+                yearBlock.className = 'year-block';
+
+                const expansion = index > 0 ? result.totalGreenhouses - simulationResults[index-1].totalGreenhouses : 0;
+                const expansionText = expansion > 0 ? `<strong style="color: #50C878;">+${expansion}동 증설</strong>` : '유지';
+
+                yearBlock.innerHTML = `
+                    <h3>${result.year}년</h3>
+                    <p style="margin-bottom: var(--spacing-medium);">
+                        ${expansionText} |
+                        총 ${result.totalGreenhouses}동 운영 (병풀 ${result.greenhouses.byungpul}동, 바질 ${result.greenhouses.basil}동, 쌈채소 ${result.greenhouses.ssam}동)
+                    </p>
+                    <div class="year-metrics">
+                        <div class="metric-box">
+                            <div class="metric-label">연매출</div>
+                            <div class="metric-value">${(result.revenue.total / 100000000).toFixed(1)}억</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-label">영업이익</div>
+                            <div class="metric-value">${(result.operatingProfit / 100000000).toFixed(1)}억</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-label">재투자 금액</div>
+                            <div class="metric-value">${(result.reinvestAmount / 100000000).toFixed(1)}억</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-label">장애인 고용</div>
+                            <div class="metric-value">${result.employees.disabled}명</div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(yearBlock);
+            });
+        }
+
+        // 슬라이더 이벤트
+        document.getElementById('reinvestRate').addEventListener('input', (e) => {
+            const value = e.target.value;
+            document.getElementById('reinvestRateValue').textContent = value + '%';
+            simulation.reinvestRate = value / 100;
+            runSimulation();
+        });
+
+        document.getElementById('byungpulPriceGrowth').addEventListener('input', (e) => {
+            const value = e.target.value;
+            document.getElementById('byungpulPriceGrowthValue').textContent = value + '%';
+            simulation.byungpulPriceGrowth = value / 100;
+            runSimulation();
+        });
+
+        document.getElementById('energySaving').addEventListener('input', (e) => {
+            const value = e.target.value;
+            document.getElementById('energySavingValue').textContent = value + '%';
+            simulation.energySaving = value / 100;
+            runSimulation();
+        });
+
+        document.getElementById('expansionCost').addEventListener('input', (e) => {
+            const value = e.target.value;
+            document.getElementById('expansionCostValue').textContent = (value / 100).toFixed(1) + '억원';
+            simulation.expansionCostPerGreenhouse = value * 1000000;
+            runSimulation();
+        });
+
+        // 초기 실행
+        window.addEventListener('load', () => {
+            initCharts();
+            runSimulation();
+        });
+    </script>
+</body>
+</html>

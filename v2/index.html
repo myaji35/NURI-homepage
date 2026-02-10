@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NURI - 기술로 만드는 포용적 농업 생태계</title>
+    <meta name="description" content="AI 기반 장애인표준사업장 스마트팜. BMAD Elite 4 + 누리셀 기술로 장애인에게 일자리를 제공">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* ========== CSS Variables ========== */
+        :root {
+            /* Colors - Primary */
+            --nuri-green-neon: #39FF14;
+            --nuri-green-bright: #2BCC0F;
+            --nuri-green-dark: #1FA60C;
+            --nuri-green-glow: rgba(57, 255, 20, 0.3);
+
+            /* Colors - Monochrome */
+            --nuri-black: #0A0A0A;
+            --nuri-gray-900: #1A1A1A;
+            --nuri-gray-700: #3A3A3A;
+            --nuri-gray-500: #7A7A7A;
+            --nuri-gray-300: #BDBDBD;
+            --nuri-gray-100: #E8E8E8;
+            --nuri-white: #FAFAFA;
+
+            /* Colors - Earth Tones */
+            --nuri-earth-brown: #8B7355;
+            --nuri-earth-beige: #D4C4B0;
+            --nuri-earth-moss: #5A7247;
+
+            /* Typography */
+            --font-sans-kr: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-sans-en: 'Inter', 'Noto Sans KR', sans-serif;
+
+            /* Spacing */
+            --space-2: 1rem;
+            --space-4: 2rem;
+            --space-6: 3rem;
+            --space-8: 4rem;
+            --space-12: 6rem;
+
+            /* Easing */
+            --ease-out: cubic-bezier(0.0, 0, 0.2, 1);
+        }
+
+        /* ========== Reset ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans-kr);
+            background: var(--nuri-white);
+            color: var(--nuri-gray-900);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ========== Layout ========== */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: var(--space-8) var(--space-4);
+            position: relative;
+        }
+
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* ========== Typography ========== */
+        h1, h2, h3 {
+            font-weight: 900;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-family: var(--font-sans-en);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: var(--nuri-black);
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--nuri-black);
+            margin-bottom: var(--space-4);
+        }
+
+        .text-green {
+            color: var(--nuri-green-neon);
+            text-shadow: 0 0 20px var(--nuri-green-glow);
+            animation: glowPulse 2s infinite;
+        }
+
+        .text-lead {
+            font-size: 1.25rem;
+            color: var(--nuri-gray-500);
+            line-height: 1.8;
+        }
+
+        /* ========== Components ========== */
+        .btn-primary {
+            background: var(--nuri-green-neon);
+            color: var(--nuri-black);
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 0;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-out);
+            box-shadow: 0 0 20px var(--nuri-green-glow);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            background: var(--nuri-green-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px var(--nuri-green-glow);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--nuri-green-neon);
+            border: 2px solid var(--nuri-green-neon);
+            padding: 1rem 2.5rem;
+            border-radius: 0;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-ghost:hover {
+            background: var(--nuri-green-neon);
+            color: var(--nuri-black);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(10, 10, 10, 0.05);
+            border: 2px solid var(--nuri-gray-300);
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-4);
+        }
+
+        /* ========== Animations ========== */
+        @keyframes glowPulse {
+            0%, 100% { text-shadow: 0 0 20px var(--nuri-green-glow); }
+            50% { text-shadow: 0 0 40px var(--nuri-green-glow); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 1s var(--ease-out);
+        }
+
+        /* ========== Hero Section ========== */
+        .hero {
+            text-align: center;
+        }
+
+        .hero h1 {
+            margin-bottom: var(--space-4);
+        }
+
+        .hero .text-lead {
+            max-width: 700px;
+            margin: 0 auto var(--space-6);
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: var(--space-2);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ========== Stats Section ========== */
+        .stats {
+            background: var(--nuri-black);
+            color: var(--nuri-white);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-6);
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: var(--space-4);
+        }
+
+        .stat-number {
+            font-family: var(--font-sans-en);
+            font-size: clamp(3rem, 5vw, 4rem);
+            font-weight: 900;
+            color: var(--nuri-green-neon);
+            margin-bottom: var(--space-2);
+            animation: countUp 1s var(--ease-out);
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--nuri-gray-300);
+            font-weight: 500;
+        }
+
+        /* ========== Mission Section ========== */
+        .mission {
+            background: var(--nuri-white);
+        }
+
+        .mission-content {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-4);
+            margin-top: var(--space-8);
+        }
+
+        .mission-card {
+            background: var(--nuri-white);
+            border: 1px solid var(--nuri-gray-300);
+            border-left: 4px solid var(--nuri-green-neon);
+            padding: var(--space-6);
+            transition: all 0.3s;
+        }
+
+        .mission-card:hover {
+            border-left-width: 8px;
+            transform: translateX(4px);
+            box-shadow: -4px 0 20px var(--nuri-green-glow);
+        }
+
+        .mission-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-2);
+        }
+
+        .mission-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: var(--space-2);
+            color: var(--nuri-black);
+        }
+
+        .mission-desc {
+            color: var(--nuri-gray-500);
+            line-height: 1.8;
+        }
+
+        /* ========== Tech Section ========== */
+        .tech {
+            background: linear-gradient(135deg, var(--nuri-gray-900) 0%, var(--nuri-black) 100%);
+            color: var(--nuri-white);
+        }
+
+        .tech h2 {
+            color: var(--nuri-white);
+            text-align: center;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-6);
+            margin-top: var(--space-8);
+        }
+
+        .tech-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: var(--space-6);
+        }
+
+        .tech-box h3 {
+            color: var(--nuri-green-neon);
+            font-size: 1.5rem;
+            margin-bottom: var(--space-2);
+        }
+
+        .tech-box ul {
+            list-style: none;
+            margin-top: var(--space-4);
+        }
+
+        .tech-box li {
+            padding: var(--space-2) 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--nuri-gray-300);
+        }
+
+        .tech-box li:before {
+            content: "✓ ";
+            color: var(--nuri-green-neon);
+            font-weight: 700;
+            margin-right: 0.5rem;
+        }
+
+        /* ========== CTA Section ========== */
+        .cta {
+            background: linear-gradient(135deg, var(--nuri-green-neon) 0%, var(--nuri-green-bright) 100%);
+            color: var(--nuri-black);
+            text-align: center;
+        }
+
+        .cta h2 {
+            color: var(--nuri-black);
+        }
+
+        .cta .text-lead {
+            color: var(--nuri-gray-900);
+            max-width: 700px;
+            margin: 0 auto var(--space-6);
+        }
+
+        /* ========== Responsive ========== */
+        @media (max-width: 768px) {
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            section {
+                padding: var(--space-6) var(--space-2);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero fade-in-up">
+        <div class="container">
+            <div class="badge">🏆 장애인표준사업장 인증후보업체</div>
+            <h1>
+                기술로 만드는<br/>
+                <span class="text-green">포용적 농업 생태계</span>
+            </h1>
+            <p class="text-lead">
+                AI와 스마트팜으로 장애인에게 일자리를 제공하고<br/>
+                농업 생산성을 혁신합니다
+            </p>
+            <div class="hero-actions">
+                <a href="#partnership" class="btn-primary">컨소시엄 파트너 되기</a>
+                <a href="#tech" class="btn-ghost">기술 알아보기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">72.7%</div>
+                    <div class="stat-label">장애인 고용률 (40명/55명)</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500평</div>
+                    <div class="stat-label">스마트팜 하우스 면적</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3~5배</div>
+                    <div class="stat-label">생산성 향상 (누리셀)</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">2026</div>
+                    <div class="stat-label">1호점 개소 예정</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="mission" id="mission">
+        <div class="container">
+            <div class="mission-content">
+                <h2>NURI가 만드는 <span class="text-green">사회적 가치</span></h2>
+                <p class="text-lead">
+                    기술 혁신과 사회 통합을 동시에 추구하는 장애인표준사업장
+                </p>
+            </div>
+
+            <div class="mission-grid">
+                <div class="mission-card">
+                    <div class="mission-icon">👥</div>
+                    <h3 class="mission-title">장애인 일자리 창출</h3>
+                    <p class="mission-desc">
+                        정규직 고용과 적정 임금을 보장하며, 장애인 근로자에게
+                        안정적이고 지속 가능한 일자리를 제공합니다.
+                    </p>
+                </div>
+
+                <div class="mission-card">
+                    <div class="mission-icon">🤝</div>
+                    <h3 class="mission-title">ESG 경영 지원</h3>
+                    <p class="mission-desc">
+                        공공기관과 기업의 장애인 의무고용률 충족을 돕고,
+                        컨소시엄형 사업장 연계를 통한 사회적 책임을 실천합니다.
+                    </p>
+                </div>
+
+                <div class="mission-card">
+                    <div class="mission-icon">🌿</div>
+                    <h3 class="mission-title">지속 가능한 농업</h3>
+                    <p class="mission-desc">
+                        AI 기반 무농약·저농약 재배로 안전한 먹거리를 생산하고,
+                        에너지 효율을 30% 이상 개선합니다.
+                    </p>
+                </div>
+
+                <div class="mission-card">
+                    <div class="mission-icon">🏆</div>
+                    <h3 class="mission-title">기술 혁신 선도</h3>
+                    <p class="mission-desc">
+                        BMAD Elite 4 AI 오케스트레이션과 누리셀 적층형 시스템으로
+                        스마트팜 생산성을 3~5배 향상시킵니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Section -->
+    <section class="tech" id="tech">
+        <div class="container">
+            <h2>핵심 기술: <span class="text-green">BMAD Elite 4 + 누리셀</span></h2>
+
+            <div class="tech-grid">
+                <div class="tech-box">
+                    <h3>🤖 BMAD Elite 4 AI 오케스트레이션</h3>
+                    <p>4개의 전문화된 AI 에이전트가 스마트팜을 자동으로 운영합니다.</p>
+                    <ul>
+                        <li><strong>Planner (🧠)</strong>: 생육 계획, 수확 예측</li>
+                        <li><strong>Architect (📐)</strong>: 환경 제어 로직 설계</li>
+                        <li><strong>Builder (🔨)</strong>: 자동화 스크립트 구현</li>
+                        <li><strong>Critic (⚖️)</strong>: 병충해 조기 진단</li>
+                    </ul>
+                </div>
+
+                <div class="tech-box">
+                    <h3>🏗️ 누리셀 (NURI Cell) 적층형 재배</h3>
+                    <p>독자 개발 기술로 생산성 3~5배 향상</p>
+                    <ul>
+                        <li>수직 적층 구조로 공간 효율 극대화</li>
+                        <li>장애인 친화 설계 (휠체어 접근)</li>
+                        <li>관수·양액·조명 자동 공급</li>
+                        <li>작물별 맞춤 환경 조성</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="partnership">
+        <div class="container">
+            <h2>컨소시엄 파트너가 되어주세요</h2>
+            <p class="text-lead">
+                공공기관·기업과 함께 사회적 가치를 만들어갑니다
+            </p>
+            <div class="hero-actions">
+                <a href="mailto:partnership@nuri.farm" class="btn-primary" style="background: var(--nuri-black); color: var(--nuri-green-neon); box-shadow: 0 0 20px rgba(0,0,0,0.3);">
+                    파트너십 문의하기
+                </a>
+                <a href="tel:043-XXX-XXXX" class="btn-ghost" style="border-color: var(--nuri-black); color: var(--nuri-black);">
+                    전화 상담
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections except hero
+        document.querySelectorAll('section:not(.hero)').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(40px)';
+            section.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
