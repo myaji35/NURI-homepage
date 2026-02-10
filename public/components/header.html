@@ -1,0 +1,230 @@
+<!-- SLDS Header with Mega Menu -->
+<header class="slds-header">
+    <div class="slds-header-container">
+        <a href="/" class="slds-brand">
+            🌱 NURI
+        </a>
+        <nav class="slds-nav">
+            <!-- Mega Menu Item 1: NURI 소개 -->
+            <div class="mega-menu-item">
+                <a href="/#about" class="slds-nav-link">NURI 소개 ▾</a>
+                <div class="mega-menu-dropdown">
+                    <div class="mega-menu-column">
+                        <h4>회사 소개</h4>
+                        <a href="/#about">비전 & 미션</a>
+                        <a href="/#about">ESG 가치</a>
+                        <a href="/#technology">핵심 기술</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mega Menu Item 2: 사업 영역 -->
+            <div class="mega-menu-item">
+                <a href="/#centella" class="slds-nav-link">사업 영역 ▾</a>
+                <div class="mega-menu-dropdown">
+                    <div class="mega-menu-column">
+                        <h4>주력 사업</h4>
+                        <a href="/#centella">병풀 국산화</a>
+                        <a href="/#technology">스마트팜 기술</a>
+                        <a href="/#about">계열사 소개</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mega Menu Item 3: 사업장 -->
+            <div class="mega-menu-item">
+                <a href="/goesan.html" class="slds-nav-link">사업장 ▾</a>
+                <div class="mega-menu-dropdown mega-menu-wide">
+                    <div class="mega-menu-column">
+                        <h4>괴산점 (1호)</h4>
+                        <a href="/goesan.html">사업장 소개</a>
+                        <a href="/dashboard.html">🎯 실시간 관제</a>
+                        <a href="/5year-plan.html">📊 5개년 계획</a>
+                    </div>
+                    <div class="mega-menu-column">
+                        <h4>채용 정보</h4>
+                        <a href="/goesan.html#employment">장애인 채용</a>
+                        <a href="/goesan.html#employment">일반직원 채용</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mega Menu Item 4: 투자자 정보 -->
+            <div class="mega-menu-item">
+                <a href="/#partnership" class="slds-nav-link">투자자 정보 ▾</a>
+                <div class="mega-menu-dropdown">
+                    <div class="mega-menu-column">
+                        <h4>협력 & 투자</h4>
+                        <a href="/#centella">사업 개요</a>
+                        <a href="/#partnership">파트너십 제안</a>
+                        <a href="/#partnership">컨소시엄 참여</a>
+                    </div>
+                </div>
+            </div>
+
+            <a href="mailto:contact@nuri.farm" class="slds-button">문의하기</a>
+        </nav>
+    </div>
+</header>
+
+<style>
+    /* SLDS Header */
+    .slds-header {
+        background: white;
+        border-bottom: 3px solid var(--color-brand);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.07);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .slds-header-container {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 0 var(--spacing-unit);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 60px;
+    }
+
+    .slds-brand {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--color-brand);
+        text-decoration: none;
+    }
+
+    .slds-nav {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
+
+    .slds-nav-link {
+        padding: 0.5rem 1rem;
+        color: var(--color-text-default);
+        text-decoration: none;
+        font-weight: 500;
+        border-radius: var(--radius-border);
+        transition: all 0.2s;
+    }
+
+    .slds-nav-link:hover {
+        background: var(--color-background);
+        color: var(--color-brand);
+    }
+
+    .slds-button {
+        background: var(--color-brand);
+        color: white;
+        padding: 0.5rem 1.25rem;
+        border-radius: var(--radius-border);
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
+
+    .slds-button:hover {
+        background: var(--color-brand-dark);
+    }
+
+    /* Mega Menu Styles */
+    .mega-menu-item {
+        position: relative;
+        display: inline-block;
+    }
+
+    .mega-menu-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        border: 1px solid var(--color-border);
+        border-top: 3px solid var(--color-brand);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        border-radius: 0 0 var(--radius-border) var(--radius-border);
+        min-width: 240px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.2s ease;
+        z-index: 1000;
+        display: flex;
+        gap: 2rem;
+        padding: 1.5rem;
+    }
+
+    .mega-menu-wide {
+        min-width: 420px;
+    }
+
+    .mega-menu-item:hover .mega-menu-dropdown {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .mega-menu-column {
+        flex: 1;
+    }
+
+    .mega-menu-column h4 {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--color-text-weak);
+        margin-bottom: 0.75rem;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid var(--color-background);
+        padding-bottom: 0.5rem;
+    }
+
+    .mega-menu-column a {
+        display: block;
+        padding: 0.5rem 0.75rem;
+        color: var(--color-text-default);
+        text-decoration: none;
+        border-radius: var(--radius-border);
+        transition: all 0.2s ease;
+        font-size: 0.9rem;
+    }
+
+    .mega-menu-column a:hover {
+        background: var(--color-background);
+        color: var(--color-brand);
+        padding-left: 1rem;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .slds-nav {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .mega-menu-item {
+            display: block;
+            width: 100%;
+        }
+
+        .mega-menu-dropdown {
+            position: static;
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            box-shadow: none;
+            border: none;
+            border-left: 3px solid var(--color-brand);
+            margin-left: 1rem;
+            padding: 0.5rem 1rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .mega-menu-item:hover .mega-menu-dropdown {
+            max-height: 500px;
+        }
+    }
+</style>

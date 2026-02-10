@@ -1,0 +1,223 @@
+<style>
+  /* SLDS Card */
+  .slds-card {
+    background: white;
+    border-radius: var(--radius-border);
+    box-shadow: var(--shadow-card);
+    margin-bottom: var(--spacing-x-large);
+    overflow: hidden;
+  }
+
+  .slds-card__header {
+    background: var(--color-background-alt);
+    border-bottom: 2px solid var(--color-brand);
+    padding: var(--spacing-large);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .slds-card__header-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-text-default);
+  }
+
+  .slds-card__body {
+    padding: var(--spacing-x-large);
+  }
+
+  /* SLDS Form Element */
+  .slds-form-element {
+    padding: var(--spacing-large);
+    background: var(--color-background);
+    border-left: 4px solid var(--color-brand);
+    border-radius: var(--radius-border);
+  }
+
+  .slds-form-element__label {
+    display: block;
+    font-weight: 600;
+    color: var(--color-text-weak);
+    font-size: 0.875rem;
+    margin-bottom: var(--spacing-small);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .slds-form-element__static {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text-default);
+  }
+
+  /* SLDS Grid */
+  .slds-grid {
+    display: grid;
+    gap: var(--spacing-large);
+  }
+
+  .slds-grid--cols-2 {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+
+  /* SLDS Button */
+  .slds-button {
+    background: var(--color-brand);
+    color: var(--color-text-inverse);
+    border: none;
+    padding: var(--spacing-small) var(--spacing-large);
+    border-radius: var(--radius-border);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease;
+    margin-right: var(--spacing-small);
+  }
+
+  .slds-button:hover {
+    background: var(--color-brand-dark);
+  }
+
+  .slds-button--neutral {
+    background: white;
+    color: var(--color-brand-dark);
+    border: 1px solid var(--color-border);
+  }
+
+  .slds-button--neutral:hover {
+    background: var(--color-background);
+  }
+
+  .slds-button--destructive {
+    background: var(--color-error);
+  }
+
+  .slds-button--destructive:hover {
+    background: #C70014;
+  }
+
+  /* SLDS Badge */
+  .slds-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-border);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .slds-badge--success {
+    background: #E8F4F8;
+    color: var(--color-brand-dark);
+  }
+
+  .slds-badge--pending {
+    background: #FFF5E6;
+    color: #B86E00;
+  }
+</style>
+
+<!-- Breadcrumb -->
+<div style="margin-bottom: var(--spacing-large);">
+  <%= link_to "← 지원자 목록", applicants_path, style: "color: var(--color-brand); text-decoration: none;" %>
+</div>
+
+<!-- Page Header -->
+<div style="margin-bottom: var(--spacing-x-large);">
+  <h1 style="font-size: 2rem; font-weight: 700; color: var(--color-text-default); margin-bottom: var(--spacing-small);">
+    👤 지원자 상세 정보
+  </h1>
+  <% if @applicant %>
+    <p style="color: var(--color-text-weak);">ID: #<%= @applicant.id %> | 등록일: <%= @applicant.created_at.strftime("%Y년 %m월 %d일") %></p>
+  <% end %>
+</div>
+
+<% if @applicant %>
+  <!-- Applicant Details Card -->
+  <div class="slds-card">
+    <div class="slds-card__header">
+      <h2 class="slds-card__header-title">📋 기본 정보</h2>
+      <div>
+        <% if @applicant.status == "approved" %>
+          <span class="slds-badge slds-badge--success">✓ 승인 완료</span>
+        <% else %>
+          <span class="slds-badge slds-badge--pending">⏳ 검토중</span>
+        <% end %>
+      </div>
+    </div>
+    <div class="slds-card__body">
+      <div class="slds-grid slds-grid--cols-2">
+        <div class="slds-form-element">
+          <label class="slds-form-element__label">이름</label>
+          <div class="slds-form-element__static"><%= @applicant.name %></div>
+        </div>
+        <div class="slds-form-element">
+          <label class="slds-form-element__label">연락처</label>
+          <div class="slds-form-element__static"><%= @applicant.phone || "미등록" %></div>
+        </div>
+        <div class="slds-form-element">
+          <label class="slds-form-element__label">이메일</label>
+          <div class="slds-form-element__static"><%= @applicant.email || "미등록" %></div>
+        </div>
+        <div class="slds-form-element">
+          <label class="slds-form-element__label">장애 유형</label>
+          <div class="slds-form-element__static"><%= @applicant.disability_type || "미지정" %></div>
+        </div>
+        <div class="slds-form-element">
+          <label class="slds-form-element__label">장애 등급</label>
+          <div class="slds-form-element__static"><%= @applicant.disability_grade || "미지정" %></div>
+        </div>
+        <div class="slds-form-element">
+          <label class="slds-form-element__label">희망 직무</label>
+          <div class="slds-form-element__static"><%= @applicant.desired_position || "미지정" %></div>
+        </div>
+      </div>
+
+      <% if @applicant.notes.present? %>
+        <div class="slds-form-element" style="margin-top: var(--spacing-large); grid-column: 1 / -1;">
+          <label class="slds-form-element__label">특이사항 / 메모</label>
+          <div class="slds-form-element__static" style="white-space: pre-wrap;"><%= @applicant.notes %></div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div style="display: flex; gap: var(--spacing-medium); justify-content: center;">
+    <%= link_to "✏️ 정보 수정", edit_applicant_path(@applicant), class: "slds-button" %>
+    <%= link_to "📋 목록으로", applicants_path, class: "slds-button slds-button--neutral" %>
+    <%= button_to "🗑️ 삭제", applicant_path(@applicant), method: :delete, data: { turbo_confirm: "정말 이 지원자 정보를 삭제하시겠습니까?" }, class: "slds-button slds-button--destructive" %>
+  </div>
+
+  <!-- Additional Info Card -->
+  <div class="slds-card" style="margin-top: var(--spacing-x-large);">
+    <div class="slds-card__header">
+      <h2 class="slds-card__header-title">ℹ️ 추가 정보</h2>
+    </div>
+    <div class="slds-card__body">
+      <div class="slds-grid slds-grid--cols-2">
+        <div class="slds-form-element">
+          <label class="slds-form-element__label">최초 등록일</label>
+          <div class="slds-form-element__static"><%= @applicant.created_at.strftime("%Y년 %m월 %d일 %H:%M") %></div>
+        </div>
+        <div class="slds-form-element">
+          <label class="slds-form-element__label">최종 수정일</label>
+          <div class="slds-form-element__static"><%= @applicant.updated_at.strftime("%Y년 %m월 %d일 %H:%M") %></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<% else %>
+  <!-- Error State -->
+  <div class="slds-card">
+    <div class="slds-card__body" style="text-align: center; padding: var(--spacing-x-large);">
+      <p style="font-size: 3rem; margin-bottom: var(--spacing-medium);">❌</p>
+      <p style="font-size: 1.2rem; font-weight: 600; margin-bottom: var(--spacing-small);">지원자를 찾을 수 없습니다</p>
+      <p style="color: var(--color-text-weak); margin-bottom: var(--spacing-large);">요청하신 지원자 정보가 존재하지 않습니다.</p>
+      <%= link_to "← 목록으로 돌아가기", applicants_path, class: "slds-button" %>
+    </div>
+  </div>
+<% end %>

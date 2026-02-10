@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NuriFarm 괴산점 - 디지털 트윈 관제 시스템</title>
+    <style>
+        /* ========== SLDS Design Tokens ========== */
+        :root {
+            --color-brand: #00A1E0;
+            --color-brand-dark: #0070D2;
+            --color-success: #50C878;
+            --color-warning: #FFB75D;
+            --color-error: #EA001E;
+            --color-text-default: #16325C;
+            --color-text-weak: #706E6B;
+            --color-background: #F3F2F2;
+            --color-background-alt: #FAFAF9;
+            --spacing-unit: 1rem;
+            --radius-border: 0.25rem;
+            --shadow-card: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: "Salesforce Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #0A0E14;
+            color: white;
+            overflow: hidden;
+        }
+
+        /* ========== Dashboard Header ========== */
+        .dashboard-header {
+            background: linear-gradient(135deg, #16325C 0%, #0070D2 100%);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .dashboard-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .dashboard-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 0.25rem;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(80, 200, 120, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            border: 2px solid #50C878;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            background: #50C878;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* ========== Dashboard Grid ========== */
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 280px 1fr 350px;
+            grid-template-rows: auto 1fr;
+            gap: 1rem;
+            padding: 1rem;
+            height: calc(100vh - 80px);
+        }
+
+        /* ========== Left Sidebar - Farm Status ========== */
+        .sidebar-left {
+            grid-row: 1 / -1;
+            background: #1A1F2E;
+            border-radius: var(--radius-border);
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-section-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #00A1E0;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .house-card {
+            background: #252D3F;
+            padding: 1rem;
+            border-radius: var(--radius-border);
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .house-card:hover {
+            background: #2A3447;
+            border-left-color: #00A1E0;
+        }
+
+        .house-card.active {
+            background: #2A3447;
+            border-left-color: #50C878;
+        }
+
+        .house-name {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .house-status {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            background: rgba(80, 200, 120, 0.2);
+            color: #50C878;
+        }
+
+        .house-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .stat-label {
+            color: #8A92A6;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: white;
+        }
+
+        /* ========== Main Center - Digital Twin 3D View ========== */
+        .digital-twin-container {
+            grid-column: 2;
+            grid-row: 1 / -1;
+            background: #1A1F2E;
+            border-radius: var(--radius-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .digital-twin-view {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1A1F2E 0%, #252D3F 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .farm-map {
+            width: 90%;
+            height: 90%;
+            background: url('images/01_MasterPlan_Render.png') center/contain no-repeat;
+            position: relative;
+        }
+
+        .sensor-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #00A1E0;
+            border-radius: 50%;
+            border: 3px solid white;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 20px rgba(0, 161, 224, 0.8);
+        }
+
+        .sensor-tooltip {
+            position: absolute;
+            background: rgba(22, 50, 92, 0.95);
+            padding: 1rem;
+            border-radius: var(--radius-border);
+            min-width: 200px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 100;
+        }
+
+        .sensor-marker:hover + .sensor-tooltip {
+            opacity: 1;
+        }
+
+        /* ========== Right Sidebar - Metrics & Controls ========== */
+        .sidebar-right {
+            grid-row: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            overflow-y: auto;
+        }
+
+        .metric-card {
+            background: #1A1F2E;
+            border-radius: var(--radius-border);
+            padding: 1.5rem;
+        }
+
+        .metric-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .metric-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #00A1E0;
+        }
+
+        .metric-icon {
+            font-size: 1.5rem;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: #8A92A6;
+        }
+
+        .metric-progress {
+            height: 8px;
+            background: #252D3F;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+
+        .metric-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00A1E0 0%, #50C878 100%);
+            transition: width 0.5s;
+        }
+
+        /* ========== ESG Metrics ========== */
+        .esg-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .esg-item {
+            background: #252D3F;
+            padding: 0.75rem;
+            border-radius: var(--radius-border);
+            text-align: center;
+        }
+
+        .esg-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #50C878;
+        }
+
+        .esg-label {
+            font-size: 0.75rem;
+            color: #8A92A6;
+            margin-top: 0.25rem;
+        }
+
+        /* ========== Market Price Chart ========== */
+        .price-chart {
+            background: #252D3F;
+            padding: 1rem;
+            border-radius: var(--radius-border);
+            margin-top: 1rem;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #1A1F2E;
+        }
+
+        .price-crop {
+            font-weight: 600;
+        }
+
+        .price-amount {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #50C878;
+        }
+
+        .price-trend {
+            font-size: 0.85rem;
+            color: #FFB75D;
+        }
+
+        /* ========== Robot Status ========== */
+        .robot-list {
+            margin-top: 1rem;
+        }
+
+        .robot-item {
+            background: #252D3F;
+            padding: 1rem;
+            border-radius: var(--radius-border);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .robot-icon {
+            font-size: 2rem;
+        }
+
+        .robot-info {
+            flex: 1;
+        }
+
+        .robot-name {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .robot-status-text {
+            font-size: 0.85rem;
+            color: #8A92A6;
+        }
+
+        .robot-battery {
+            width: 60px;
+            text-align: right;
+        }
+
+        .battery-percentage {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #50C878;
+        }
+
+        /* ========== House Structure (누리셀 4층 구조) ========== */
+        .house-structure {
+            background: #252D3F;
+            border-radius: var(--radius-border);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .house-structure:hover {
+            border-color: #00A1E0;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 161, 224, 0.4);
+        }
+
+        .house-structure-header {
+            background: #1A1F2E;
+            padding: 0.75rem;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border-bottom: 2px solid #00A1E0;
+        }
+
+        .house-structure-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 0.5rem;
+            gap: 0.25rem;
+        }
+
+        .house-layer {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.25rem;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .house-layer:hover {
+            transform: scaleX(1.05);
+            z-index: 10;
+        }
+
+        .house-structure-footer {
+            background: #1A1F2E;
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #8A92A6;
+            border-top: 1px solid #252D3F;
+        }
+
+        /* ========== Salesforce Style Icons (SVG) ========== */
+        .slds-icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .slds-icon-small {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ========== Responsive ========== */
+        @media (max-width: 1400px) {
+            .dashboard-container {
+                grid-template-columns: 250px 1fr 300px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+            .sidebar-left, .sidebar-right {
+                grid-row: auto;
+            }
+            #nuriCellStructure > div {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            #nuriCellStructure > div {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div>
+            <div class="dashboard-title">🌱 NuriFarm 괴산점 - 디지털 트윈 관제 시스템</div>
+            <div class="dashboard-subtitle">실시간 IoT 모니터링 | AI 최적화 | ESG 지표 추적</div>
+        </div>
+        <div class="status-indicator">
+            <div class="status-badge">
+                <div class="status-dot"></div>
+                <span>시스템 정상</span>
+            </div>
+            <div style="font-size: 0.9rem;">
+                <span style="opacity: 0.7;">마지막 업데이트:</span>
+                <strong id="lastUpdate">2026-02-10 14:32:15</strong>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Grid -->
+    <div class="dashboard-container">
+        <!-- Left Sidebar - Farm Houses Status -->
+        <aside class="sidebar-left">
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">🏠 스마트팜 하우스 (6동)</div>
+
+                <!-- House A -->
+                <div class="house-card active" onclick="selectHouse('A')">
+                    <div class="house-name">
+                        <span>A동 - 병풀</span>
+                        <span class="house-status">✓ 정상</span>
+                    </div>
+                    <div class="house-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">온도</span>
+                            <span class="stat-value">24.5°C</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">습도</span>
+                            <span class="stat-value">65%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">CO2</span>
+                            <span class="stat-value">420ppm</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">토양</span>
+                            <span class="stat-value">45%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- House B -->
+                <div class="house-card" onclick="selectHouse('B')">
+                    <div class="house-name">
+                        <span>B동 - 바질</span>
+                        <span class="house-status">✓ 정상</span>
+                    </div>
+                    <div class="house-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">온도</span>
+                            <span class="stat-value">26.2°C</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">습도</span>
+                            <span class="stat-value">70%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">CO2</span>
+                            <span class="stat-value">450ppm</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">토양</span>
+                            <span class="stat-value">52%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- House C -->
+                <div class="house-card" onclick="selectHouse('C')">
+                    <div class="house-name">
+                        <span>C동 - 상추</span>
+                        <span class="house-status">⚠️ 주의</span>
+                    </div>
+                    <div class="house-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">온도</span>
+                            <span class="stat-value" style="color: #FFB75D;">28.3°C</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">습도</span>
+                            <span class="stat-value">58%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">CO2</span>
+                            <span class="stat-value">380ppm</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">토양</span>
+                            <span class="stat-value" style="color: #EA001E;">28%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- House D, E, F (collapsed) -->
+                <div class="house-card" onclick="selectHouse('D')">
+                    <div class="house-name">
+                        <span>D동 - 청경채</span>
+                        <span class="house-status">✓ 정상</span>
+                    </div>
+                </div>
+                <div class="house-card" onclick="selectHouse('E')">
+                    <div class="house-name">
+                        <span>E동 - 루꼴라</span>
+                        <span class="house-status">✓ 정상</span>
+                    </div>
+                </div>
+                <div class="house-card" onclick="selectHouse('F')">
+                    <div class="house-name">
+                        <span>F동 - 육묘실</span>
+                        <span class="house-status">✓ 정상</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Robot Status -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">🤖 로봇 작동 현황</div>
+                <div class="robot-list">
+                    <div class="robot-item">
+                        <div class="robot-icon">💧</div>
+                        <div class="robot-info">
+                            <div class="robot-name">관수 로봇 #1</div>
+                            <div class="robot-status-text">B동 작업 중 (62% 완료)</div>
+                        </div>
+                        <div class="robot-battery">
+                            <div class="battery-percentage">85%</div>
+                        </div>
+                    </div>
+                    <div class="robot-item">
+                        <div class="robot-icon">🚁</div>
+                        <div class="robot-info">
+                            <div class="robot-name">방제 드론 #1</div>
+                            <div class="robot-status-text">충전 중 (대기)</div>
+                        </div>
+                        <div class="robot-battery">
+                            <div class="battery-percentage">100%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Center - Digital Twin 3D View -->
+        <main class="digital-twin-container">
+            <div class="digital-twin-view">
+                <!-- 누리셀 구조 시각화 (5연동 하우스) -->
+                <div id="nuriCellStructure" style="width: 90%; height: 90%; position: relative;">
+                    <!-- 5연동 하우스 Grid -->
+                    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 2rem; height: 100%; padding: 2rem;">
+                        <!-- A동 -->
+                        <div class="house-structure" data-house="A">
+                            <div class="house-structure-header">A동 - 병풀</div>
+                            <div class="house-structure-body">
+                                <!-- 4층 구조 시각화 -->
+                                <div class="house-layer" style="background: rgba(80, 200, 120, 0.8);">
+                                    <span style="font-size: 0.7rem;">4F (28칸 × 4열)</span>
+                                </div>
+                                <div class="house-layer" style="background: rgba(80, 200, 120, 0.6);">
+                                    <span style="font-size: 0.7rem;">3F (28칸 × 4열)</span>
+                                </div>
+                                <div class="house-layer" style="background: rgba(80, 200, 120, 0.4);">
+                                    <span style="font-size: 0.7rem;">2F (28칸 × 4열)</span>
+                                </div>
+                                <div class="house-layer" style="background: rgba(80, 200, 120, 0.2);">
+                                    <span style="font-size: 0.7rem;">1F (28칸 × 4열)</span>
+                                </div>
+                            </div>
+                            <div class="house-structure-footer">
+                                <strong style="color: #50C878;">24.5°C</strong> | 65% | 420ppm
+                            </div>
+                        </div>
+
+                        <!-- B동 -->
+                        <div class="house-structure" data-house="B">
+                            <div class="house-structure-header">B동 - 바질</div>
+                            <div class="house-structure-body">
+                                <div class="house-layer" style="background: rgba(0, 161, 224, 0.8);"><span style="font-size: 0.7rem;">4F</span></div>
+                                <div class="house-layer" style="background: rgba(0, 161, 224, 0.6);"><span style="font-size: 0.7rem;">3F</span></div>
+                                <div class="house-layer" style="background: rgba(0, 161, 224, 0.4);"><span style="font-size: 0.7rem;">2F</span></div>
+                                <div class="house-layer" style="background: rgba(0, 161, 224, 0.2);"><span style="font-size: 0.7rem;">1F</span></div>
+                            </div>
+                            <div class="house-structure-footer">
+                                <strong style="color: #00A1E0;">26.2°C</strong> | 70% | 450ppm
+                            </div>
+                        </div>
+
+                        <!-- C동 -->
+                        <div class="house-structure" data-house="C">
+                            <div class="house-structure-header">C동 - 상추</div>
+                            <div class="house-structure-body">
+                                <div class="house-layer" style="background: rgba(255, 183, 93, 0.8);"><span style="font-size: 0.7rem;">4F</span></div>
+                                <div class="house-layer" style="background: rgba(255, 183, 93, 0.6);"><span style="font-size: 0.7rem;">3F</span></div>
+                                <div class="house-layer" style="background: rgba(255, 183, 93, 0.4);"><span style="font-size: 0.7rem;">2F</span></div>
+                                <div class="house-layer" style="background: rgba(255, 183, 93, 0.2);"><span style="font-size: 0.7rem;">1F</span></div>
+                            </div>
+                            <div class="house-structure-footer">
+                                <strong style="color: #FFB75D;">28.3°C</strong> | 58% | 380ppm
+                            </div>
+                        </div>
+
+                        <!-- D동 -->
+                        <div class="house-structure" data-house="D">
+                            <div class="house-structure-header">D동 - 청경채</div>
+                            <div class="house-structure-body">
+                                <div class="house-layer" style="background: rgba(147, 112, 219, 0.8);"><span style="font-size: 0.7rem;">4F</span></div>
+                                <div class="house-layer" style="background: rgba(147, 112, 219, 0.6);"><span style="font-size: 0.7rem;">3F</span></div>
+                                <div class="house-layer" style="background: rgba(147, 112, 219, 0.4);"><span style="font-size: 0.7rem;">2F</span></div>
+                                <div class="house-layer" style="background: rgba(147, 112, 219, 0.2);"><span style="font-size: 0.7rem;">1F</span></div>
+                            </div>
+                            <div class="house-structure-footer">
+                                <strong style="color: #9370DB;">25.8°C</strong> | 62% | 410ppm
+                            </div>
+                        </div>
+
+                        <!-- E동 -->
+                        <div class="house-structure" data-house="E">
+                            <div class="house-structure-header">E동 - 루꼴라</div>
+                            <div class="house-structure-body">
+                                <div class="house-layer" style="background: rgba(80, 200, 120, 0.8);"><span style="font-size: 0.7rem;">4F</span></div>
+                                <div class="house-layer" style="background: rgba(80, 200, 120, 0.6);"><span style="font-size: 0.7rem;">3F</span></div>
+                                <div class="house-layer" style="background: rgba(80, 200, 120, 0.4);"><span style="font-size: 0.7rem;">2F</span></div>
+                                <div class="house-layer" style="background: rgba(80, 200, 120, 0.2);"><span style="font-size: 0.7rem;">1F</span></div>
+                            </div>
+                            <div class="house-structure-footer">
+                                <strong style="color: #50C878;">24.0°C</strong> | 68% | 430ppm
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 누리셀 구조 설명 -->
+                    <div style="position: absolute; top: 1rem; left: 1rem; background: rgba(26, 31, 46, 0.9); padding: 1rem; border-radius: var(--radius-border); max-width: 350px;">
+                        <div style="font-weight: 700; margin-bottom: 0.5rem; color: #00A1E0; font-size: 1.1rem;">📦 누리셀 3세대+ 구조</div>
+                        <div style="font-size: 0.85rem; color: #8A92A6; line-height: 1.6;">
+                            <strong style="color: white;">5연동 하우스</strong> × <strong style="color: white;">4층 적층형</strong><br>
+                            각 층: <strong style="color: #50C878;">4열 × 28칸</strong> = 112개 누리셀<br>
+                            하우스당: 112 × 4층 = <strong style="color: #00A1E0;">448개</strong><br>
+                            전체: 448 × 5동 = <strong style="color: #FFB75D;">2,240개 재배 누리셀</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Overlay Control Panel -->
+                <div style="position: absolute; bottom: 2rem; right: 2rem; background: rgba(26, 31, 46, 0.9); padding: 1.5rem; border-radius: var(--radius-border); min-width: 300px;">
+                    <div style="font-weight: 700; margin-bottom: 1rem; color: #00A1E0;">🎯 AI 추천 작업</div>
+                    <div style="background: #252D3F; padding: 1rem; border-radius: var(--radius-border); margin-bottom: 0.75rem; border-left: 4px solid #FFB75D;">
+                        <strong>⚠️ C동 토양 수분 부족</strong><br>
+                        <span style="font-size: 0.85rem; color: #8A92A6;">관수 로봇 #1 투입 권장 (15분 후 도달)</span>
+                    </div>
+                    <div style="background: #252D3F; padding: 1rem; border-radius: var(--radius-border); border-left: 4px solid #50C878;">
+                        <strong>✅ 병풀 수확 시기 도래</strong><br>
+                        <span style="font-size: 0.85rem; color: #8A92A6;">A동 200주 → 2월 15일 가락시장 출하 권장 (고가 예상)</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar - Metrics & ESG -->
+        <aside class="sidebar-right">
+            <!-- ESG Metrics Card -->
+            <div class="metric-card">
+                <div class="metric-card-header">
+                    <div class="metric-title">♻️ ESG 운영 지표</div>
+                </div>
+                <div class="esg-grid">
+                    <div class="esg-item">
+                        <div class="esg-value">72.7%</div>
+                        <div class="esg-label">장애인 고용률</div>
+                    </div>
+                    <div class="esg-item">
+                        <div class="esg-value">40명</div>
+                        <div class="esg-label">출근 인원 (오늘)</div>
+                    </div>
+                    <div class="esg-item">
+                        <div class="esg-value">-35%</div>
+                        <div class="esg-label">탄소 배출 절감</div>
+                    </div>
+                    <div class="esg-item">
+                        <div class="esg-value">82%</div>
+                        <div class="esg-label">물 재활용률</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Energy Metrics Card -->
+            <div class="metric-card">
+                <div class="metric-card-header">
+                    <div class="metric-title">⚡ 에너지 현황</div>
+                    <div class="metric-icon">💡</div>
+                </div>
+                <div class="metric-value" style="color: #50C878;">3.2 kW</div>
+                <div class="metric-label">현재 소비 전력</div>
+                <div class="metric-progress">
+                    <div class="metric-progress-bar" style="width: 45%;"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.85rem; color: #8A92A6;">
+                    <span>태양광 발전: 4.5 kW</span>
+                    <span>잉여: +1.3 kW</span>
+                </div>
+            </div>
+
+            <!-- Market Price Card -->
+            <div class="metric-card">
+                <div class="metric-card-header">
+                    <div class="metric-title">📈 가락시장 실시간 가격</div>
+                </div>
+                <div class="price-chart">
+                    <div class="price-row">
+                        <span class="price-crop">🍃 병풀 (100g)</span>
+                        <div>
+                            <span class="price-amount">8,500원</span>
+                            <span class="price-trend">▲ +12%</span>
+                        </div>
+                    </div>
+                    <div class="price-row">
+                        <span class="price-crop">🌿 바질 (100g)</span>
+                        <div>
+                            <span class="price-amount">4,200원</span>
+                            <span class="price-trend">▲ +5%</span>
+                        </div>
+                    </div>
+                    <div class="price-row" style="border-bottom: none;">
+                        <span class="price-crop">🥬 상추 (100g)</span>
+                        <div>
+                            <span class="price-amount" style="color: #8A92A6;">1,800원</span>
+                            <span class="price-trend" style="color: #EA001E;">▼ -3%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Harvest Schedule Card -->
+            <div class="metric-card">
+                <div class="metric-card-header">
+                    <div class="metric-title">📦 출하 스케줄 (AI 최적화)</div>
+                </div>
+                <div style="font-size: 0.9rem;">
+                    <div style="background: #252D3F; padding: 1rem; border-radius: var(--radius-border); margin-bottom: 0.75rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <strong>2월 15일 (목)</strong>
+                            <span style="color: #50C878;">최적</span>
+                        </div>
+                        <div style="color: #8A92A6; font-size: 0.85rem;">
+                            병풀 200주 (A동) → 가락시장<br>
+                            예상 수익: <strong style="color: #50C878;">170만원</strong>
+                        </div>
+                    </div>
+                    <div style="background: #252D3F; padding: 1rem; border-radius: var(--radius-border);">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <strong>2월 18일 (일)</strong>
+                            <span style="color: #FFB75D;">일반</span>
+                        </div>
+                        <div style="color: #8A92A6; font-size: 0.85rem;">
+                            상추 500포기 (C동) → 로컬푸드직매장<br>
+                            예상 수익: <strong style="color: white;">90만원</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Salesforce Style SVG Icons -->
+    <svg style="display: none;">
+        <defs>
+            <!-- Temperature Icon -->
+            <symbol id="icon-temperature" viewBox="0 0 24 24">
+                <path d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26a4.5 4.5 0 105 0zM11.5 20a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/>
+            </symbol>
+
+            <!-- Humidity Icon -->
+            <symbol id="icon-humidity" viewBox="0 0 24 24">
+                <path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/>
+            </symbol>
+
+            <!-- CO2 Icon -->
+            <symbol id="icon-co2" viewBox="0 0 24 24">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM7 17c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm6 0c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm6-6h-2v2h-2v2h2v2h2v-2h2v-2h-2v-2z"/>
+            </symbol>
+
+            <!-- Plant Icon -->
+            <symbol id="icon-plant" viewBox="0 0 24 24">
+                <path d="M19 6c0-3-2.5-5-5.5-5S8 3 8 6c0 1.1.3 2.1.8 3H7c-1.7 0-3 1.3-3 3v5c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-5c0-1.7-1.3-3-3-3h-1.8c.5-.9.8-1.9.8-3z"/>
+            </symbol>
+
+            <!-- Robot Icon -->
+            <symbol id="icon-robot" viewBox="0 0 24 24">
+                <path d="M20 9V7c0-1.1-.9-2-2-2h-3c0-1.66-1.34-3-3-3S9 3.34 9 5H6c-1.1 0-2 .9-2 2v2c-1.66 0-3 1.34-3 3v4c0 1.66 1.34 3 3 3v2c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-2c1.66 0 3-1.34 3-3v-4c0-1.66-1.34-3-3-3zM9 11c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm6 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-3 6c-1.66 0-3-1.34-3-3h6c0 1.66-1.34 3-3 3z"/>
+            </symbol>
+
+            <!-- Energy Icon -->
+            <symbol id="icon-energy" viewBox="0 0 24 24">
+                <path d="M11 21h-1l1-7H7.5c-.58 0-.57-.32-.38-.66.19-.34.05-.08.07-.12C8.48 10.94 10.42 7.54 13 3h1l-1 7h3.5c.49 0 .56.33.47.51l-6.97 10.49z"/>
+            </symbol>
+        </defs>
+    </svg>
+
+    <script>
+        // Auto-update timestamp
+        function updateTimestamp() {
+            const now = new Date();
+            const formatted = now.toISOString().slice(0, 19).replace('T', ' ');
+            document.getElementById('lastUpdate').textContent = formatted;
+        }
+        setInterval(updateTimestamp, 1000);
+
+        // House selection
+        function selectHouse(houseName) {
+            document.querySelectorAll('.house-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            console.log(`Selected House: ${houseName}`);
+            // TODO: Update 3D view and sensors
+        }
+
+        // Simulate real-time data updates
+        function simulateDataUpdates() {
+            // Random sensor value changes
+            const statValues = document.querySelectorAll('.stat-value');
+            statValues.forEach(stat => {
+                if (Math.random() > 0.95) {
+                    const currentValue = parseFloat(stat.textContent);
+                    const newValue = (currentValue + (Math.random() - 0.5) * 2).toFixed(1);
+                    stat.textContent = newValue + stat.textContent.slice(-3);
+                }
+            });
+        }
+        setInterval(simulateDataUpdates, 5000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<style>
+  /* SLDS Card */
+  .slds-card {
+    background: white;
+    border-radius: var(--radius-border);
+    box-shadow: var(--shadow-card);
+    margin-bottom: var(--spacing-x-large);
+    overflow: hidden;
+  }
+
+  .slds-card__header {
+    background: var(--color-background-alt);
+    border-bottom: 2px solid var(--color-brand);
+    padding: var(--spacing-large);
+  }
+
+  .slds-card__header-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-text-default);
+  }
+
+  .slds-card__body {
+    padding: var(--spacing-x-large);
+  }
+
+  /* SLDS Form */
+  .slds-form {
+    display: grid;
+    gap: var(--spacing-large);
+  }
+
+  .slds-form-element {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .slds-form-element__label {
+    display: block;
+    font-weight: 600;
+    color: var(--color-text-default);
+    font-size: 0.875rem;
+    margin-bottom: var(--spacing-small);
+  }
+
+  .slds-form-element__label--required::after {
+    content: " *";
+    color: var(--color-error);
+  }
+
+  .slds-input,
+  .slds-textarea,
+  .slds-select {
+    padding: var(--spacing-small) var(--spacing-medium);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-border);
+    font-size: 1rem;
+    color: var(--color-text-default);
+    background: white;
+  }
+
+  .slds-input:focus,
+  .slds-textarea:focus,
+  .slds-select:focus {
+    outline: none;
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgba(0, 161, 224, 0.1);
+  }
+
+  .slds-textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  /* SLDS Button */
+  .slds-button {
+    background: var(--color-brand);
+    color: var(--color-text-inverse);
+    border: none;
+    padding: var(--spacing-medium) var(--spacing-x-large);
+    border-radius: var(--radius-border);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease;
+    margin-right: var(--spacing-small);
+  }
+
+  .slds-button:hover {
+    background: var(--color-brand-dark);
+  }
+
+  .slds-button--neutral {
+    background: white;
+    color: var(--color-brand-dark);
+    border: 1px solid var(--color-border);
+  }
+
+  .slds-button--neutral:hover {
+    background: var(--color-background);
+  }
+
+  /* SLDS Grid */
+  .slds-grid {
+    display: grid;
+    gap: var(--spacing-large);
+  }
+
+  .slds-grid--cols-2 {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+</style>
+
+<!-- Breadcrumb -->
+<div style="margin-bottom: var(--spacing-large);">
+  <%= link_to "← 지원자 목록", applicants_path, style: "color: var(--color-brand); text-decoration: none;" %>
+</div>
+
+<!-- Page Header -->
+<div style="margin-bottom: var(--spacing-x-large);">
+  <h1 style="font-size: 2rem; font-weight: 700; color: var(--color-text-default); margin-bottom: var(--spacing-small);">
+    ➕ 신규 지원자 등록
+  </h1>
+  <p style="color: var(--color-text-weak);">NuriFarm 괴산점 채용 지원자 정보를 입력하세요</p>
+</div>
+
+<!-- Applicant Form Card -->
+<div class="slds-card">
+  <div class="slds-card__header">
+    <h2 class="slds-card__header-title">📝 지원자 정보 입력</h2>
+  </div>
+  <div class="slds-card__body">
+    <%= form_with(model: @applicant || Applicant.new, local: true, class: "slds-form") do |form| %>
+
+      <!-- Error Messages -->
+      <% if @applicant && @applicant.errors.any? %>
+        <div style="background: #FFEBE6; border-left: 4px solid var(--color-error); padding: var(--spacing-large); border-radius: var(--radius-border);">
+          <h3 style="color: var(--color-error); font-weight: 600; margin-bottom: var(--spacing-small);">
+            <%= pluralize(@applicant.errors.count, "error") %> 발생
+          </h3>
+          <ul style="margin-left: var(--spacing-large);">
+            <% @applicant.errors.full_messages.each do |message| %>
+              <li style="color: var(--color-error);"><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <!-- Basic Information -->
+      <div class="slds-grid slds-grid--cols-2">
+        <div class="slds-form-element">
+          <%= form.label :name, "이름", class: "slds-form-element__label slds-form-element__label--required" %>
+          <%= form.text_field :name, class: "slds-input", placeholder: "예: 홍길동", required: true %>
+        </div>
+
+        <div class="slds-form-element">
+          <%= form.label :phone, "연락처", class: "slds-form-element__label slds-form-element__label--required" %>
+          <%= form.text_field :phone, class: "slds-input", placeholder: "예: 010-1234-5678", required: true %>
+        </div>
+
+        <div class="slds-form-element">
+          <%= form.label :email, "이메일", class: "slds-form-element__label" %>
+          <%= form.email_field :email, class: "slds-input", placeholder: "예: honggildong@example.com" %>
+        </div>
+
+        <div class="slds-form-element">
+          <%= form.label :disability_type, "장애 유형", class: "slds-form-element__label slds-form-element__label--required" %>
+          <%= form.select :disability_type,
+                          options_for_select([
+                            ["선택하세요", ""],
+                            ["지체장애", "지체장애"],
+                            ["시각장애", "시각장애"],
+                            ["청각장애", "청각장애"],
+                            ["언어장애", "언어장애"],
+                            ["지적장애", "지적장애"],
+                            ["정신장애", "정신장애"],
+                            ["기타", "기타"]
+                          ]),
+                          {},
+                          class: "slds-select",
+                          required: true %>
+        </div>
+
+        <div class="slds-form-element">
+          <%= form.label :disability_grade, "장애 등급", class: "slds-form-element__label" %>
+          <%= form.select :disability_grade,
+                          options_for_select([
+                            ["선택하세요", ""],
+                            ["1급", "1급"],
+                            ["2급", "2급"],
+                            ["3급", "3급"],
+                            ["4급", "4급"],
+                            ["5급", "5급"],
+                            ["6급", "6급"]
+                          ]),
+                          {},
+                          class: "slds-select" %>
+        </div>
+
+        <div class="slds-form-element">
+          <%= form.label :desired_position, "희망 직무", class: "slds-form-element__label" %>
+          <%= form.select :desired_position,
+                          options_for_select([
+                            ["선택하세요", ""],
+                            ["재배 관리", "재배 관리"],
+                            ["수확/포장", "수확/포장"],
+                            ["품질 검사", "품질 검사"],
+                            ["출하 관리", "출하 관리"],
+                            ["기타", "기타"]
+                          ]),
+                          {},
+                          class: "slds-select" %>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="slds-form-element">
+        <%= form.label :notes, "특이사항 / 메모", class: "slds-form-element__label" %>
+        <%= form.text_area :notes, class: "slds-textarea", placeholder: "지원자에 대한 추가 정보나 특이사항을 입력하세요.", rows: 4 %>
+      </div>
+
+      <!-- Status -->
+      <div class="slds-form-element">
+        <%= form.label :status, "상태", class: "slds-form-element__label" %>
+        <%= form.select :status,
+                        options_for_select([
+                          ["검토중", "pending"],
+                          ["승인", "approved"],
+                          ["보류", "on_hold"],
+                          ["거절", "rejected"]
+                        ]),
+                        {},
+                        class: "slds-select" %>
+      </div>
+
+      <!-- Actions -->
+      <div style="display: flex; gap: var(--spacing-medium); justify-content: center; margin-top: var(--spacing-large);">
+        <%= form.submit "✓ 등록", class: "slds-button" %>
+        <%= link_to "✕ 취소", applicants_path, class: "slds-button slds-button--neutral" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Help Text -->
+<div style="background: #E8F4F8; padding: var(--spacing-large); border-radius: var(--radius-border); border-left: 4px solid var(--color-brand);">
+  <h3 style="color: var(--color-brand-dark); font-weight: 600; margin-bottom: var(--spacing-small);">ℹ️ 입력 안내</h3>
+  <ul style="margin-left: var(--spacing-large); color: var(--color-text-default);">
+    <li>별표(*)가 표시된 항목은 필수 입력 사항입니다.</li>
+    <li>연락처는 "-" 포함하여 입력하세요 (예: 010-1234-5678)</li>
+    <li>장애 유형과 등급은 장애인 고용률 산정에 중요한 정보입니다.</li>
+    <li>등록 후에도 정보 수정이 가능합니다.</li>
+  </ul>
+</div>

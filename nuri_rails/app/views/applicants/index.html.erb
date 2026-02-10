@@ -1,0 +1,183 @@
+<style>
+  /* SLDS Card */
+  .slds-card {
+    background: white;
+    border-radius: var(--radius-border);
+    box-shadow: var(--shadow-card);
+    margin-bottom: var(--spacing-x-large);
+    overflow: hidden;
+  }
+
+  .slds-card__header {
+    background: var(--color-background-alt);
+    border-bottom: 2px solid var(--color-brand);
+    padding: var(--spacing-large);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .slds-card__header-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-text-default);
+  }
+
+  .slds-card__body {
+    padding: var(--spacing-x-large);
+  }
+
+  /* SLDS Button */
+  .slds-button {
+    background: var(--color-brand);
+    color: var(--color-text-inverse);
+    border: none;
+    padding: var(--spacing-small) var(--spacing-large);
+    border-radius: var(--radius-border);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease;
+  }
+
+  .slds-button:hover {
+    background: var(--color-brand-dark);
+  }
+
+  /* SLDS Table */
+  .slds-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+  }
+
+  .slds-table thead {
+    background: var(--color-background-alt);
+  }
+
+  .slds-table th {
+    padding: var(--spacing-medium);
+    text-align: left;
+    font-weight: 600;
+    color: var(--color-text-default);
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .slds-table td {
+    padding: var(--spacing-medium);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .slds-table tbody tr:hover {
+    background: var(--color-background);
+  }
+
+  /* SLDS Badge */
+  .slds-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-border);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .slds-badge--success {
+    background: #E8F4F8;
+    color: var(--color-brand-dark);
+  }
+
+  .slds-badge--pending {
+    background: #FFF5E6;
+    color: #B86E00;
+  }
+
+  /* Empty State */
+  .slds-empty-state {
+    text-align: center;
+    padding: var(--spacing-x-large);
+    color: var(--color-text-weak);
+  }
+</style>
+
+<!-- Page Header -->
+<div style="margin-bottom: var(--spacing-x-large);">
+  <h1 style="font-size: 2rem; font-weight: 700; color: var(--color-text-default); margin-bottom: var(--spacing-small);">
+    👥 지원자 관리
+  </h1>
+  <p style="color: var(--color-text-weak);">NuriFarm 괴산점 채용 지원자 목록</p>
+</div>
+
+<!-- Applicants List Card -->
+<div class="slds-card">
+  <div class="slds-card__header">
+    <h2 class="slds-card__header-title">📋 지원자 목록</h2>
+    <%= link_to "➕ 신규 지원자 등록", new_applicant_path, class: "slds-button" %>
+  </div>
+  <div class="slds-card__body">
+    <% if @applicants && @applicants.any? %>
+      <table class="slds-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>이름</th>
+            <th>연락처</th>
+            <th>장애 유형</th>
+            <th>희망 직무</th>
+            <th>상태</th>
+            <th>지원일</th>
+            <th>작업</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @applicants.each do |applicant| %>
+            <tr>
+              <td><strong>#<%= applicant.id %></strong></td>
+              <td><%= applicant.name %></td>
+              <td><%= applicant.phone || "미등록" %></td>
+              <td><span class="slds-badge slds-badge--success"><%= applicant.disability_type || "미지정" %></span></td>
+              <td><%= applicant.desired_position || "미지정" %></td>
+              <td>
+                <% if applicant.status == "approved" %>
+                  <span class="slds-badge slds-badge--success">승인</span>
+                <% else %>
+                  <span class="slds-badge slds-badge--pending">검토중</span>
+                <% end %>
+              </td>
+              <td><%= applicant.created_at.strftime("%Y-%m-%d") %></td>
+              <td>
+                <%= link_to "상세", applicant_path(applicant), style: "color: var(--color-brand); margin-right: var(--spacing-small);" %>
+                <%= link_to "수정", edit_applicant_path(applicant), style: "color: var(--color-brand); margin-right: var(--spacing-small);" %>
+                <%= button_to "삭제", applicant_path(applicant), method: :delete, data: { turbo_confirm: "정말 삭제하시겠습니까?" }, style: "color: var(--color-error); background: none; border: none; cursor: pointer; padding: 0;" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <div class="slds-empty-state">
+        <p style="font-size: 3rem; margin-bottom: var(--spacing-medium);">📭</p>
+        <p style="font-size: 1.2rem; font-weight: 600; margin-bottom: var(--spacing-small);">등록된 지원자가 없습니다</p>
+        <p>신규 지원자를 등록하여 채용 프로세스를 시작하세요.</p>
+        <%= link_to "➕ 첫 지원자 등록", new_applicant_path, class: "slds-button", style: "margin-top: var(--spacing-large);" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Stats Summary -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--spacing-large);">
+  <div style="background: white; padding: var(--spacing-large); border-radius: var(--radius-border); box-shadow: var(--shadow-card); text-align: center;">
+    <p style="color: var(--color-text-weak); font-size: 0.875rem; margin-bottom: var(--spacing-small);">총 지원자</p>
+    <p style="font-size: 2.5rem; font-weight: 700; color: var(--color-brand);"><%= @applicants&.count || 0 %></p>
+  </div>
+  <div style="background: white; padding: var(--spacing-large); border-radius: var(--radius-border); box-shadow: var(--shadow-card); text-align: center;">
+    <p style="color: var(--color-text-weak); font-size: 0.875rem; margin-bottom: var(--spacing-small);">승인 완료</p>
+    <p style="font-size: 2.5rem; font-weight: 700; color: var(--color-success);"><%= @applicants&.where(status: "approved")&.count || 0 %></p>
+  </div>
+  <div style="background: white; padding: var(--spacing-large); border-radius: var(--radius-border); box-shadow: var(--shadow-card); text-align: center;">
+    <p style="color: var(--color-text-weak); font-size: 0.875rem; margin-bottom: var(--spacing-small);">검토중</p>
+    <p style="font-size: 2.5rem; font-weight: 700; color: var(--color-warning);"><%= @applicants&.where.not(status: "approved")&.count || 0 %></p>
+  </div>
+</div>

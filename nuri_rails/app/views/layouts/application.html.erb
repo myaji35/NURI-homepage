@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title><%= content_for(:title) || "NURI 장애인표준사업장 관리 시스템" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="NURI Admin">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+
+    <style>
+      /* ========== SLDS Design Tokens for Rails App ========== */
+      :root {
+        --color-brand: #00A1E0;
+        --color-brand-dark: #0070D2;
+        --color-brand-darker: #16325C;
+        --color-success: #50C878;
+        --color-warning: #FFB75D;
+        --color-error: #EA001E;
+        --color-text-default: #16325C;
+        --color-text-weak: #706E6B;
+        --color-text-inverse: #FFFFFF;
+        --color-background: #F3F2F2;
+        --color-background-alt: #FAFAF9;
+        --color-background-shade: #ECEBEA;
+        --color-border: #E5E5E5;
+        --spacing-small: 0.75rem;
+        --spacing-medium: 1rem;
+        --spacing-large: 1.5rem;
+        --spacing-x-large: 2rem;
+        --radius-border: 0.25rem;
+        --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      body {
+        background: var(--color-background);
+        color: var(--color-text-default);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+
+      /* SLDS Global Header */
+      .slds-global-header {
+        background: linear-gradient(135deg, var(--color-brand) 0%, var(--color-brand-dark) 100%);
+        color: var(--color-text-inverse);
+        padding: var(--spacing-large) 0;
+        box-shadow: var(--shadow-card);
+        margin-bottom: var(--spacing-x-large);
+      }
+
+      .slds-global-header__title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0;
+      }
+
+      .slds-global-header__subtitle {
+        font-size: 0.875rem;
+        opacity: 0.9;
+        margin-top: 0.25rem;
+      }
+
+      /* SLDS Main Container */
+      .slds-main-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 var(--spacing-x-large);
+      }
+
+      /* ========== Mega Menu Navigation ========== */
+      .slds-nav-header {
+        background: white;
+        border-bottom: 3px solid var(--color-brand);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.07);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        margin-bottom: 0;
+      }
+
+      .slds-nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 var(--spacing-medium);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 60px;
+      }
+
+      .slds-nav-brand {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--color-brand);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .slds-nav-menu {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .slds-nav-item {
+        position: relative;
+      }
+
+      .slds-nav-link {
+        padding: 0.5rem 1rem;
+        color: var(--color-text-default);
+        text-decoration: none;
+        font-weight: 500;
+        border-radius: var(--radius-border);
+        transition: all 0.2s;
+        display: block;
+      }
+
+      .slds-nav-link:hover {
+        background: var(--color-background);
+        color: var(--color-brand);
+      }
+
+      /* Mega Menu Dropdown */
+      .mega-menu-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        border: 1px solid var(--color-border);
+        border-top: 3px solid var(--color-brand);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        border-radius: 0 0 var(--radius-border) var(--radius-border);
+        min-width: 240px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.2s ease;
+        z-index: 1000;
+        padding: 1.5rem;
+      }
+
+      .mega-menu-wide {
+        min-width: 420px;
+        display: flex;
+        gap: 2rem;
+      }
+
+      .slds-nav-item:hover .mega-menu-dropdown {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .mega-menu-column {
+        flex: 1;
+      }
+
+      .mega-menu-heading {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--color-text-weak);
+        margin-bottom: 0.75rem;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid var(--color-background);
+        padding-bottom: 0.5rem;
+      }
+
+      .mega-menu-link {
+        display: block;
+        padding: 0.5rem 0.75rem;
+        color: var(--color-text-default);
+        text-decoration: none;
+        border-radius: var(--radius-border);
+        transition: all 0.2s ease;
+        font-size: 0.9rem;
+      }
+
+      .mega-menu-link:hover {
+        background: var(--color-background);
+        color: var(--color-brand);
+        padding-left: 1rem;
+      }
+
+      /* Mobile Responsive */
+      @media (max-width: 768px) {
+        .slds-nav-menu {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .mega-menu-dropdown {
+          position: static;
+          opacity: 1;
+          visibility: visible;
+          transform: none;
+          box-shadow: none;
+          border: none;
+          border-left: 3px solid var(--color-brand);
+          margin-left: 1rem;
+          padding: 0.5rem 1rem;
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.3s ease;
+        }
+
+        .slds-nav-item:hover .mega-menu-dropdown {
+          max-height: 500px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Mega Menu Navigation -->
+    <nav class="slds-nav-header">
+      <div class="slds-nav-container">
+        <a href="/" class="slds-nav-brand">
+          🌱 NURI
+        </a>
+
+        <ul class="slds-nav-menu">
+          <!-- 관리자 메뉴 -->
+          <li class="slds-nav-item">
+            <a href="#" class="slds-nav-link">관리자 ▾</a>
+            <div class="mega-menu-dropdown">
+              <div class="mega-menu-column">
+                <h4 class="mega-menu-heading">대시보드</h4>
+                <a href="/" class="mega-menu-link">📊 종합 현황</a>
+                <a href="#" class="mega-menu-link">📈 통계 리포트</a>
+                <a href="#" class="mega-menu-link">⚙️ 시스템 설정</a>
+              </div>
+            </div>
+          </li>
+
+          <!-- k1 사업장 메뉴 -->
+          <li class="slds-nav-item">
+            <a href="#" class="slds-nav-link">k1 사업장 ▾</a>
+            <div class="mega-menu-dropdown mega-menu-wide">
+              <div class="mega-menu-column">
+                <h4 class="mega-menu-heading">인사 관리</h4>
+                <a href="<%= applicants_path %>" class="mega-menu-link">👥 지원자 관리</a>
+                <a href="#" class="mega-menu-link">💼 직원 관리</a>
+                <a href="#" class="mega-menu-link">📅 근태 관리</a>
+              </div>
+              <div class="mega-menu-column">
+                <h4 class="mega-menu-heading">생산 관리</h4>
+                <a href="#" class="mega-menu-link">🌱 재배 현황</a>
+                <a href="#" class="mega-menu-link">📦 출하 관리</a>
+                <a href="/dashboard.html" class="mega-menu-link" target="_blank">🎯 실시간 관제</a>
+              </div>
+            </div>
+          </li>
+
+          <!-- ESG 리포트 메뉴 -->
+          <li class="slds-nav-item">
+            <a href="#" class="slds-nav-link">ESG 리포트 ▾</a>
+            <div class="mega-menu-dropdown">
+              <div class="mega-menu-column">
+                <h4 class="mega-menu-heading">지표 관리</h4>
+                <a href="#" class="mega-menu-link">♻️ 고용 지표</a>
+                <a href="#" class="mega-menu-link">🌍 환경 지표</a>
+                <a href="#" class="mega-menu-link">📄 보고서 생성</a>
+              </div>
+            </div>
+          </li>
+
+          <!-- 시스템 메뉴 -->
+          <li class="slds-nav-item">
+            <a href="#" class="slds-nav-link">시스템 ▾</a>
+            <div class="mega-menu-dropdown">
+              <div class="mega-menu-column">
+                <h4 class="mega-menu-heading">설정</h4>
+                <a href="#" class="mega-menu-link">👤 사용자 관리</a>
+                <a href="#" class="mega-menu-link">🔐 권한 설정</a>
+                <a href="#" class="mega-menu-link">📋 로그 조회</a>
+              </div>
+            </div>
+          </li>
+
+          <!-- 웹사이트 바로가기 -->
+          <li>
+            <a href="/index.html" target="_blank" class="slds-nav-link" style="background: var(--color-brand); color: white;">
+              🌐 홈페이지
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="slds-main-container">
+      <%= yield %>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--color-background-alt); padding: var(--spacing-large) 0; text-align: center; margin-top: var(--spacing-x-large);">
+      <div class="slds-main-container">
+        <p style="color: var(--color-text-weak); font-size: 0.875rem;">© 2026 NURI (주)가가호호 | 장애인표준사업장 스마트팜 플랫폼</p>
+      </div>
+    </footer>
+  </body>
+</html>
