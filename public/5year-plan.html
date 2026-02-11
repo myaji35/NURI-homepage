@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NuriFarm 괴산점 5개년 재투자 시뮬레이션 | NURI</title>
+
+    <!-- Alpine.js for Navigation Interactions -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <style>
         :root {
             /* Salesforce Lightning Design System Colors */
@@ -270,10 +274,20 @@
 <body>
     <!-- Header -->
     <div class="header">
-        <h1>📊 NuriFarm 괴산점 5개년 ROI 시뮬레이션</h1>
+        <h1>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
+                <line x1="12" y1="20" x2="12" y2="10"></line>
+                <line x1="18" y1="20" x2="18" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="16"></line>
+            </svg>
+            NuriFarm 괴산점 5개년 ROI 시뮬레이션
+        </h1>
         <p>초기 투자 23억 (장애인고용공단 20억 + 괴산군 3억) → 이익금 재투자 → ROI 달성 시점 확인</p>
         <p style="margin-top: 0.5rem; font-size: 1rem; opacity: 0.9;">
-            ✅ 1년 내 장애인 40명 채용 (3개월 단위 10명씩) | 이후 이익금 재투자로 하우스 증설
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            1년 내 장애인 40명 채용 (3개월 단위 10명씩) | 이후 이익금 재투자로 하우스 증설
         </p>
     </div>
 
@@ -281,31 +295,58 @@
         <!-- Summary Cards -->
         <div class="summary-grid">
             <div class="summary-card">
-                <div class="icon">💰</div>
+                <div class="icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                </div>
                 <h3>초기 투자금</h3>
                 <div class="value">23억원</div>
                 <div class="delta">장애인고용공단 20억 + 괴산군 3억</div>
             </div>
             <div class="summary-card" style="background: linear-gradient(135deg, #FFB75D 0%, #FF9A3C 100%); color: white;">
-                <div class="icon">🎯</div>
+                <div class="icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                </div>
                 <h3 style="color: white;">ROI 달성 시점</h3>
                 <div class="value" id="roiPeriod" style="color: white;">-</div>
                 <div class="delta" style="color: rgba(255,255,255,0.9);">투자금 회수 완료</div>
             </div>
             <div class="summary-card">
-                <div class="icon">📈</div>
+                <div class="icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                        <polyline points="17 6 23 6 23 12"></polyline>
+                    </svg>
+                </div>
                 <h3>2030년 월평균 매출</h3>
                 <div class="value" id="totalRevenue2030">-</div>
                 <div class="delta" id="revenueDelta">-</div>
             </div>
             <div class="summary-card">
-                <div class="icon">👥</div>
+                <div class="icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
                 <h3>장애인 고용 (1년 내)</h3>
                 <div class="value">40명</div>
                 <div class="delta">3개월 단위 10명씩 채용</div>
             </div>
             <div class="summary-card" style="background: linear-gradient(135deg, #50C878 0%, #3DA55F 100%); color: white;">
-                <div class="icon">🌱</div>
+                <div class="icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                        <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                    </svg>
+                </div>
                 <h3 style="color: white;">2,000셀 달성 시점</h3>
                 <div class="value" id="cellTarget2000" style="color: white;">-</div>
                 <div class="delta" style="color: rgba(255,255,255,0.9);">목표 달성 예상</div>
@@ -314,7 +355,13 @@
 
         <!-- Control Panel -->
         <div class="control-panel">
-            <h2>🎛️ 시뮬레이션 파라미터 조정</h2>
+            <h2>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 1v6m0 6v6m5.2-13.2l-4.2 4.2m0 0l-4.2 4.2m0-8.4l4.2 4.2m0 0l4.2 4.2M1 12h6m6 0h6"></path>
+                </svg>
+                시뮬레이션 파라미터 조정
+            </h2>
 
             <div class="slider-group">
                 <label>
@@ -352,7 +399,13 @@
         <!-- Charts -->
         <div class="charts-grid">
             <div class="chart-card">
-                <h3>📈 연도별 매출 추이</h3>
+                <h3>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
+                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                        <polyline points="17 6 23 6 23 12"></polyline>
+                    </svg>
+                    연도별 매출 추이
+                </h3>
                 <canvas id="revenueChart"></canvas>
             </div>
             <div class="chart-card">
@@ -858,12 +911,12 @@
 
                 // ROI 달성 표시
                 const roiText = result.roiAchieved && !simulationResults[index-1]?.roiAchieved
-                    ? `<strong style="color: #FFB75D;">🎯 ROI 달성!</strong>`
+                    ? `<strong style="color: #FFB75D;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>ROI 달성!</strong>`
                     : '';
 
                 // 총 셀 개수는 result.totalCells 사용
                 const cellsText = result.totalCells >= 2000 && (!simulationResults[index-1] || simulationResults[index-1].totalCells < 2000)
-                    ? `<strong style="color: #50C878;">🎯 ${result.totalCells.toLocaleString()}개 셀 (목표 2,000개 달성!)</strong>`
+                    ? `<strong style="color: #50C878;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>${result.totalCells.toLocaleString()}개 셀 (목표 2,000개 달성!)</strong>`
                     : `<strong>${result.totalCells.toLocaleString()}개 셀</strong>`;
 
                 yearBlock.innerHTML = `
