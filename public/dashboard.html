@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>k1NURIfarm01 실시간 관제 시스템 | NURI</title>
+    <style>
+        /* ========== Modern Business Dashboard Theme ========== */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --color-brand: #00A1E0;
+            --color-brand-light: #4FC3F7;
+            --color-success: #10B981;
+            --color-warning: #F59E0B;
+            --color-error: #EF4444;
+            --color-bg: #F8FAFC;
+            --color-surface: #FFFFFF;
+            --color-border: #E2E8F0;
+            --color-text: #1E293B;
+            --color-text-light: #64748B;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        /* ========== Header ========== */
+        .dashboard-header {
+            background: linear-gradient(135deg, #00A1E0 0%, #0284C7 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-title h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .header-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .header-status {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: #10B981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* ========== Main Layout ========== */
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 300px 1fr 350px;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            max-width: 1800px;
+            margin: 0 auto;
+            height: calc(100vh - 100px);
+        }
+
+        /* ========== Card Styles ========== */
+        .card {
+            background: var(--color-surface);
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-border);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--color-text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-body {
+            padding: 1.25rem;
+            overflow-y: auto;
+        }
+
+        /* ========== Greenhouse Status List ========== */
+        .greenhouse-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .greenhouse-card {
+            background: var(--color-surface);
+            border: 2px solid var(--color-border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .greenhouse-card:hover {
+            border-color: var(--color-brand);
+            box-shadow: var(--shadow-md);
+            transform: translateX(4px);
+        }
+
+        .greenhouse-card.active {
+            border-color: var(--color-brand);
+            background: linear-gradient(135deg, rgba(0, 161, 224, 0.05), rgba(255, 255, 255, 1));
+            box-shadow: var(--shadow-md);
+        }
+
+        .greenhouse-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .greenhouse-name {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--color-text);
+        }
+
+        .greenhouse-status-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--color-success);
+        }
+
+        .greenhouse-crop {
+            font-size: 0.875rem;
+            color: var(--color-text-light);
+            margin-bottom: 0.75rem;
+        }
+
+        .sensor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .sensor-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0;
+        }
+
+        .sensor-label {
+            color: var(--color-text-light);
+        }
+
+        .sensor-value {
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        /* ========== Digital Twin Map ========== */
+        .map-container {
+            position: relative;
+            background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            min-height: 400px;
+        }
+
+        .greenhouse-visual {
+            position: absolute;
+            width: 140px;
+            height: 100px;
+            background: white;
+            border: 2px solid var(--color-border);
+            border-radius: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .greenhouse-visual:hover {
+            border-color: var(--color-brand);
+            box-shadow: var(--shadow-lg);
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .greenhouse-visual.active {
+            border-color: var(--color-brand);
+            border-width: 3px;
+            background: linear-gradient(135deg, rgba(0, 161, 224, 0.1), white);
+            box-shadow: 0 0 0 4px rgba(0, 161, 224, 0.2);
+        }
+
+        .greenhouse-visual-label {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--color-brand);
+        }
+
+        .greenhouse-visual-crop {
+            font-size: 0.75rem;
+            color: var(--color-text-light);
+            margin-top: 0.25rem;
+        }
+
+        .greenhouse-visual-status {
+            font-size: 0.7rem;
+            color: var(--color-success);
+            margin-top: 0.25rem;
+            font-weight: 600;
+        }
+
+        /* ========== Metrics Cards ========== */
+        .metrics-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .metric-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--color-brand);
+            display: flex;
+            align-items: baseline;
+            gap: 0.25rem;
+        }
+
+        .metric-unit {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-text-light);
+        }
+
+        .metric-bar {
+            height: 6px;
+            background: var(--color-border);
+            border-radius: 3px;
+            margin-top: 0.75rem;
+            overflow: hidden;
+        }
+
+        .metric-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-brand), var(--color-brand-light));
+            transition: width 0.5s ease;
+            border-radius: 3px;
+        }
+
+        /* ========== Detail Modal ========== */
+        .detail-modal {
+            position: fixed;
+            top: 0;
+            right: -500px;
+            width: 500px;
+            height: 100vh;
+            background: var(--color-surface);
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .detail-modal.active {
+            right: 0;
+        }
+
+        .detail-modal-header {
+            background: linear-gradient(135deg, var(--color-brand), var(--color-brand-light));
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .detail-modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .close-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .detail-modal-body {
+            padding: 1.5rem;
+        }
+
+        .detail-section {
+            margin-bottom: 2rem;
+        }
+
+        .detail-section-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--color-border);
+        }
+
+        .nuricell-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .nuricell-slot {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #E0F2FE, #F0F9FF);
+            border: 1px solid var(--color-border);
+            border-radius: 0.25rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--color-text-light);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nuricell-slot:hover {
+            border-color: var(--color-brand);
+            background: linear-gradient(135deg, var(--color-brand-light), #E0F2FE);
+            transform: scale(1.05);
+        }
+
+        .nuricell-slot.harvesting {
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            border-color: var(--color-warning);
+        }
+
+        .nuricell-slot.ready {
+            background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+            border-color: var(--color-success);
+        }
+
+        /* ========== Stats Summary ========== */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 1rem;
+            background: var(--color-bg);
+            border-radius: 0.5rem;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--color-brand);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--color-text-light);
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="dashboard-header">
+        <div class="header-title">
+            <h1><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>k1NURIfarm01 실시간 관제</h1>
+            <span class="header-badge">Korea #1</span>
+        </div>
+        <div class="header-status">
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span>시스템 정상</span>
+            </div>
+            <div style="font-size: 0.875rem;">
+                <div id="currentTime">2026-02-10 13:25:00</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Grid -->
+    <div class="dashboard-container">
+        <!-- Left: Greenhouse Status List -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    🏭 하우스 상태
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="greenhouse-list">
+                    <div class="greenhouse-card active" data-house="A" onclick="selectGreenhouse('A')">
+                        <div class="greenhouse-header">
+                            <div class="greenhouse-name">A동</div>
+                            <div class="greenhouse-status-badge">
+                                <span>●</span> 정상
+                            </div>
+                        </div>
+                        <div class="greenhouse-crop">병풀 (Centella Asiatica)</div>
+                        <div class="sensor-grid">
+                            <div class="sensor-item">
+                                <span class="sensor-label">온도</span>
+                                <span class="sensor-value">24.5°C</span>
+                            </div>
+                            <div class="sensor-item">
+                                <span class="sensor-label">습도</span>
+                                <span class="sensor-value">65%</span>
+                            </div>
+                            <div class="sensor-item">
+                                <span class="sensor-label">CO₂</span>
+                                <span class="sensor-value">420ppm</span>
+                            </div>
+                            <div class="sensor-item">
+                                <span class="sensor-label">조도</span>
+                                <span class="sensor-value">8500lx</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="greenhouse-card" data-house="B" onclick="selectGreenhouse('B')">
+                        <div class="greenhouse-header">
+                            <div class="greenhouse-name">B동</div>
+                            <div class="greenhouse-status-badge">
+                                <span>●</span> 정상
+                            </div>
+                        </div>
+                        <div class="greenhouse-crop">바질 (Sweet Basil)</div>
+                        <div class="sensor-grid">
+                            <div class="sensor-item">
+                                <span class="sensor-label">온도</span>
+                                <span class="sensor-value">23.8°C</span>
+                            </div>
+                            <div class="sensor-item">
+                                <span class="sensor-label">습도</span>
+                                <span class="sensor-value">62%</span>
+                            </div>
+                            <div class="sensor-item">
+                                <span class="sensor-label">CO₂</span>
+                                <span class="sensor-value">410ppm</span>
+                            </div>
+                            <div class="sensor-item">
+                                <span class="sensor-label">조도</span>
+                                <span class="sensor-value">9200lx</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="greenhouse-card" data-house="C" onclick="selectGreenhouse('C')">
+                        <div class="greenhouse-header">
+                            <div class="greenhouse-name">C동</div>
+                            <div class="greenhouse-status-badge">
+                                <span>●</span> 정상
+                            </div>
+                        </div>
+                        <div class="greenhouse-crop">바질 (Sweet Basil)</div>
+                        <div class="sensor-grid">
+                            <div class="sensor-item">
+                                <span class="sensor-label">온도</span>
+                                <span class="sensor-value">24.1°C</span>
+                            </div>
+                            <div class="sensor-item">
+                                <span class="sensor-label">습도</span>
+                                <span class="sensor-value">63%</span>
+                            </div>
+                            <div class="sensor-item">
+                                <span class="sensor-label">CO₂</span>
+                                <span class="sensor-value">415ppm</span>
+                            </div>
+                            <div class="sensor-item">
+                                <span class="sensor-label">조도</span>
+                                <span class="sensor-value">8800lx</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="greenhouse-card" data-house="D" onclick="selectGreenhouse('D')">
+                        <div class="greenhouse-header">
+                            <div class="greenhouse-name">D동</div>
+                            <div class="greenhouse-status-badge">
+                                <span>●</span> 정상
+                            </div>
+                        </div>
+                        <div class="greenhouse-crop">쌈채소 (Mixed Greens)</div>
+                        <div class="sensor-grid">
+                            <div class="sensor-item">
+                                <span class="sensor-label">온도</span>
+                                <span class="sensor-value">22.3°C</span>
+                            </div>
+                            <div class="sensor-item">
+                                <span class="sensor-label">습도</span>
+                                <span class="sensor-value">68%</span>
+                            </div>
+                            <div class="sensor-item">
+                                <span class="sensor-label">CO₂</span>
+                                <span class="sensor-value">405ppm</span>
+                            </div>
+                            <div class="sensor-item">
+                                <span class="sensor-label">조도</span>
+                                <span class="sensor-value">7900lx</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="greenhouse-card" data-house="E" onclick="selectGreenhouse('E')">
+                        <div class="greenhouse-header">
+                            <div class="greenhouse-name">E동</div>
+                            <div class="greenhouse-status-badge">
+                                <span>●</span> 정상
+                            </div>
+                        </div>
+                        <div class="greenhouse-crop">쌈채소 (Mixed Greens)</div>
+                        <div class="sensor-grid">
+                            <div class="sensor-item">
+                                <span class="sensor-label">온도</span>
+                                <span class="sensor-value">22.7°C</span>
+                            </div>
+                            <div class="sensor-item">
+                                <span class="sensor-label">습도</span>
+                                <span class="sensor-value">67%</span>
+                            </div>
+                            <div class="sensor-item">
+                                <span class="sensor-label">CO₂</span>
+                                <span class="sensor-value">408ppm</span>
+                            </div>
+                            <div class="sensor-item">
+                                <span class="sensor-label">조도</span>
+                                <span class="sensor-value">8100lx</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center: Digital Twin Map -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>디지털 트윈 맵
+                </div>
+                <div style="font-size: 0.875rem; color: var(--color-text-light);">
+                    클릭하여 상세 정보 보기
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="map-container">
+                    <!-- Greenhouse A -->
+                    <div class="greenhouse-visual active" style="top: 50px; left: 50px;" data-house="A" onclick="selectGreenhouse('A')">
+                        <div class="greenhouse-visual-label">A동</div>
+                        <div class="greenhouse-visual-crop">병풀</div>
+                        <div class="greenhouse-visual-status">✓ 정상</div>
+                    </div>
+
+                    <!-- Greenhouse B -->
+                    <div class="greenhouse-visual" style="top: 50px; left: 220px;" data-house="B" onclick="selectGreenhouse('B')">
+                        <div class="greenhouse-visual-label">B동</div>
+                        <div class="greenhouse-visual-crop">바질</div>
+                        <div class="greenhouse-visual-status">✓ 정상</div>
+                    </div>
+
+                    <!-- Greenhouse C -->
+                    <div class="greenhouse-visual" style="top: 50px; left: 390px;" data-house="C" onclick="selectGreenhouse('C')">
+                        <div class="greenhouse-visual-label">C동</div>
+                        <div class="greenhouse-visual-crop">바질</div>
+                        <div class="greenhouse-visual-status">✓ 정상</div>
+                    </div>
+
+                    <!-- Greenhouse D -->
+                    <div class="greenhouse-visual" style="top: 180px; left: 50px;" data-house="D" onclick="selectGreenhouse('D')">
+                        <div class="greenhouse-visual-label">D동</div>
+                        <div class="greenhouse-visual-crop">쌈채소</div>
+                        <div class="greenhouse-visual-status">✓ 정상</div>
+                    </div>
+
+                    <!-- Greenhouse E -->
+                    <div class="greenhouse-visual" style="top: 180px; left: 220px;" data-house="E" onclick="selectGreenhouse('E')">
+                        <div class="greenhouse-visual-label">E동</div>
+                        <div class="greenhouse-visual-crop">쌈채소</div>
+                        <div class="greenhouse-visual-status">✓ 정상</div>
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-box">
+                        <div class="stat-number">2,240</div>
+                        <div class="stat-label">누리셀</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">850+</div>
+                        <div class="stat-label">센서 노드</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">로봇 유닛</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: ESG Metrics -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>ESG 지표
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">장애인 고용률</div>
+                        <div class="metric-value">
+                            72.7<span class="metric-unit">%</span>
+                        </div>
+                        <div class="metric-bar">
+                            <div class="metric-bar-fill" style="width: 72.7%"></div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-label">탄소 절감</div>
+                        <div class="metric-value">
+                            -35<span class="metric-unit">%</span>
+                        </div>
+                        <div class="metric-bar">
+                            <div class="metric-bar-fill" style="width: 35%; background: linear-gradient(90deg, #10B981, #34D399);"></div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-label">물 재활용률</div>
+                        <div class="metric-value">
+                            82<span class="metric-unit">%</span>
+                        </div>
+                        <div class="metric-bar">
+                            <div class="metric-bar-fill" style="width: 82%"></div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-label">에너지 효율</div>
+                        <div class="metric-value">
+                            +28<span class="metric-unit">%</span>
+                        </div>
+                        <div class="metric-bar">
+                            <div class="metric-bar-fill" style="width: 28%; background: linear-gradient(90deg, #F59E0B, #FBBF24);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Modal (Slide-in from right) -->
+    <div class="detail-modal" id="detailModal">
+        <div class="detail-modal-header">
+            <div>
+                <div class="detail-modal-title" id="modalTitle">A동 상세 관제</div>
+                <div style="font-size: 0.875rem; opacity: 0.9;" id="modalCrop">병풀 (Centella Asiatica)</div>
+            </div>
+            <button class="close-btn" onclick="closeDetail()">×</button>
+        </div>
+        <div class="detail-modal-body">
+            <!-- 센서 데이터 -->
+            <div class="detail-section">
+                <div class="detail-section-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>실시간 센서 데이터</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="metric-card">
+                        <div class="metric-label">온도</div>
+                        <div class="metric-value" style="font-size: 1.5rem;">24.5<span class="metric-unit">°C</span></div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">습도</div>
+                        <div class="metric-value" style="font-size: 1.5rem;">65<span class="metric-unit">%</span></div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">CO₂</div>
+                        <div class="metric-value" style="font-size: 1.5rem;">420<span class="metric-unit">ppm</span></div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">조도</div>
+                        <div class="metric-value" style="font-size: 1.5rem;">8.5<span class="metric-unit">klx</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 누리셀 현황 (4층 구조) -->
+            <div class="detail-section">
+                <div class="detail-section-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="6" x2="15" y2="6"></line><line x1="9" y1="10" x2="15" y2="10"></line><line x1="9" y1="14" x2="15" y2="14"></line><line x1="9" y1="18" x2="15" y2="18"></line></svg>누리셀 현황 (4층 × 4열 × 28칸)</div>
+                <div style="font-size: 0.875rem; color: var(--color-text-light); margin-bottom: 1rem;">
+                    총 448개 누리셀 |
+                    <span style="color: var(--color-success);">● 수확 가능: 42개</span> |
+                    <span style="color: var(--color-warning);">● 작업 중: 8개</span>
+                </div>
+
+                <!-- 4층 -->
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.75rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-text-light);">4층 (상층)</div>
+                    <div class="nuricell-grid">
+                        <div class="nuricell-slot ready">1</div>
+                        <div class="nuricell-slot ready">2</div>
+                        <div class="nuricell-slot">3</div>
+                        <div class="nuricell-slot">4</div>
+                        <div class="nuricell-slot ready">5</div>
+                        <div class="nuricell-slot">6</div>
+                        <div class="nuricell-slot">7</div>
+                        <div class="nuricell-slot harvesting">8</div>
+                    </div>
+                </div>
+
+                <!-- 3층 -->
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.75rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-text-light);">3층</div>
+                    <div class="nuricell-grid">
+                        <div class="nuricell-slot">1</div>
+                        <div class="nuricell-slot ready">2</div>
+                        <div class="nuricell-slot ready">3</div>
+                        <div class="nuricell-slot">4</div>
+                        <div class="nuricell-slot">5</div>
+                        <div class="nuricell-slot ready">6</div>
+                        <div class="nuricell-slot harvesting">7</div>
+                        <div class="nuricell-slot">8</div>
+                    </div>
+                </div>
+
+                <!-- 2층 -->
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.75rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-text-light);">2층</div>
+                    <div class="nuricell-grid">
+                        <div class="nuricell-slot ready">1</div>
+                        <div class="nuricell-slot">2</div>
+                        <div class="nuricell-slot">3</div>
+                        <div class="nuricell-slot ready">4</div>
+                        <div class="nuricell-slot">5</div>
+                        <div class="nuricell-slot">6</div>
+                        <div class="nuricell-slot ready">7</div>
+                        <div class="nuricell-slot">8</div>
+                    </div>
+                </div>
+
+                <!-- 1층 -->
+                <div>
+                    <div style="font-size: 0.75rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-text-light);">1층 (하층)</div>
+                    <div class="nuricell-grid">
+                        <div class="nuricell-slot">1</div>
+                        <div class="nuricell-slot">2</div>
+                        <div class="nuricell-slot ready">3</div>
+                        <div class="nuricell-slot">4</div>
+                        <div class="nuricell-slot ready">5</div>
+                        <div class="nuricell-slot">6</div>
+                        <div class="nuricell-slot">7</div>
+                        <div class="nuricell-slot ready">8</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 로봇 작업 현황 -->
+            <div class="detail-section">
+                <div class="detail-section-title">🤖 로봇 작업 현황</div>
+                <div style="background: var(--color-bg); padding: 1rem; border-radius: 0.5rem; margin-bottom: 0.75rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                        <div>
+                            <div style="font-weight: 600;">💧 AGV 관수 로봇 #1</div>
+                            <div style="font-size: 0.875rem; color: var(--color-text-light);">3층 작업 중</div>
+                        </div>
+                        <div style="font-size: 1.125rem; font-weight: 700; color: var(--color-brand);">62%</div>
+                    </div>
+                    <div class="metric-bar">
+                        <div class="metric-bar-fill" style="width: 62%; background: linear-gradient(90deg, #0EA5E9, #38BDF8);"></div>
+                    </div>
+                </div>
+
+                <div style="background: var(--color-bg); padding: 1rem; border-radius: 0.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                        <div>
+                            <div style="font-weight: 600;">🌿 수확 지원 로봇 #2</div>
+                            <div style="font-size: 0.875rem; color: var(--color-text-light);">4층 준비 중</div>
+                        </div>
+                        <div style="font-size: 1.125rem; font-weight: 700; color: var(--color-warning);">15%</div>
+                    </div>
+                    <div class="metric-bar">
+                        <div class="metric-bar-fill" style="width: 15%; background: linear-gradient(90deg, #F59E0B, #FBBF24);"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 현재 시간 업데이트
+        function updateClock() {
+            const now = new Date();
+            const dateStr = now.toISOString().split('T')[0];
+            const timeStr = now.toTimeString().split(' ')[0];
+            document.getElementById('currentTime').textContent = `${dateStr} ${timeStr}`;
+        }
+        setInterval(updateClock, 1000);
+
+        // 하우스 선택
+        function selectGreenhouse(house) {
+            // 모든 카드에서 active 제거
+            document.querySelectorAll('.greenhouse-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelectorAll('.greenhouse-visual').forEach(visual => {
+                visual.classList.remove('active');
+            });
+
+            // 선택된 카드에 active 추가
+            document.querySelector(`.greenhouse-card[data-house="${house}"]`).classList.add('active');
+            document.querySelector(`.greenhouse-visual[data-house="${house}"]`).classList.add('active');
+
+            // 상세 모달 열기
+            openDetail(house);
+        }
+
+        // 상세 정보 모달 열기
+        function openDetail(house) {
+            const houseData = {
+                'A': { name: 'A동', crop: '병풀 (Centella Asiatica)' },
+                'B': { name: 'B동', crop: '바질 (Sweet Basil)' },
+                'C': { name: 'C동', crop: '바질 (Sweet Basil)' },
+                'D': { name: 'D동', crop: '쌈채소 (Mixed Greens)' },
+                'E': { name: 'E동', crop: '쌈채소 (Mixed Greens)' }
+            };
+
+            document.getElementById('modalTitle').textContent = `${houseData[house].name} 상세 관제`;
+            document.getElementById('modalCrop').textContent = houseData[house].crop;
+            document.getElementById('detailModal').classList.add('active');
+        }
+
+        // 상세 정보 모달 닫기
+        function closeDetail() {
+            document.getElementById('detailModal').classList.remove('active');
+        }
+
+        // 센서 데이터 시뮬레이션
+        function updateSensors() {
+            document.querySelectorAll('.sensor-value').forEach(el => {
+                const currentValue = parseFloat(el.textContent);
+                if (!isNaN(currentValue)) {
+                    const variation = (Math.random() - 0.5) * 0.2;
+                    const newValue = (currentValue + variation).toFixed(1);
+                    if (el.textContent.includes('°C')) {
+                        el.textContent = newValue + '°C';
+                    } else if (el.textContent.includes('%')) {
+                        el.textContent = Math.round(newValue) + '%';
+                    } else if (el.textContent.includes('ppm')) {
+                        el.textContent = Math.round(newValue) + 'ppm';
+                    } else if (el.textContent.includes('lx')) {
+                        el.textContent = Math.round(newValue) + 'lx';
+                    }
+                }
+            });
+        }
+        setInterval(updateSensors, 5000);
+    </script>
+</body>
+</html>
