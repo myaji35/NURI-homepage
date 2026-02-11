@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NURI Navigation Component</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <style>
+        /* SLDS 호환 커스텀 색상 */
+        :root {
+            --color-brand: #00A1E0;
+            --color-brand-dark: #0070D2;
+            --color-brand-darker: #16325C;
+            --color-success: #50C878;
+        }
+
+        .text-brand { color: var(--color-brand); }
+        .bg-brand { background-color: var(--color-brand); }
+        .hover\:bg-brand-dark:hover { background-color: var(--color-brand-dark); }
+        .border-brand { border-color: var(--color-brand); }
+
+        /* 메가메뉴 애니메이션 */
+        [x-cloak] { display: none !important; }
+
+        .mega-menu-enter {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        .mega-menu-enter-active {
+            transition: all 200ms ease-out;
+        }
+
+        .mega-menu-enter-to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- ========== NAVIGATION BAR ========== -->
+    <nav
+        x-data="{
+            mobileMenuOpen: false,
+            techMenuOpen: false,
+            cropsMenuOpen: false,
+            aboutMenuOpen: false,
+            scrolled: false
+        }"
+        @scroll.window="scrolled = window.pageYOffset > 20"
+        :class="scrolled ? 'shadow-lg' : 'shadow-sm'"
+        class="fixed top-0 left-0 right-0 z-50 bg-white transition-shadow duration-300"
+    >
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+
+                <!-- ========== LOGO ========== -->
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center space-x-3 group">
+                        <!-- 로고 아이콘 (Feather Icons - Home) -->
+                        <div class="w-10 h-10 bg-brand rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-gray-900 tracking-tight">NURI</div>
+                            <div class="text-xs text-gray-500 -mt-1">누리팜 스마트팜</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- ========== DESKTOP MENU ========== -->
+                <div class="hidden lg:flex lg:items-center lg:space-x-1">
+
+                    <!-- 회사소개 -->
+                    <div class="relative" @mouseenter="aboutMenuOpen = true" @mouseleave="aboutMenuOpen = false">
+                        <button
+                            class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-brand hover:bg-gray-50 transition-colors duration-200 flex items-center"
+                        >
+                            회사소개
+                            <svg class="ml-1 w-4 h-4 transition-transform duration-200" :class="aboutMenuOpen ? 'rotate-180' : ''" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+
+                        <!-- Dropdown -->
+                        <div
+                            x-show="aboutMenuOpen"
+                            x-cloak
+                            x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 transform scale-95"
+                            x-transition:enter-end="opacity-100 transform scale-100"
+                            x-transition:leave="transition ease-in duration-150"
+                            x-transition:leave-start="opacity-100 transform scale-100"
+                            x-transition:leave-end="opacity-0 transform scale-95"
+                            class="absolute left-0 mt-2 w-56 rounded-xl shadow-xl bg-white ring-1 ring-gray-200 overflow-hidden"
+                        >
+                            <div class="py-2">
+                                <a href="#vision" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                                    <svg class="w-5 h-5 text-brand mr-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <circle cx="12" cy="12" r="6"></circle>
+                                        <circle cx="12" cy="12" r="2"></circle>
+                                    </svg>
+                                    <div>
+                                        <div class="font-medium">비전 & 미션</div>
+                                        <div class="text-xs text-gray-500">포용적 농업 생태계</div>
+                                    </div>
+                                </a>
+                                <a href="#team" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                                    <svg class="w-5 h-5 text-brand mr-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                    </svg>
+                                    <div>
+                                        <div class="font-medium">팀 소개</div>
+                                        <div class="text-xs text-gray-500">Gagahoho, Inc.</div>
+                                    </div>
+                                </a>
+                                <a href="/goesan.html" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                                    <svg class="w-5 h-5 text-brand mr-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                    </svg>
+                                    <div>
+                                        <div class="font-medium">k1NURIfarm01</div>
+                                        <div class="text-xs text-gray-500">괴산 1호 사업장</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 누리셀 기술 (Mega Menu) -->
+                    <div class="relative" @mouseenter="techMenuOpen = true" @mouseleave="techMenuOpen = false">
+                        <button
+                            class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-brand hover:bg-gray-50 transition-colors duration-200 flex items-center"
+                        >
+                            누리셀 기술
+                            <svg class="ml-1 w-4 h-4 transition-transform duration-200" :class="techMenuOpen ? 'rotate-180' : ''" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+
+                        <!-- Mega Menu -->
+                        <div
+                            x-show="techMenuOpen"
+                            x-cloak
+                            x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 transform scale-95"
+                            x-transition:enter-end="opacity-100 transform scale-100"
+                            x-transition:leave="transition ease-in duration-150"
+                            x-transition:leave-start="opacity-100 transform scale-100"
+                            x-transition:leave-end="opacity-0 transform scale-95"
+                            class="absolute left-0 mt-2 w-screen max-w-4xl rounded-2xl shadow-2xl bg-white ring-1 ring-gray-200 overflow-hidden"
+                            style="left: 50%; transform: translateX(-50%);"
+                        >
+                            <div class="p-8">
+                                <div class="grid grid-cols-3 gap-8">
+
+                                    <!-- 3세대 스마트팜 기술 -->
+                                    <div>
+                                        <h3 class="text-sm font-bold text-gray-900 mb-4 flex items-center">
+                                            <svg class="w-5 h-5 text-brand mr-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                                                <rect x="9" y="9" width="6" height="6"></rect>
+                                            </svg>
+                                            3세대 스마트팜
+                                        </h3>
+                                        <ul class="space-y-3">
+                                            <li>
+                                                <a href="#ai-agent" class="flex items-start p-3 rounded-lg hover:bg-blue-50 transition-colors group">
+                                                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-blue-200 transition-colors">
+                                                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                            <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                                                            <rect x="9" y="9" width="6" height="6"></rect>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="ml-3">
+                                                        <p class="text-sm font-semibold text-gray-900 group-hover:text-brand">AI Agent System</p>
+                                                        <p class="text-xs text-gray-500 mt-1">규칙이 아닌 자율 판단</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#knowledge-graph" class="flex items-start p-3 rounded-lg hover:bg-purple-50 transition-colors group">
+                                                    <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-purple-200 transition-colors">
+                                                        <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                            <circle cx="12" cy="12" r="10"></circle>
+                                                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="ml-3">
+                                                        <p class="text-sm font-semibold text-gray-900 group-hover:text-purple-600">Knowledge Graph</p>
+                                                        <p class="text-xs text-gray-500 mt-1">데이터가 아닌 지식</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#iot-mesh" class="flex items-start p-3 rounded-lg hover:bg-green-50 transition-colors group">
+                                                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-green-200 transition-colors">
+                                                        <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                            <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                                                            <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                                                            <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                                                            <line x1="12" y1="20" x2="12.01" y2="20"></line>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="ml-3">
+                                                        <p class="text-sm font-semibold text-gray-900 group-hover:text-green-600">IoT 메시 네트워크</p>
+                                                        <p class="text-xs text-gray-500 mt-1">분산형 무선망</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#mlops" class="flex items-start p-3 rounded-lg hover:bg-orange-50 transition-colors group">
+                                                    <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-orange-200 transition-colors">
+                                                        <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="ml-3">
+                                                        <p class="text-sm font-semibold text-gray-900 group-hover:text-orange-600">MLOps 파이프라인</p>
+                                                        <p class="text-xs text-gray-500 mt-1">실시간 최적화</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- 고객사별 솔루션 -->
+                                    <div>
+                                        <h3 class="text-sm font-bold text-gray-900 mb-4 flex items-center">
+                                            <svg class="w-5 h-5 text-brand mr-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                                <circle cx="9" cy="7" r="4"></circle>
+                                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                            </svg>
+                                            고객사별 솔루션
+                                        </h3>
+                                        <ul class="space-y-3">
+                                            <li>
+                                                <a href="#cosmetics" class="block p-3 rounded-lg hover:bg-pink-50 transition-colors group">
+                                                    <div class="flex items-center mb-2">
+                                                        <div class="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center group-hover:bg-pink-200 transition-colors">
+                                                            <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                                            </svg>
+                                                        </div>
+                                                        <span class="ml-2 text-sm font-semibold text-gray-900 group-hover:text-pink-600">화장품/제약사</span>
+                                                    </div>
+                                                    <p class="text-xs text-gray-500 leading-relaxed">병풀 원료 공급 + 고용부담금 50% 감면</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#government" class="block p-3 rounded-lg hover:bg-indigo-50 transition-colors group">
+                                                    <div class="flex items-center mb-2">
+                                                        <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center group-hover:bg-indigo-200 transition-colors">
+                                                            <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                                            </svg>
+                                                        </div>
+                                                        <span class="ml-2 text-sm font-semibold text-gray-900 group-hover:text-indigo-600">지자체</span>
+                                                    </div>
+                                                    <p class="text-xs text-gray-500 leading-relaxed">컨소시엄 표준사업장 (정부 지원금 20~30억)</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#investor" class="block p-3 rounded-lg hover:bg-yellow-50 transition-colors group">
+                                                    <div class="flex items-center mb-2">
+                                                        <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center group-hover:bg-yellow-200 transition-colors">
+                                                            <svg class="w-4 h-4 text-yellow-600" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                                <line x1="12" y1="1" x2="12" y2="23"></line>
+                                                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                                            </svg>
+                                                        </div>
+                                                        <span class="ml-2 text-sm font-semibold text-gray-900 group-hover:text-yellow-600">투자자</span>
+                                                    </div>
+                                                    <p class="text-xs text-gray-500 leading-relaxed">RWA 토큰화 (NFT 파종 증명서)</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Featured CTA -->
+                                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl border border-blue-200">
+                                        <div class="flex items-center mb-3">
+                                            <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                    <circle cx="12" cy="8" r="7"></circle>
+                                                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                                                </svg>
+                                            </div>
+                                            <h3 class="ml-3 text-sm font-bold text-gray-900">특허 기술</h3>
+                                        </div>
+                                        <p class="text-xs text-gray-600 leading-relaxed mb-4">
+                                            <strong>AI 비전 기반 스마트 식물 재배용 IOT 시스템</strong><br>
+                                            출원번호: 10-2024-0161602
+                                        </p>
+                                        <a href="#patent" class="inline-flex items-center text-xs font-semibold text-brand hover:text-brand-dark transition-colors">
+                                            자세히 보기
+                                            <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                <polyline points="12 5 19 12 12 19"></polyline>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 재배작물 (Mega Menu) -->
+                    <div class="relative" @mouseenter="cropsMenuOpen = true" @mouseleave="cropsMenuOpen = false">
+                        <button
+                            class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-brand hover:bg-gray-50 transition-colors duration-200 flex items-center"
+                        >
+                            재배작물
+                            <svg class="ml-1 w-4 h-4 transition-transform duration-200" :class="cropsMenuOpen ? 'rotate-180' : ''" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+
+                        <!-- Mega Menu -->
+                        <div
+                            x-show="cropsMenuOpen"
+                            x-cloak
+                            x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 transform scale-95"
+                            x-transition:enter-end="opacity-100 transform scale-100"
+                            x-transition:leave="transition ease-in duration-150"
+                            x-transition:leave-start="opacity-100 transform scale-100"
+                            x-transition:leave-end="opacity-0 transform scale-95"
+                            class="absolute left-0 mt-2 w-screen max-w-3xl rounded-2xl shadow-2xl bg-white ring-1 ring-gray-200 overflow-hidden"
+                            style="left: 50%; transform: translateX(-50%);"
+                        >
+                            <div class="p-8">
+                                <div class="grid grid-cols-2 gap-6">
+
+                                    <!-- 병풀 (Future Value) -->
+                                    <a href="#centella" class="group relative p-6 rounded-2xl bg-gradient-to-br from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 transition-all duration-300 border-2 border-green-200">
+                                        <div class="absolute top-4 right-4">
+                                            <span class="px-3 py-1 bg-yellow-500 text-white text-xs font-bold rounded-full">Future Value</span>
+                                        </div>
+                                        <div class="w-14 h-14 bg-green-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                                                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                                            </svg>
+                                        </div>
+                                        <h3 class="text-lg font-bold text-gray-900 mb-2">병풀 (시카)</h3>
+                                        <p class="text-sm text-gray-600 mb-3">K-뷰티 핵심 원료</p>
+                                        <ul class="space-y-1 text-xs text-gray-500">
+                                            <li>• 글로벌 시장 9,000억 원</li>
+                                            <li>• 연계고용 감면 제도</li>
+                                            <li>• <strong class="text-green-700">목표 매출: 50~100억</strong></li>
+                                        </ul>
+                                    </a>
+
+                                    <!-- 바질 (Premium) -->
+                                    <a href="#basil" class="group p-6 rounded-2xl bg-gradient-to-br from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 transition-all duration-300 border-2 border-purple-200">
+                                        <div class="w-14 h-14 bg-purple-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                                                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                                            </svg>
+                                        </div>
+                                        <h3 class="text-lg font-bold text-gray-900 mb-2">바질</h3>
+                                        <p class="text-sm text-gray-600 mb-3">이탈리안 요리 필수 허브</p>
+                                        <ul class="space-y-1 text-xs text-gray-500">
+                                            <li>• 고급 레스토랑 직거래</li>
+                                            <li>• 신선도 최우선 (당일 납품)</li>
+                                            <li>• 안정적 수요</li>
+                                        </ul>
+                                    </a>
+
+                                    <!-- 쌈채소 (Cash Cow) -->
+                                    <a href="#leafy-greens" class="group p-6 rounded-2xl bg-gradient-to-br from-emerald-50 to-emerald-100 hover:from-emerald-100 hover:to-emerald-200 transition-all duration-300 border-2 border-emerald-200">
+                                        <div class="w-14 h-14 bg-emerald-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                                                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                                            </svg>
+                                        </div>
+                                        <h3 class="text-lg font-bold text-gray-900 mb-2">쌈채소</h3>
+                                        <p class="text-sm text-gray-600 mb-3">상추, 청경채 등</p>
+                                        <ul class="space-y-1 text-xs text-gray-500">
+                                            <li>• 대형마트 직납</li>
+                                            <li>• 현금흐름 확보</li>
+                                            <li>• 안정적 기본 수익원</li>
+                                        </ul>
+                                    </a>
+
+                                    <!-- 허브류 (Niche) -->
+                                    <a href="#herbs" class="group p-6 rounded-2xl bg-gradient-to-br from-amber-50 to-amber-100 hover:from-amber-100 hover:to-amber-200 transition-all duration-300 border-2 border-amber-200">
+                                        <div class="w-14 h-14 bg-amber-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                                                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                                            </svg>
+                                        </div>
+                                        <h3 class="text-lg font-bold text-gray-900 mb-2">허브류</h3>
+                                        <p class="text-sm text-gray-600 mb-3">애플민트, 로즈마리, 딜, 루꼴라</p>
+                                        <ul class="space-y-1 text-xs text-gray-500">
+                                            <li>• 소포장 온라인 구독</li>
+                                            <li>• Niche Market 공략</li>
+                                            <li>• 고마진 틈새시장</li>
+                                        </ul>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 파트너십 -->
+                    <a href="#partnership" class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-brand hover:bg-gray-50 transition-colors duration-200">
+                        파트너십
+                    </a>
+
+                    <!-- 채용 -->
+                    <a href="#careers" class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-brand hover:bg-gray-50 transition-colors duration-200">
+                        채용
+                    </a>
+                </div>
+
+                <!-- ========== CTA 버튼 ========== -->
+                <div class="hidden lg:flex lg:items-center lg:space-x-4">
+                    <a href="/dashboard.html" class="px-4 py-2 text-sm font-medium text-gray-700 hover:text-brand transition-colors flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                            <line x1="12" y1="20" x2="12" y2="10"></line>
+                            <line x1="18" y1="20" x2="18" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="16"></line>
+                        </svg>
+                        판도라 관제
+                    </a>
+                    <a
+                        href="#contact"
+                        class="px-6 py-2.5 bg-brand text-white text-sm font-semibold rounded-lg hover:bg-brand-dark transition-all duration-200 shadow-lg hover:shadow-xl flex items-center"
+                    >
+                        문의하기
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- ========== MOBILE MENU BUTTON ========== -->
+                <div class="flex items-center lg:hidden">
+                    <button
+                        @click="mobileMenuOpen = !mobileMenuOpen"
+                        class="inline-flex items-center justify-center p-2 rounded-lg text-gray-700 hover:text-brand hover:bg-gray-50 transition-colors"
+                    >
+                        <svg x-show="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                        <svg x-show="mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== MOBILE MENU ========== -->
+        <div
+            x-show="mobileMenuOpen"
+            x-cloak
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 transform -translate-y-4"
+            x-transition:enter-end="opacity-100 transform translate-y-0"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100 transform translate-y-0"
+            x-transition:leave-end="opacity-0 transform -translate-y-4"
+            class="lg:hidden bg-white border-t border-gray-200"
+        >
+            <div class="px-4 pt-2 pb-4 space-y-1">
+                <!-- 회사소개 -->
+                <a href="#about" class="block px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:text-brand hover:bg-gray-50">
+                    회사소개
+                </a>
+
+                <!-- 누리셀 기술 -->
+                <a href="#tech" class="block px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:text-brand hover:bg-gray-50">
+                    누리셀 기술
+                </a>
+
+                <!-- 재배작물 -->
+                <a href="#crops" class="block px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:text-brand hover:bg-gray-50">
+                    재배작물
+                </a>
+
+                <!-- 파트너십 -->
+                <a href="#partnership" class="block px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:text-brand hover:bg-gray-50">
+                    파트너십
+                </a>
+
+                <!-- 채용 -->
+                <a href="#careers" class="block px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:text-brand hover:bg-gray-50">
+                    채용
+                </a>
+
+                <div class="pt-4 space-y-2">
+                    <a href="/dashboard.html" class="block px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:text-brand hover:bg-gray-50 border border-gray-200">
+                        판도라 관제
+                    </a>
+                    <a href="#contact" class="block px-3 py-3 rounded-lg text-base font-medium text-white bg-brand hover:bg-brand-dark text-center">
+                        문의하기
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== SPACER (네비게이션 바 높이만큼 공간 확보) ========== -->
+    <div class="h-20"></div>
+
+    <!-- ========== DEMO CONTENT ========== -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="text-center">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">NURI 네비게이션 컴포넌트</h1>
+            <p class="text-lg text-gray-600 mb-8">Play Tailwind 스타일 + Feather Icons + Alpine.js</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                <div class="p-6 bg-white rounded-xl shadow-lg">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                            <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                            <rect x="9" y="9" width="6" height="6"></rect>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Mega Menu</h3>
+                    <p class="text-sm text-gray-600">누리셀 기술과 재배작물을 직관적으로 탐색</p>
+                </div>
+
+                <div class="p-6 bg-white rounded-xl shadow-lg">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">역할 기반 분류</h3>
+                    <p class="text-sm text-gray-600">화장품사, 지자체, 투자자별 맞춤 솔루션</p>
+                </div>
+
+                <div class="p-6 bg-white rounded-xl shadow-lg">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                            <path d="M12 2v20M2 12h20"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">완전 반응형</h3>
+                    <p class="text-sm text-gray-600">데스크톱/태블릿/모바일 최적화</p>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>k1NURIfarm01 - Korea's First Global Smart Farm | NURI</title>
+
+    <!-- Alpine.js for Navigation Interactions -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <style>
         /* ========== SLDS Design Tokens ========== */
         :root {
@@ -56,14 +60,238 @@
             color: var(--color-text-default);
             line-height: 1.6;
             font-size: 16px;
+            padding-top: 80px; /* 네비게이션 바 높이만큼 여백 */
+        }
+
+        /* ========== Navigation Styles ========== */
+        [x-cloak] { display: none !important; }
+
+        .nav-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: white;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .nav-scrolled {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-text-default);
+            text-decoration: none;
+            border-radius: var(--radius-border);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .nav-link:hover {
+            color: var(--color-brand);
+            background: var(--color-background-alt);
+        }
+
+        .nav-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 0.5rem;
+            min-width: 14rem;
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--color-border);
+            overflow: hidden;
+        }
+
+        .nav-dropdown-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            color: var(--color-text-default);
+            text-decoration: none;
+            transition: background 0.2s ease;
+        }
+
+        .nav-dropdown-item:hover {
+            background: var(--color-background-alt);
+        }
+
+        .nav-mega-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 0.5rem;
+            width: 100vw;
+            max-width: 60rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-border);
+            overflow: hidden;
+        }
+
+        .mega-menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .mega-menu-section h3 {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--color-text-default);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .mega-menu-item {
+            display: flex;
+            align-items: start;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            margin-bottom: 0.5rem;
+        }
+
+        .mega-menu-item:hover {
+            background: var(--color-background-alt);
+        }
+
+        .mega-menu-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .mega-menu-item:hover .mega-menu-icon {
+            transform: scale(1.1);
+        }
+
+        .mega-menu-content {
+            margin-left: 0.75rem;
+            flex: 1;
+        }
+
+        .mega-menu-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-text-default);
+            margin-bottom: 0.25rem;
+        }
+
+        .mega-menu-desc {
+            font-size: 0.75rem;
+            color: var(--color-text-weak);
+            line-height: 1.4;
+        }
+
+        .mega-menu-featured {
+            background: linear-gradient(135deg, rgba(0, 161, 224, 0.1), rgba(80, 200, 120, 0.1));
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 2px solid rgba(0, 161, 224, 0.2);
+        }
+
+        .crop-card {
+            position: relative;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .crop-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .crop-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--color-warning);
+            color: white;
+            font-size: 0.625rem;
+            font-weight: 700;
+            border-radius: 1rem;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .nav-logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--color-brand);
+            border-radius: var(--radius-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-logo:hover .nav-logo-icon {
+            transform: scale(1.1);
+        }
+
+        .nav-logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-text-default);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-logo-subtitle {
+            font-size: 0.625rem;
+            color: var(--color-text-weak);
+            margin-top: -0.25rem;
+        }
+
+        /* Mobile menu styles */
+        @media (max-width: 1023px) {
+            .nav-desktop {
+                display: none;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .nav-mobile-button,
+            .nav-mobile-menu {
+                display: none;
+            }
         }
 
         /* ========== Hero Section - Full Screen Impact ========== */
         .slds-page-header {
             position: relative;
-            height: 90vh;
-            min-height: 600px;
-            max-height: 900px;
+            height: 85vh;
+            min-height: 500px;
+            max-height: 800px;
             background: linear-gradient(135deg, rgba(0, 20, 40, 0.75) 0%, rgba(0, 112, 210, 0.65) 100%),
                         url('images/k1NURIfarm01_rendering.png') center/cover no-repeat;
             background-attachment: fixed;
@@ -451,24 +679,435 @@
     </style>
 </head>
 <body>
+    <!-- Feather Icons 라이브러리 -->
+    <script src="js/feather-icons.js"></script>
+
+    <!-- ========== NAVIGATION BAR ========== -->
+    <nav
+        x-data="{
+            mobileMenuOpen: false,
+            techMenuOpen: false,
+            cropsMenuOpen: false,
+            aboutMenuOpen: false,
+            facilityMenuOpen: false,
+            scrolled: false
+        }"
+        @scroll.window="scrolled = window.pageYOffset > 20"
+        :class="scrolled ? 'nav-scrolled' : ''"
+        class="nav-fixed"
+    >
+        <div style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; height: 80px;">
+
+                <!-- Logo -->
+                <a href="/" class="nav-logo">
+                    <div class="nav-logo-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="nav-logo-text">NURI</div>
+                        <div class="nav-logo-subtitle">누리팜 스마트팜</div>
+                    </div>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="nav-desktop" style="display: flex; align-items: center; gap: 0.25rem;">
+
+                    <!-- 회사소개 -->
+                    <div style="position: relative;" @mouseenter="aboutMenuOpen = true" @mouseleave="aboutMenuOpen = false">
+                        <a href="#about" class="nav-link">
+                            회사소개
+                            <svg style="margin-left: 0.25rem; width: 16px; height: 16px; transition: transform 0.2s;" :style="aboutMenuOpen ? 'transform: rotate(180deg)' : ''" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </a>
+
+                        <!-- Dropdown -->
+                        <div x-show="aboutMenuOpen" x-cloak x-transition class="nav-dropdown">
+                            <a href="#vision" class="nav-dropdown-item">
+                                <svg style="width: 20px; height: 20px; color: var(--color-brand); margin-right: 0.75rem;" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle>
+                                </svg>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 0.875rem;">비전 & 미션</div>
+                                    <div style="font-size: 0.75rem; color: var(--color-text-weak);">포용적 농업 생태계</div>
+                                </div>
+                            </a>
+                            <a href="#team" class="nav-dropdown-item">
+                                <svg style="width: 20px; height: 20px; color: var(--color-brand); margin-right: 0.75rem;" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 0.875rem;">팀 소개</div>
+                                    <div style="font-size: 0.75rem; color: var(--color-text-weak);">Gagahoho, Inc.</div>
+                                </div>
+                            </a>
+                            <a href="#location" class="nav-dropdown-item">
+                                <svg style="width: 20px; height: 20px; color: var(--color-brand); margin-right: 0.75rem;" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 0.875rem;">k1NURIfarm01</div>
+                                    <div style="font-size: 0.75rem; color: var(--color-text-weak);">괴산 1호 사업장</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 누리셀 기술 (Mega Menu) -->
+                    <div style="position: relative;" @mouseenter="techMenuOpen = true" @mouseleave="techMenuOpen = false">
+                        <a href="#tech" class="nav-link">
+                            누리셀 기술
+                            <svg style="margin-left: 0.25rem; width: 16px; height: 16px; transition: transform 0.2s;" :style="techMenuOpen ? 'transform: rotate(180deg)' : ''" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </a>
+
+                        <!-- Mega Menu -->
+                        <div x-show="techMenuOpen" x-cloak x-transition class="nav-mega-menu">
+                            <div class="mega-menu-grid">
+
+                                <!-- 3세대 스마트팜 기술 -->
+                                <div class="mega-menu-section">
+                                    <h3>
+                                        <svg style="width: 20px; height: 20px; color: var(--color-brand);" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                            <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                                            <rect x="9" y="9" width="6" height="6"></rect>
+                                        </svg>
+                                        3세대 스마트팜
+                                    </h3>
+
+                                    <a href="#ai-agent" class="mega-menu-item">
+                                        <div class="mega-menu-icon" style="background: rgba(0, 161, 224, 0.1);">
+                                            <svg style="width: 20px; height: 20px; color: var(--color-brand);" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                                                <rect x="9" y="9" width="6" height="6"></rect>
+                                            </svg>
+                                        </div>
+                                        <div class="mega-menu-content">
+                                            <div class="mega-menu-title">AI Agent System</div>
+                                            <div class="mega-menu-desc">규칙이 아닌 자율 판단</div>
+                                        </div>
+                                    </a>
+
+                                    <a href="#knowledge-graph" class="mega-menu-item">
+                                        <div class="mega-menu-icon" style="background: rgba(139, 92, 246, 0.1);">
+                                            <svg style="width: 20px; height: 20px; color: #8B5CF6;" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                                                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                                                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="mega-menu-content">
+                                            <div class="mega-menu-title">Knowledge Graph</div>
+                                            <div class="mega-menu-desc">데이터가 아닌 지식</div>
+                                        </div>
+                                    </a>
+
+                                    <a href="#iot-mesh" class="mega-menu-item">
+                                        <div class="mega-menu-icon" style="background: rgba(80, 200, 120, 0.1);">
+                                            <svg style="width: 20px; height: 20px; color: var(--color-success);" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                                                <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                                                <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                                                <line x1="12" y1="20" x2="12.01" y2="20"></line>
+                                            </svg>
+                                        </div>
+                                        <div class="mega-menu-content">
+                                            <div class="mega-menu-title">IoT 메시 네트워크</div>
+                                            <div class="mega-menu-desc">분산형 무선망</div>
+                                        </div>
+                                    </a>
+
+                                    <a href="#mlops" class="mega-menu-item">
+                                        <div class="mega-menu-icon" style="background: rgba(255, 183, 93, 0.1);">
+                                            <svg style="width: 20px; height: 20px; color: var(--color-warning);" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                                            </svg>
+                                        </div>
+                                        <div class="mega-menu-content">
+                                            <div class="mega-menu-title">MLOps 파이프라인</div>
+                                            <div class="mega-menu-desc">실시간 최적화</div>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <!-- 고객사별 솔루션 -->
+                                <div class="mega-menu-section">
+                                    <h3>
+                                        <svg style="width: 20px; height: 20px; color: var(--color-brand);" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="9" cy="7" r="4"></circle>
+                                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                        </svg>
+                                        고객사별 솔루션
+                                    </h3>
+
+                                    <a href="#cosmetics" class="mega-menu-item">
+                                        <div class="mega-menu-icon" style="background: rgba(236, 72, 153, 0.1);">
+                                            <svg style="width: 20px; height: 20px; color: #EC4899;" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="mega-menu-content">
+                                            <div class="mega-menu-title">화장품/제약사</div>
+                                            <div class="mega-menu-desc">병풀 원료 + 고용부담금 50% 감면</div>
+                                        </div>
+                                    </a>
+
+                                    <a href="#government" class="mega-menu-item">
+                                        <div class="mega-menu-icon" style="background: rgba(99, 102, 241, 0.1);">
+                                            <svg style="width: 20px; height: 20px; color: #6366F1;" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                            </svg>
+                                        </div>
+                                        <div class="mega-menu-content">
+                                            <div class="mega-menu-title">지자체</div>
+                                            <div class="mega-menu-desc">컨소시엄 표준사업장 (20~30억)</div>
+                                        </div>
+                                    </a>
+
+                                    <a href="#investor" class="mega-menu-item">
+                                        <div class="mega-menu-icon" style="background: rgba(234, 179, 8, 0.1);">
+                                            <svg style="width: 20px; height: 20px; color: #EAB308;" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                <line x1="12" y1="1" x2="12" y2="23"></line>
+                                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="mega-menu-content">
+                                            <div class="mega-menu-title">투자자</div>
+                                            <div class="mega-menu-desc">RWA 토큰화 (NFT 파종 증명서)</div>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <!-- Featured CTA -->
+                                <div class="mega-menu-section">
+                                    <div class="mega-menu-featured">
+                                        <div style="display: flex; align-items: center; margin-bottom: 0.75rem;">
+                                            <div style="width: 40px; height: 40px; background: var(--color-brand); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">
+                                                <svg style="width: 24px; height: 24px; color: white;" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                    <circle cx="12" cy="8" r="7"></circle>
+                                                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                                                </svg>
+                                            </div>
+                                            <h3 style="margin-left: 0.75rem; margin-bottom: 0; font-size: 0.875rem; font-weight: 700;">특허 기술</h3>
+                                        </div>
+                                        <p style="font-size: 0.75rem; color: var(--color-text-weak); line-height: 1.6; margin-bottom: 1rem;">
+                                            <strong style="color: var(--color-text-default);">AI 비전 기반 스마트 식물 재배용 IOT 시스템</strong><br>
+                                            출원번호: 10-2024-0161602
+                                        </p>
+                                        <a href="#patent" style="display: inline-flex; align-items: center; font-size: 0.75rem; font-weight: 600; color: var(--color-brand); text-decoration: none; transition: gap 0.2s;" onmouseover="this.style.gap='0.5rem'" onmouseout="this.style.gap='0.25rem'">
+                                            자세히 보기
+                                            <svg style="width: 16px; height: 16px; margin-left: 0.25rem;" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                <polyline points="12 5 19 12 12 19"></polyline>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 재배작물 (Mega Menu) -->
+                    <div style="position: relative;" @mouseenter="cropsMenuOpen = true" @mouseleave="cropsMenuOpen = false">
+                        <a href="#crops" class="nav-link">
+                            재배작물
+                            <svg style="margin-left: 0.25rem; width: 16px; height: 16px; transition: transform 0.2s;" :style="cropsMenuOpen ? 'transform: rotate(180deg)' : ''" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </a>
+
+                        <!-- Mega Menu -->
+                        <div x-show="cropsMenuOpen" x-cloak x-transition class="nav-mega-menu" style="max-width: 50rem;">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; padding: 2rem;">
+
+                                <!-- 병풀 (Future Value) -->
+                                <a href="#centella" class="crop-card" style="background: linear-gradient(135deg, rgba(80, 200, 120, 0.1), rgba(80, 200, 120, 0.05)); border-color: rgba(80, 200, 120, 0.3);">
+                                    <div class="crop-badge">Future Value</div>
+                                    <div style="width: 56px; height: 56px; background: var(--color-success); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                                        <svg style="width: 32px; height: 32px; color: white;" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                                            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                                        </svg>
+                                    </div>
+                                    <h3 style="font-size: 1.125rem; font-weight: 700; color: var(--color-text-default); margin-bottom: 0.5rem;">병풀 (시카)</h3>
+                                    <p style="font-size: 0.875rem; color: var(--color-text-weak); margin-bottom: 0.75rem;">K-뷰티 핵심 원료</p>
+                                    <ul style="list-style: none; padding: 0; font-size: 0.75rem; color: var(--color-text-weak); line-height: 1.6;">
+                                        <li>• 글로벌 시장 9,000억 원</li>
+                                        <li>• 연계고용 감면 제도</li>
+                                        <li><strong style="color: var(--color-success);">목표 매출: 50~100억</strong></li>
+                                    </ul>
+                                </a>
+
+                                <!-- 바질 (Premium) -->
+                                <a href="#basil" class="crop-card" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05)); border-color: rgba(139, 92, 246, 0.3);">
+                                    <div style="width: 56px; height: 56px; background: #8B5CF6; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                                        <svg style="width: 32px; height: 32px; color: white;" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                                            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                                        </svg>
+                                    </div>
+                                    <h3 style="font-size: 1.125rem; font-weight: 700; color: var(--color-text-default); margin-bottom: 0.5rem;">바질</h3>
+                                    <p style="font-size: 0.875rem; color: var(--color-text-weak); margin-bottom: 0.75rem;">이탈리안 요리 필수 허브</p>
+                                    <ul style="list-style: none; padding: 0; font-size: 0.75rem; color: var(--color-text-weak); line-height: 1.6;">
+                                        <li>• 고급 레스토랑 직거래</li>
+                                        <li>• 신선도 최우선 (당일 납품)</li>
+                                        <li>• 안정적 수요</li>
+                                    </ul>
+                                </a>
+
+                                <!-- 쌈채소 (Cash Cow) -->
+                                <a href="#leafy-greens" class="crop-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)); border-color: rgba(16, 185, 129, 0.3);">
+                                    <div style="width: 56px; height: 56px; background: #10B981; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                                        <svg style="width: 32px; height: 32px; color: white;" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                                            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                                        </svg>
+                                    </div>
+                                    <h3 style="font-size: 1.125rem; font-weight: 700; color: var(--color-text-default); margin-bottom: 0.5rem;">쌈채소</h3>
+                                    <p style="font-size: 0.875rem; color: var(--color-text-weak); margin-bottom: 0.75rem;">상추, 청경채 등</p>
+                                    <ul style="list-style: none; padding: 0; font-size: 0.75rem; color: var(--color-text-weak); line-height: 1.6;">
+                                        <li>• 대형마트 직납</li>
+                                        <li>• 현금흐름 확보</li>
+                                        <li>• 안정적 기본 수익원</li>
+                                    </ul>
+                                </a>
+
+                                <!-- 허브류 (Niche) -->
+                                <a href="#herbs" class="crop-card" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05)); border-color: rgba(245, 158, 11, 0.3);">
+                                    <div style="width: 56px; height: 56px; background: #F59E0B; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                                        <svg style="width: 32px; height: 32px; color: white;" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                                            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                                        </svg>
+                                    </div>
+                                    <h3 style="font-size: 1.125rem; font-weight: 700; color: var(--color-text-default); margin-bottom: 0.5rem;">허브류</h3>
+                                    <p style="font-size: 0.875rem; color: var(--color-text-weak); margin-bottom: 0.75rem;">애플민트, 로즈마리, 딜, 루꼴라</p>
+                                    <ul style="list-style: none; padding: 0; font-size: 0.75rem; color: var(--color-text-weak); line-height: 1.6;">
+                                        <li>• 소포장 온라인 구독</li>
+                                        <li>• Niche Market 공략</li>
+                                        <li>• 고마진 틈새시장</li>
+                                    </ul>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 사업장 (Dropdown) -->
+                    <div style="position: relative;" @mouseenter="facilityMenuOpen = true" @mouseleave="facilityMenuOpen = false">
+                        <a href="goesan.html" class="nav-link">
+                            사업장
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 0.25rem;">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </a>
+                        <div x-show="facilityMenuOpen"
+                             x-cloak
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 transform scale-95"
+                             x-transition:enter-end="opacity-100 transform scale-100"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100 transform scale-100"
+                             x-transition:leave-end="opacity-0 transform scale-95"
+                             class="nav-dropdown">
+                            <a href="goesan.html" class="nav-dropdown-item">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                </svg>
+                                괴산 사업장
+                            </a>
+                            <a href="5year-plan.html" class="nav-dropdown-item">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;">
+                                    <line x1="12" y1="20" x2="12" y2="10"></line>
+                                    <line x1="18" y1="20" x2="18" y2="4"></line>
+                                    <line x1="6" y1="20" x2="6" y2="16"></line>
+                                </svg>
+                                5개년 계획
+                            </a>
+                            <a href="dashboard.html" class="nav-dropdown-item">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;">
+                                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                                </svg>
+                                실시간 관제
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 파트너십 -->
+                    <a href="#partnership" class="nav-link">파트너십</a>
+
+                    <!-- 채용 -->
+                    <a href="#careers" class="nav-link">채용</a>
+                </div>
+
+                <!-- CTA Buttons -->
+                <div class="nav-desktop" style="display: flex; align-items: center; gap: 1rem;">
+                    <a href="/dashboard.html" class="nav-link" style="display: flex; align-items: center; gap: 0.5rem;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line>
+                        </svg>
+                        판도라 관제
+                    </a>
+                    <a href="#contact" style="display: inline-flex; align-items: center; padding: 0.625rem 1.5rem; background: var(--color-brand); color: white; font-size: 0.875rem; font-weight: 600; border-radius: var(--radius-border); text-decoration: none; box-shadow: var(--shadow-card); transition: all 0.2s;">
+                        문의하기
+                        <svg style="width: 16px; height: 16px; margin-left: 0.5rem;" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                            <line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="nav-mobile-button" style="display: inline-flex; align-items: center; justify-content: center; padding: 0.5rem; border-radius: var(--radius-border); color: var(--color-text-default); background: none; border: none; cursor: pointer;">
+                    <svg x-show="!mobileMenuOpen" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                        <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                    <svg x-show="mobileMenuOpen" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                        <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenuOpen" x-cloak x-transition class="nav-mobile-menu" style="background: white; border-top: 1px solid var(--color-border); padding: 1rem 2rem;">
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <a href="#about" style="padding: 0.75rem; font-size: 1rem; font-weight: 500; color: var(--color-text-default); text-decoration: none; border-radius: var(--radius-border); transition: background 0.2s;" onmouseover="this.style.background='var(--color-background-alt)'" onmouseout="this.style.background='transparent'">회사소개</a>
+                <a href="#tech" style="padding: 0.75rem; font-size: 1rem; font-weight: 500; color: var(--color-text-default); text-decoration: none; border-radius: var(--radius-border); transition: background 0.2s;" onmouseover="this.style.background='var(--color-background-alt)'" onmouseout="this.style.background='transparent'">누리셀 기술</a>
+                <a href="#crops" style="padding: 0.75rem; font-size: 1rem; font-weight: 500; color: var(--color-text-default); text-decoration: none; border-radius: var(--radius-border); transition: background 0.2s;" onmouseover="this.style.background='var(--color-background-alt)'" onmouseout="this.style.background='transparent'">재배작물</a>
+
+                <!-- 사업장 섹션 -->
+                <div style="margin: 0.5rem 0;">
+                    <div style="padding: 0.5rem 0.75rem; font-size: 0.75rem; font-weight: 700; color: var(--color-text-weak); text-transform: uppercase;">사업장</div>
+                    <a href="goesan.html" style="padding: 0.75rem 0.75rem 0.75rem 1.5rem; font-size: 1rem; font-weight: 500; color: var(--color-text-default); text-decoration: none; border-radius: var(--radius-border); transition: background 0.2s; display: block;" onmouseover="this.style.background='var(--color-background-alt)'" onmouseout="this.style.background='transparent'">괴산 사업장</a>
+                    <a href="5year-plan.html" style="padding: 0.75rem 0.75rem 0.75rem 1.5rem; font-size: 1rem; font-weight: 500; color: var(--color-text-default); text-decoration: none; border-radius: var(--radius-border); transition: background 0.2s; display: block;" onmouseover="this.style.background='var(--color-background-alt)'" onmouseout="this.style.background='transparent'">5개년 계획</a>
+                    <a href="dashboard.html" style="padding: 0.75rem 0.75rem 0.75rem 1.5rem; font-size: 1rem; font-weight: 500; color: var(--color-text-default); text-decoration: none; border-radius: var(--radius-border); transition: background 0.2s; display: block;" onmouseover="this.style.background='var(--color-background-alt)'" onmouseout="this.style.background='transparent'">실시간 관제</a>
+                </div>
+
+                <a href="#partnership" style="padding: 0.75rem; font-size: 1rem; font-weight: 500; color: var(--color-text-default); text-decoration: none; border-radius: var(--radius-border); transition: background 0.2s;" onmouseover="this.style.background='var(--color-background-alt)'" onmouseout="this.style.background='transparent'">파트너십</a>
+                <a href="#careers" style="padding: 0.75rem; font-size: 1rem; font-weight: 500; color: var(--color-text-default); text-decoration: none; border-radius: var(--radius-border); transition: background 0.2s;" onmouseover="this.style.background='var(--color-background-alt)'" onmouseout="this.style.background='transparent'">채용</a>
+                <div style="padding-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                    <a href="#contact" style="padding: 0.75rem; font-size: 1rem; font-weight: 600; color: white; background: var(--color-brand); text-decoration: none; border-radius: var(--radius-border); text-align: center;">문의하기</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
     <!-- ========== Hero Section - Impact First ========== -->
     <header class="slds-page-header">
         <div class="slds-page-header__row">
-            <!-- Breadcrumb -->
-            <ul class="slds-breadcrumb" style="position: absolute; top: 2rem; left: 2rem; z-index: 10;">
-                <li class="slds-breadcrumb__item"><a href="/NURI-homepage/">NURI 홈</a></li>
-                <li class="slds-breadcrumb__item">›</li>
-                <li class="slds-breadcrumb__item"><strong>k1NURIfarm01</strong></li>
-            </ul>
-
-            <!-- Dashboard Link -->
-            <a href="/NURI-homepage/dashboard.html" style="position: absolute; top: 2rem; right: 2rem; z-index: 10; color: #00FFFF; text-decoration: none; font-weight: 700; background: rgba(0, 0, 0, 0.5); padding: 0.5rem 1rem; border-radius: 4px; backdrop-filter: blur(10px);">
-                🎯 판도라 관제 →
-            </a>
 
             <!-- Hero Content -->
             <div class="slds-badge">
-                🌍 Korea #1 - Smart Farm for All
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                Korea #1 - Smart Farm for All
             </div>
 
             <h1 class="slds-page-header__title">
@@ -481,11 +1120,13 @@
             </p>
 
             <div class="hero-actions">
-                <a href="#overview" class="slds-button" style="background: white; color: var(--color-brand-dark); font-size: 1.1rem; padding: 1rem 2.5rem; font-weight: 700; box-shadow: 0 8px 24px rgba(0,0,0,0.3); text-decoration: none; border-radius: 4px;">
-                    📋 사업장 상세 정보
+                <a href="#overview" class="slds-button" style="background: white; color: var(--color-brand-dark); font-size: 1.1rem; padding: 1rem 2.5rem; font-weight: 700; box-shadow: 0 8px 24px rgba(0,0,0,0.3); text-decoration: none; border-radius: 4px; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    사업장 상세 정보
                 </a>
-                <a href="/NURI-homepage/dashboard.html" class="slds-button" style="background: transparent; border: 2px solid white; color: white; font-size: 1.1rem; padding: 1rem 2.5rem; font-weight: 700; text-decoration: none; border-radius: 4px;">
-                    📊 실시간 모니터링
+                <a href="#contact" class="slds-button" style="background: transparent; border: 2px solid white; color: white; font-size: 1.1rem; padding: 1rem 2.5rem; font-weight: 700; text-decoration: none; border-radius: 4px; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    문의하기
                 </a>
             </div>
         </div>
@@ -506,8 +1147,9 @@
     <main class="slds-container slds-container--large">
         <!-- k1 브랜딩 설명 -->
         <div class="slds-alert slds-alert--info" style="background: linear-gradient(135deg, rgba(0, 161, 224, 0.1), rgba(80, 200, 120, 0.1)); border-left: 4px solid var(--color-brand); margin-bottom: var(--spacing-x-large);">
-            <h3 class="slds-alert__heading" style="color: var(--color-brand); font-size: 1.3rem; margin-bottom: var(--spacing-medium);">
-                🌍 k1NURIfarm01 - Korea's First, Global Beginning
+            <h3 class="slds-alert__heading" style="color: var(--color-brand); font-size: 1.3rem; margin-bottom: var(--spacing-medium); display: flex; align-items: center; gap: 0.75rem;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                k1NURIfarm01 - Korea's First, Global Beginning
             </h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--spacing-large); margin-bottom: var(--spacing-large);">
                 <div style="background: white; padding: var(--spacing-large); border-radius: var(--radius-border); box-shadow: var(--shadow-card);">
@@ -557,13 +1199,16 @@
             </div>
         </div>
 
-        <!-- 🏠 핵심 차별화: 기숙사형 생활지도 사업장 -->
+        <!-- 핵심 차별화: 기숙사형 생활지도 사업장 -->
         <div style="background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%); padding: 2rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(255, 107, 107, 0.3);">
             <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
-                <div style="font-size: 4rem;">🏠</div>
+                <div style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                </div>
                 <div style="flex: 1; min-width: 300px;">
-                    <h3 style="font-size: 1.8rem; font-weight: 900; color: white; margin-bottom: 0.5rem;">
-                        ⭐ 괴산점 핵심 차별화: 기숙사형 생활지도 사업장
+                    <h3 style="font-size: 1.8rem; font-weight: 900; color: white; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        괴산점 핵심 차별화: 기숙사형 생활지도 사업장
                     </h3>
                     <p style="font-size: 1.1rem; color: rgba(255,255,255,0.95); line-height: 1.7; margin-bottom: 1rem;">
                         <strong>24시간 생활관리사</strong>가 상주하여 장애인 근로자의 <strong>식사, 건강, 여가, 자립 훈련</strong>을 전담 지원합니다.
@@ -571,19 +1216,31 @@
                     </p>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1rem;">
                         <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 6px; backdrop-filter: blur(10px);">
-                            <div style="font-weight: 700; color: white; margin-bottom: 0.25rem;">🍽️ 3식 제공</div>
+                            <div style="font-weight: 700; color: white; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                                3식 제공
+                            </div>
                             <div style="font-size: 0.85rem; color: rgba(255,255,255,0.9);">영양사 관리 급식</div>
                         </div>
                         <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 6px; backdrop-filter: blur(10px);">
-                            <div style="font-weight: 700; color: white; margin-bottom: 0.25rem;">🏥 건강관리</div>
+                            <div style="font-weight: 700; color: white; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                건강관리
+                            </div>
                             <div style="font-size: 0.85rem; color: rgba(255,255,255,0.9);">정기 검진 + 약 복용 지도</div>
                         </div>
                         <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 6px; backdrop-filter: blur(10px);">
-                            <div style="font-weight: 700; color: white; margin-bottom: 0.25rem;">🎯 자립훈련</div>
+                            <div style="font-weight: 700; color: white; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                                자립훈련
+                            </div>
                             <div style="font-size: 0.85rem; color: rgba(255,255,255,0.9);">금전관리, 사회생활 교육</div>
                         </div>
                         <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 6px; backdrop-filter: blur(10px);">
-                            <div style="font-weight: 700; color: white; margin-bottom: 0.25rem;">🎮 여가활동</div>
+                            <div style="font-weight: 700; color: white; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                                여가활동
+                            </div>
                             <div style="font-size: 0.85rem; color: rgba(255,255,255,0.9);">다목적홀 문화 프로그램</div>
                         </div>
                     </div>
@@ -594,7 +1251,9 @@
         <!-- 주요 통계 -->
         <div class="slds-grid slds-grid--cols-3">
             <div class="slds-stat-box" style="border-left: 4px solid #FF6B6B;">
-                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏠</div>
+                <div style="margin-bottom: 0.5rem;">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                </div>
                 <div class="slds-stat-number" style="color: #FF6B6B;">기숙사형</div>
                 <div class="slds-stat-label">생활지도 통합 사업장</div>
                 <div style="font-size: 0.75rem; color: var(--color-text-weak); margin-top: 0.25rem;">24시간 생활관리 + 자립훈련</div>
@@ -618,7 +1277,7 @@
         <!-- 사업장 기본 정보 -->
         <div class="slds-card">
             <div class="slds-card__header">
-                <h2 class="slds-card__header-title">📍 사업장 기본 정보</h2>
+                <h2 class="slds-card__header-title"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>사업장 기본 정보</h2>
             </div>
             <div class="slds-card__body">
                 <div class="slds-grid slds-grid--cols-3">
@@ -676,7 +1335,7 @@
                         <div style="background: white; border-radius: var(--radius-border); overflow: hidden; box-shadow: var(--shadow-card); border: 2px solid var(--color-border); transition: all 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='var(--color-brand)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)';">
                             <img src="images/01_MasterPlan_Render.png" alt="k1NURIfarm01 마스터플랜" style="width: 100%; height: 220px; object-fit: cover;">
                             <div style="padding: var(--spacing-large);">
-                                <h4 style="font-weight: 700; margin-bottom: var(--spacing-x-small); color: var(--color-brand-dark);">🗺️ 마스터 플랜 - 지속가능한 농업 생태계</h4>
+                                <h4 style="font-weight: 700; margin-bottom: var(--spacing-x-small); color: var(--color-brand-dark);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>마스터 플랜 - 지속가능한 농업 생태계</h4>
                                 <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
                                     항공에서 내려다본 k1NURIfarm01의 전경입니다. 2,000평 부지에 <strong>6동의 스마트팜 하우스</strong>가 일렬로 배치되어 효율적인 작물 관리를 실현합니다.
                                     중앙 관리동에서 AI가 전체 하우스를 통합 제어하며, 직원 기숙사와 다목적홀이 인접해 <strong>생활-근무 통합형 복지 환경</strong>을 제공합니다.
@@ -706,7 +1365,7 @@
                         <div style="background: white; border-radius: var(--radius-border); overflow: hidden; box-shadow: var(--shadow-card); border: 2px solid var(--color-border); transition: all 0.3s;">
                             <img src="images/multipurpose_hall_interior.png" alt="다목적홀 내부" style="width: 100%; height: 220px; object-fit: cover;">
                             <div style="padding: var(--spacing-large);">
-                                <h4 style="font-weight: 700; margin-bottom: var(--spacing-x-small); color: var(--color-brand-dark);">🏛️ 다목적홀 내부</h4>
+                                <h4 style="font-weight: 700; margin-bottom: var(--spacing-x-small); color: var(--color-brand-dark);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>다목적홀 내부</h4>
                                 <p style="font-size: 0.9rem; color: var(--color-text-weak);">직원 휴게 공간, 교육 시설, 카페테리아</p>
                             </div>
                         </div>
@@ -724,7 +1383,7 @@
                         <div style="background: white; border-radius: var(--radius-border); overflow: hidden; box-shadow: var(--shadow-card); border: 2px solid var(--color-border); transition: all 0.3s;">
                             <img src="images/03_Zoning_Concept_ISO.png" alt="조닝 컨셉 ISO" style="width: 100%; height: 220px; object-fit: cover;">
                             <div style="padding: var(--spacing-large);">
-                                <h4 style="font-weight: 700; margin-bottom: var(--spacing-x-small); color: var(--color-brand-dark);">🏗️ 조닝 컨셉 (ISO 뷰)</h4>
+                                <h4 style="font-weight: 700; margin-bottom: var(--spacing-x-small); color: var(--color-brand-dark);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="6" x2="15" y2="6"></line><line x1="9" y1="10" x2="15" y2="10"></line><line x1="9" y1="14" x2="15" y2="14"></line><line x1="9" y1="18" x2="15" y2="18"></line></svg>조닝 컨셉 (ISO 뷰)</h4>
                                 <p style="font-size: 0.9rem; color: var(--color-text-weak);">Smart Farm, Cafe & Office, Manufacturing, Dormitory 구역 배치</p>
                             </div>
                         </div>
@@ -735,7 +1394,7 @@
                 <div style="margin-top: var(--spacing-x-large);">
                     <div class="map-container">
                         <div>
-                            <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">🗺️ 위치 지도 (추후 Google Maps 연동)</p>
+                            <p style="font-size: 1.2rem; margin-bottom: 0.5rem;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>위치 지도 (추후 Google Maps 연동)</p>
                             <p>충청북도 괴산군 사리면 방축리 499, 531-1, 531-2, 531-3</p>
                         </div>
                     </div>
@@ -746,12 +1405,12 @@
         <!-- 재배 작물 포트폴리오 -->
         <div class="slds-card">
             <div class="slds-card__header">
-                <h2 class="slds-card__header-title">🌿 재배 작물 포트폴리오</h2>
+                <h2 class="slds-card__header-title"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>재배 작물 포트폴리오</h2>
             </div>
             <div class="slds-card__body">
                 <div class="slds-grid slds-grid--cols-3">
                     <div class="slds-tile">
-                        <div class="slds-tile__icon">🍃</div>
+                        <div class="slds-tile__icon"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg></div>
                         <h3 class="slds-tile__title">병풀 (시카)</h3>
                         <p class="slds-tile__detail">
                             <strong>Future Value 작물</strong><br>
@@ -761,7 +1420,7 @@
                         </p>
                     </div>
                     <div class="slds-tile">
-                        <div class="slds-tile__icon">🌿</div>
+                        <div class="slds-tile__icon"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg></div>
                         <h3 class="slds-tile__title">바질</h3>
                         <p class="slds-tile__detail">
                             <strong>Premium 허브</strong><br>
@@ -771,7 +1430,7 @@
                         </p>
                     </div>
                     <div class="slds-tile">
-                        <div class="slds-tile__icon">🥬</div>
+                        <div class="slds-tile__icon"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg></div>
                         <h3 class="slds-tile__title">쌈채소</h3>
                         <p class="slds-tile__detail">
                             <strong>대중 작물</strong><br>
@@ -784,7 +1443,7 @@
 
                 <!-- 병풀 비즈니스 모델 상세 -->
                 <div class="slds-alert" style="margin-top: var(--spacing-x-large);">
-                    <h3 class="slds-alert__heading">💰 병풀 비즈니스 모델 (연계고용 감면 제도)</h3>
+                    <h3 class="slds-alert__heading"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>병풀 비즈니스 모델 (연계고용 감면 제도)</h3>
                     <p><strong>시장 기회:</strong> 글로벌 9,000억 시장, 국내 수입 500~600억 (95% 수입 의존)</p>
                     <p style="margin-top: var(--spacing-small);"><strong>핵심 전략:</strong> 병풀 원료 10억 구매 시 → 고용 부담금 5억 감면 = <strong style="color: var(--color-brand);">실질 50% 할인</strong></p>
                     <p style="margin-top: var(--spacing-small);"><strong>타겟 고객:</strong></p>
@@ -806,7 +1465,7 @@
         <!-- 핵심 기술: 누리셀 3세대+ -->
         <div class="slds-card">
             <div class="slds-card__header">
-                <h2 class="slds-card__header-title">🤖 핵심 기술: 누리셀 3세대+ (Farm8 대비 경쟁 우위)</h2>
+                <h2 class="slds-card__header-title"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>핵심 기술: 누리셀 3세대++ (Farm8 대비 경쟁 우위)</h2>
             </div>
             <div class="slds-card__body">
                 <div class="slds-box">
@@ -818,7 +1477,7 @@
                             <li><strong>Planner (🧠)</strong>: 생육 계획, 수확 예측, 시장 분석</li>
                             <li><strong>Architect (📐)</strong>: 환경 제어 로직, 센서 네트워크 최적화</li>
                             <li><strong>Builder (🔨)</strong>: 자동화 스크립트 구현, 데이터 수집</li>
-                            <li><strong>Critic (⚖️)</strong>: 병충해 조기 진단, 이상 탐지, 품질 검증</li>
+                            <li><strong>Critic (<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>)</strong>: 병충해 조기 진단, 이상 탐지, 품질 검증</li>
                         </ul>
                         <p style="margin-top: var(--spacing-small); color: var(--color-brand);"><strong>→ 결과: Rule → Agent (자율 판단 및 학습)</strong></p>
                     </div>
@@ -868,7 +1527,7 @@
 
                 <!-- Farm8 vs 누리셀 3세대+ 비교표 -->
                 <div style="margin-top: var(--spacing-x-large); padding: var(--spacing-large); background: white; border: 2px solid var(--color-brand); border-radius: var(--radius-border);">
-                    <h3 style="margin-bottom: var(--spacing-medium); color: var(--color-brand-dark);">📊 Farm8 vs 누리셀 3세대+ 비교</h3>
+                    <h3 style="margin-bottom: var(--spacing-medium); color: var(--color-brand-dark);"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>Farm8 vs 누리셀 3세대+ 비교</h3>
                     <table style="width: 100%; border-collapse: collapse;">
                         <thead style="background: var(--color-background-alt);">
                             <tr>
@@ -924,7 +1583,7 @@
                     <!-- 누리셀 구조 상세 설명 -->
                     <div style="background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%); padding: var(--spacing-x-large); border-radius: var(--radius-border); margin-bottom: var(--spacing-x-large); border: 2px solid var(--color-brand);">
                         <h4 style="font-size: 1.3rem; font-weight: 700; color: var(--color-brand-dark); margin-bottom: var(--spacing-large);">
-                            🏗️ 누리셀 구조: 4층 적층형 × 5연동 = 2,240개 재배 유닛
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="6" x2="15" y2="6"></line><line x1="9" y1="10" x2="15" y2="10"></line><line x1="9" y1="14" x2="15" y2="14"></line><line x1="9" y1="18" x2="15" y2="18"></line></svg>누리셀 구조: 4층 적층형 × 5연동 = 2,240개 재배 유닛
                         </h4>
                         <div class="slds-grid slds-grid--cols-2" style="gap: var(--spacing-large);">
                             <div>
@@ -967,7 +1626,7 @@
                     <!-- 누리셀 핵심 기술 -->
                     <div class="slds-grid slds-grid--cols-3" style="gap: var(--spacing-large);">
                         <div style="background: white; padding: var(--spacing-large); border-radius: var(--radius-border); box-shadow: var(--shadow-card); border-left: 4px solid var(--color-brand);">
-                            <div style="font-size: 2rem; margin-bottom: var(--spacing-medium);">💡</div>
+                            <div style="margin-bottom: var(--spacing-medium);"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
                             <h5 style="font-weight: 700; margin-bottom: var(--spacing-small); color: var(--color-brand-dark);">LED 조명 일체형</h5>
                             <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
                                 각 원형 포트에 <strong>LED 풀스펙트럼 조명</strong>이 내장되어 있습니다. 작물별 최적 파장(청색 450nm, 적색 660nm)을 AI가 자동 조절하여 광합성 효율을 극대화합니다.
@@ -975,7 +1634,7 @@
                         </div>
 
                         <div style="background: white; padding: var(--spacing-large); border-radius: var(--radius-border); box-shadow: var(--shadow-card); border-left: 4px solid var(--color-success);">
-                            <div style="font-size: 2rem; margin-bottom: var(--spacing-medium);">🔄</div>
+                            <div style="margin-bottom: var(--spacing-medium);"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg></div>
                             <h5 style="font-weight: 700; margin-bottom: var(--spacing-small); color: var(--color-brand-dark);">양액 순환 시스템</h5>
                             <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
                                 각 층마다 <strong>독립 양액 공급 라인</strong>이 설치되어 있으며, 사용하지 않은 양액은 하단 탱크로 회수되어 재사용됩니다. <strong style="color: var(--color-success);">물 사용량 80% 절감</strong> 효과.
@@ -983,11 +1642,102 @@
                         </div>
 
                         <div style="background: white; padding: var(--spacing-large); border-radius: var(--radius-border); box-shadow: var(--shadow-card); border-left: 4px solid var(--color-warning);">
-                            <div style="font-size: 2rem; margin-bottom: var(--spacing-medium);">🤖</div>
+                            <div style="margin-bottom: var(--spacing-medium);"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--color-warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg></div>
                             <h5 style="font-weight: 700; margin-bottom: var(--spacing-small); color: var(--color-brand-dark);">AGV 자동 이송 시스템</h5>
                             <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
                                 수확 시점이 되면 <strong>AGV(무인운반차)가 누리셀을 통째로 작업동으로 자동 이송</strong>합니다. <strong style="color: var(--color-warning);">발달장애·경계성장애인</strong> 근로자가 밝고 쾌적한 작업동에서 편안하게 수확·포장 작업을 수행합니다. 랙 환경의 압박감 제거.
                             </p>
+                        </div>
+                    </div>
+
+                    <!-- 누리셀 시스템 영상 자료 -->
+                    <div style="margin-top: var(--spacing-xx-large); padding-top: var(--spacing-x-large); border-top: 2px solid var(--color-border);">
+                        <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--color-brand-dark); margin-bottom: var(--spacing-large); text-align: center;">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>누리셀 시스템 영상 자료
+                        </h3>
+                        <p style="text-align: center; font-size: 1rem; color: var(--color-text-weak); margin-bottom: var(--spacing-x-large); max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.8;">
+                            누리셀 적층형 랙 시스템의 핵심 구성 요소와 조립 과정을 영상으로 확인하세요.
+                            실제 작동 원리와 장애인 친화적 설계를 직접 확인할 수 있습니다.
+                        </p>
+
+                        <!-- 비디오 그리드 -->
+                        <div class="slds-grid slds-grid--cols-3" style="gap: var(--spacing-large); margin-bottom: var(--spacing-x-large);">
+                            <!-- APT-300C 조립 과정 -->
+                            <div style="background: white; border-radius: var(--radius-border); overflow: hidden; box-shadow: var(--shadow-card); border: 2px solid var(--color-border);">
+                                <video controls style="width: 100%; height: 220px; background: #000; object-fit: contain;">
+                                    <source src="videos/apt-300c-asm.mp4" type="video/mp4">
+                                    브라우저가 비디오를 지원하지 않습니다.
+                                </video>
+                                <div style="padding: var(--spacing-large);">
+                                    <h4 style="font-weight: 700; margin-bottom: var(--spacing-x-small); color: var(--color-brand-dark);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>APT-300C 조립 과정</h4>
+                                    <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
+                                        누리셀 랙 프레임의 핵심인 <strong>APT-300C 알루미늄 프로파일</strong> 조립 과정입니다.
+                                        모듈형 설계로 <strong>공구 없이 쉽게 조립</strong>할 수 있어 유지보수가 간편합니다.
+                                        장애인 근로자도 참여 가능한 단순 작업으로 구성되어 있습니다.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Cell-1000 C1 모델 -->
+                            <div style="background: white; border-radius: var(--radius-border); overflow: hidden; box-shadow: var(--shadow-card); border: 2px solid var(--color-border);">
+                                <video controls style="width: 100%; height: 220px; background: #000; object-fit: contain;">
+                                    <source src="videos/cell-1000-c1.mp4" type="video/mp4">
+                                    브라우저가 비디오를 지원하지 않습니다.
+                                </video>
+                                <div style="padding: var(--spacing-large);">
+                                    <h4 style="font-weight: 700; margin-bottom: var(--spacing-x-small); color: var(--color-brand-dark);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>Cell-1000 C1 작동 원리</h4>
+                                    <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
+                                        <strong>누리셀 1000 C1 모델</strong>의 실제 작동 모습입니다.
+                                        LED 조명, 양액 순환, 온도 제어가 하나의 유닛에 통합되어 있으며,
+                                        <strong>AI가 각 셀을 독립 제어</strong>하여 최적의 생육 환경을 유지합니다.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- 서브 드라이브 시스템 -->
+                            <div style="background: white; border-radius: var(--radius-border); overflow: hidden; box-shadow: var(--shadow-card); border: 2px solid var(--color-border);">
+                                <video controls style="width: 100%; height: 220px; background: #000; object-fit: contain;">
+                                    <source src="videos/sub-drive.mp4" type="video/mp4">
+                                    브라우저가 비디오를 지원하지 않습니다.
+                                </video>
+                                <div style="padding: var(--spacing-large);">
+                                    <h4 style="font-weight: 700; margin-bottom: var(--spacing-x-small); color: var(--color-brand-dark);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><circle cx="12" cy="12" r="3"></circle><path d="M12 1v6m0 6v6m5.2-13.2l-4.2 4.2m0 0l-4.2 4.2m0-8.4l4.2 4.2m0 0l4.2 4.2M1 12h6m6 0h6"></path></svg>서브 드라이브 시스템</h4>
+                                    <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
+                                        누리셀을 작업동으로 이동시키는 <strong>AGV(무인운반차) 서브 드라이브</strong> 시스템입니다.
+                                        수확 시점이 되면 자동으로 셀을 이동시켜, 장애인 근로자가
+                                        <strong>밝고 쾌적한 작업동에서 편안하게 작업</strong>할 수 있습니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 기술 하이라이트 요약 -->
+                        <div style="background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%); padding: var(--spacing-x-large); border-radius: var(--radius-border); border: 2px solid var(--color-brand);">
+                            <h4 style="font-size: 1.2rem; font-weight: 700; color: var(--color-brand-dark); margin-bottom: var(--spacing-large); text-align: center;">
+                                💎 누리셀 시스템 핵심 강점
+                            </h4>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--spacing-large);">
+                                <div style="text-align: center;">
+                                    <div style="margin-bottom: var(--spacing-small);"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
+                                    <div style="font-weight: 700; margin-bottom: var(--spacing-xx-small);">빠른 설치</div>
+                                    <div style="font-size: 0.85rem; color: var(--color-text-weak);">모듈형 설계로 1주일 내 설치 완료</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="margin-bottom: var(--spacing-small);"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg></div>
+                                    <div style="font-weight: 700; margin-bottom: var(--spacing-xx-small);">쉬운 유지보수</div>
+                                    <div style="font-size: 0.85rem; color: var(--color-text-weak);">공구 없이 부품 교체 가능</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="margin-bottom: var(--spacing-small);"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+                                    <div style="font-weight: 700; margin-bottom: var(--spacing-xx-small);">장애인 친화</div>
+                                    <div style="font-size: 0.85rem; color: var(--color-text-weak);">AGV 자동 이송으로 작업 부담 최소화</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="margin-bottom: var(--spacing-small);"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand-dark)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg></div>
+                                    <div style="font-weight: 700; margin-bottom: var(--spacing-xx-small);">AI 자동 제어</div>
+                                    <div style="font-size: 0.85rem; color: var(--color-text-weak);">BMAD Elite 4 에이전트 통합 관리</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -997,12 +1747,12 @@
         <!-- 판매처 및 파트너십 전략 -->
         <div class="slds-card">
             <div class="slds-card__header">
-                <h2 class="slds-card__header-title">🤝 판매처 및 파트너십 전략</h2>
+                <h2 class="slds-card__header-title"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>판매처 및 파트너십 전략</h2>
             </div>
             <div class="slds-card__body">
                 <!-- 기술 파트너: Farm8 -->
                 <div class="slds-box" style="border-left-color: var(--color-success);">
-                    <h3 class="slds-box__title">🏆 기술 검증 파트너: Farm8 (국내 1위 스마트팜)</h3>
+                    <h3 class="slds-box__title"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>기술 검증 파트너: Farm8 (국내 1위 스마트팜)</h3>
                     <div class="slds-box__content">
                         <p><strong>MOU 체결 완료</strong> - 누리셀 3세대+ 시스템 기술 검증 협력</p>
                         <ul>
@@ -1032,7 +1782,7 @@
 
                 <!-- 연계고용 감면 제도 활용 -->
                 <div class="slds-alert" style="margin-top: var(--spacing-x-large);">
-                    <h3 class="slds-alert__heading">💼 B2B 세일즈 전략: 연계고용 감면 제도</h3>
+                    <h3 class="slds-alert__heading"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>B2B 세일즈 전략: 연계고용 감면 제도</h3>
                     <p><strong>핵심 메시지:</strong> "병풀 원료를 구매하면 고용 부담금이 50% 줄어듭니다"</p>
                     <ul style="margin-top: var(--spacing-small); margin-left: var(--spacing-large);">
                         <li>상시근로자 100명 이상 기업: 의무고용률 3.1% 미달 시 부담금 발생</li>
@@ -1047,7 +1797,7 @@
         <!-- 고용 계획 및 장애인 친화 환경 -->
         <div class="slds-card">
             <div class="slds-card__header">
-                <h2 class="slds-card__header-title">👥 고용 계획 및 장애인 친화 환경</h2>
+                <h2 class="slds-card__header-title"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>고용 계획 및 장애인 친화 환경</h2>
             </div>
             <div class="slds-card__body">
                 <div class="slds-grid slds-grid--cols-3">
@@ -1067,7 +1817,7 @@
 
                 <!-- 단계별 고용 계획 추가 -->
                 <div style="margin-top: var(--spacing-large); padding: var(--spacing-medium); background: var(--color-background-alt); border-radius: var(--radius-border);">
-                    <h4 style="margin-bottom: var(--spacing-small); color: var(--color-brand);">📊 5개년 인력 증원 로드맵</h4>
+                    <h4 style="margin-bottom: var(--spacing-small); color: var(--color-brand);"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>5개년 인력 증원 로드맵</h4>
                     <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
                         <thead>
                             <tr style="background: var(--color-brand); color: white;">
@@ -1128,15 +1878,15 @@
                 </div>
 
                 <div class="slds-alert" style="margin-top: var(--spacing-x-large);">
-                    <h3 class="slds-alert__heading">💼 채용 안내 - 발달장애·경계성장애인에게 맞춤형 일자리를</h3>
+                    <h3 class="slds-alert__heading"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>채용 안내 - 발달장애·경계성장애인에게 맞춤형 일자리를</h3>
                     <p>NURI는 <strong>발달장애·경계성장애인</strong>에게 안정적이고 지속 가능한 일자리를 제공합니다.</p>
                     <ul style="margin-top: var(--spacing-medium); margin-left: var(--spacing-large);">
-                        <li>✅ <strong>정규직 채용</strong> - 4대 보험 완비, 최저임금 120% 이상</li>
-                        <li>✅ <strong>단순 반복 작업 중심</strong> - 수확·포장·선별 등 쉽게 배울 수 있는 작업</li>
-                        <li>✅ <strong>밝고 쾌적한 작업동</strong> - 누리셀 이동식 시스템으로 랙 환경 압박감 제거</li>
-                        <li>✅ <strong>AI 작업 지시 시스템</strong> - BMAD Elite 4가 음성/시각 안내로 작업 순서 알림</li>
-                        <li>✅ <strong>직업 재활 교육</strong> - 국비 지원 스마트팜 기초 교육 프로그램 운영 (가가호호 자체 커리큘럼)</li>
-                        <li>✅ <strong>유연 근무</strong> - 장애 정도에 따른 시간제 근무 가능</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><polyline points="20 6 9 17 4 12"></polyline></svg><strong>정규직 채용</strong> - 4대 보험 완비, 최저임금 120% 이상</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><polyline points="20 6 9 17 4 12"></polyline></svg><strong>단순 반복 작업 중심</strong> - 수확·포장·선별 등 쉽게 배울 수 있는 작업</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><polyline points="20 6 9 17 4 12"></polyline></svg><strong>밝고 쾌적한 작업동</strong> - 누리셀 이동식 시스템으로 랙 환경 압박감 제거</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><polyline points="20 6 9 17 4 12"></polyline></svg><strong>AI 작업 지시 시스템</strong> - BMAD Elite 4가 음성/시각 안내로 작업 순서 알림</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><polyline points="20 6 9 17 4 12"></polyline></svg><strong>직업 재활 교육</strong> - 국비 지원 스마트팜 기초 교육 프로그램 운영 (가가호호 자체 커리큘럼)</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><polyline points="20 6 9 17 4 12"></polyline></svg><strong>유연 근무</strong> - 장애 정도에 따른 시간제 근무 가능</li>
                     </ul>
                 </div>
 

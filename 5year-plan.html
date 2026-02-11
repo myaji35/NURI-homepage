@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NuriFarm 괴산점 5개년 재투자 시뮬레이션 | NURI</title>
+
+    <!-- Alpine.js for Navigation Interactions -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <style>
         :root {
             /* Salesforce Lightning Design System Colors */
@@ -270,49 +274,101 @@
 <body>
     <!-- Header -->
     <div class="header">
-        <h1>📊 NuriFarm 괴산점 5개년 재투자 시뮬레이션</h1>
-        <p>매출 → 이익 → 재투자 순환으로 시설 확장 및 고용 증대 계획</p>
+        <h1>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
+                <line x1="12" y1="20" x2="12" y2="10"></line>
+                <line x1="18" y1="20" x2="18" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="16"></line>
+            </svg>
+            NuriFarm 괴산점 5개년 ROI 시뮬레이션
+        </h1>
+        <p>초기 투자 23억 (장애인고용공단 20억 + 괴산군 3억) → 이익금 재투자 → ROI 달성 시점 확인</p>
+        <p style="margin-top: 0.5rem; font-size: 1rem; opacity: 0.9;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            1년 내 장애인 40명 채용 (3개월 단위 10명씩) | 이후 이익금 재투자로 하우스 증설
+        </p>
     </div>
 
     <div class="container">
         <!-- Summary Cards -->
         <div class="summary-grid">
             <div class="summary-card">
-                <div class="icon">💰</div>
-                <h3>2030년 예상 연매출</h3>
+                <div class="icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                </div>
+                <h3>초기 투자금</h3>
+                <div class="value">23억원</div>
+                <div class="delta">장애인고용공단 20억 + 괴산군 3억</div>
+            </div>
+            <div class="summary-card" style="background: linear-gradient(135deg, #FFB75D 0%, #FF9A3C 100%); color: white;">
+                <div class="icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                </div>
+                <h3 style="color: white;">ROI 달성 시점</h3>
+                <div class="value" id="roiPeriod" style="color: white;">-</div>
+                <div class="delta" style="color: rgba(255,255,255,0.9);">투자금 회수 완료</div>
+            </div>
+            <div class="summary-card">
+                <div class="icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                        <polyline points="17 6 23 6 23 12"></polyline>
+                    </svg>
+                </div>
+                <h3>2030년 월평균 매출</h3>
                 <div class="value" id="totalRevenue2030">-</div>
                 <div class="delta" id="revenueDelta">-</div>
             </div>
             <div class="summary-card">
-                <div class="icon">🏭</div>
-                <h3>2030년 총 하우스 동수</h3>
-                <div class="value" id="totalGreenhouses2030">-</div>
-                <div class="delta" id="greenhouseDelta">-</div>
+                <div class="icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+                <h3>장애인 고용 (1년 내)</h3>
+                <div class="value">40명</div>
+                <div class="delta">3개월 단위 10명씩 채용</div>
             </div>
-            <div class="summary-card">
-                <div class="icon">👥</div>
-                <h3>2030년 총 고용 인원</h3>
-                <div class="value" id="totalEmployees2030">-</div>
-                <div class="delta" id="employeeDelta">-</div>
-            </div>
-            <div class="summary-card">
-                <div class="icon">♻️</div>
-                <h3>누적 ESG 임팩트</h3>
-                <div class="value" id="esgImpact">-</div>
-                <div class="delta">장애인 일자리 창출</div>
+            <div class="summary-card" style="background: linear-gradient(135deg, #50C878 0%, #3DA55F 100%); color: white;">
+                <div class="icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                        <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                    </svg>
+                </div>
+                <h3 style="color: white;">2,000셀 달성 시점</h3>
+                <div class="value" id="cellTarget2000" style="color: white;">-</div>
+                <div class="delta" style="color: rgba(255,255,255,0.9);">목표 달성 예상</div>
             </div>
         </div>
 
         <!-- Control Panel -->
         <div class="control-panel">
-            <h2>🎛️ 시뮬레이션 파라미터 조정</h2>
+            <h2>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 1v6m0 6v6m5.2-13.2l-4.2 4.2m0 0l-4.2 4.2m0-8.4l4.2 4.2m0 0l4.2 4.2M1 12h6m6 0h6"></path>
+                </svg>
+                시뮬레이션 파라미터 조정
+            </h2>
 
             <div class="slider-group">
                 <label>
                     재투자 비율 (영업이익 대비)
-                    <span class="slider-value" id="reinvestRateValue">70%</span>
+                    <span class="slider-value" id="reinvestRateValue">75%</span>
                 </label>
-                <input type="range" id="reinvestRate" min="50" max="90" value="70" step="5">
+                <input type="range" id="reinvestRate" min="50" max="90" value="75" step="5">
             </div>
 
             <div class="slider-group">
@@ -343,7 +399,13 @@
         <!-- Charts -->
         <div class="charts-grid">
             <div class="chart-card">
-                <h3>📈 연도별 매출 추이</h3>
+                <h3>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
+                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                        <polyline points="17 6 23 6 23 12"></polyline>
+                    </svg>
+                    연도별 매출 추이
+                </h3>
                 <canvas id="revenueChart"></canvas>
             </div>
             <div class="chart-card">
@@ -375,33 +437,75 @@
             constructor() {
                 // 초기 설정 (2026년)
                 this.baseYear = 2026;
-                this.initialState = {
-                    byungpul: { greenhouses: 1, price: 8000, harvestPerYear: 4, plantsPerCell: 20 },
-                    basil: { greenhouses: 2, price: 15000, harvestPerYear: 12, kgPerCell: 2 },
-                    ssam: { greenhouses: 2, price: 12000, harvestPerYear: 18, boxPerCell: 1 }
+                // 초기 300셀로 시작 (셀당 300만원)
+                // 셀별 "월" 매출: 병풀 35만원, 바질 30만원, 쌈 12만원
+                this.initialCells = {
+                    byungpul: 150,  // 50% (150셀)
+                    basil: 90,      // 30% (90셀)
+                    ssam: 60        // 20% (60셀)
                 };
-                this.cellsPerGreenhouse = 448; // 4층 × 4열 × 28칸
-                this.initialEmployees = { disabled: 40, regular: 15 };
+                this.cellPrices = {
+                    byungpul: 350000,  // 작기당 35만원
+                    basil: 300000,     // 작기당 30만원
+                    ssam: 120000       // 작기당 12만원
+                };
+                this.harvestPerYear = 12; // 연 12작기
+                // 고용 계획: 1년 이내 장애인 40명 채용 완료 (3개월 단위)
+                // 장애인: 전원 중증 (40명)
+                // 작업지원인: 10명 (정부 급여 100% 지원)
+                // 관리직: 5명 (자부담)
+                this.employmentPlan = {
+                    // 분기별 장애인 채용 (1년 = 4분기) - 이익 범위 내 점진적 고용
+                    'Q1': { disabled: 3, workSupporter: 1, manager: 1 },    // 1분기: 소규모 시작 (5명)
+                    'Q2': { disabled: 10, workSupporter: 3, manager: 2 },   // 2분기: 흑자 확인 후 확대 (15명)
+                    'Q3': { disabled: 25, workSupporter: 6, manager: 3 },   // 3분기: 셀 증설 후 확대 (34명)
+                    'Q4': { disabled: 40, workSupporter: 10, manager: 5 },  // 4분기: 목표 달성 (55명)
+                    // 이후는 40명 유지
+                };
+
+                // 초기 투자금 (한국장애인고용공단 + 괴산군)
+                this.initialInvestment = 2_300_000_000; // 23억 원
+                this.keadSupport = 2_000_000_000;       // 한국장애인고용공단 20억
+                this.localGovSupport = 300_000_000;     // 괴산군 3억
 
                 // 파라미터 (슬라이더로 조정 가능)
-                this.reinvestRate = 0.70;
+                this.reinvestRate = 0.75; // 5년차 2,200셀 달성 목표
                 this.byungpulPriceGrowth = 0.05;
                 this.energySaving = 0.30;
-                this.expansionCostPerGreenhouse = 250_000_000;
+                this.costPerCell = 3_000_000; // 셀당 300만원
 
                 // 비용 구조
                 this.variableCostRate = 0.40; // 매출의 40% (종자, 양액, 전력, 포장)
-                this.fixedCostPerYear = 200_000_000; // 인건비 + 관리비 2억
+
+                // 급여 체계 (하루 4시간 근무 2교대)
+                this.disabledMonthlySalary = 1_500_000;   // 장애인 월급 150만원 (4시간 근무)
+                this.workSupporterMonthlySalary = 3_000_000; // 작업지원인 월급 300만원 (풀타임)
+                this.managerMonthlySalary = 4_000_000;    // 관리직 월급 400만원
+                // 고정비는 셀 개수에 따라 단계적 증가
+                // ~600셀: 1,000만원, 600~1200셀: 1,500만원, 1200셀~: 2,000만원
+                this.getFixedCost = (totalCells) => {
+                    if (totalCells >= 1200) return 20_000_000;
+                    if (totalCells >= 600) return 15_000_000;
+                    return 10_000_000;
+                };
+
+                // 정부 지원금 (한국장애인고용공단)
+                this.disabledSupportSevere = 1_000_000; // 중증장애인 월 100만원 지원
+                this.workSupporterSalarySupport = 3_000_000; // 작업지원인 급여 100% 지원 (월 300만원)
             }
 
-            // 특정 연도의 매출 계산
-            calculateRevenue(year, state) {
+            // 특정 기간의 매출 계산 (분기 또는 연) - 셀 기반
+            calculateRevenue(year, quarter, cellState) {
                 const yearIndex = year - this.baseYear;
-                const byungpulPrice = this.initialState.byungpul.price * Math.pow(1 + this.byungpulPriceGrowth, yearIndex);
+                const byungpulPrice = this.cellPrices.byungpul * Math.pow(1 + this.byungpulPriceGrowth, yearIndex);
 
-                const byungpulRevenue = state.byungpul * this.cellsPerGreenhouse * this.initialState.byungpul.plantsPerCell * byungpulPrice * this.initialState.byungpul.harvestPerYear;
-                const basilRevenue = state.basil * this.cellsPerGreenhouse * this.initialState.basil.kgPerCell * this.initialState.basil.price * this.initialState.basil.harvestPerYear;
-                const ssamRevenue = state.ssam * this.cellsPerGreenhouse * this.initialState.ssam.boxPerCell * this.initialState.ssam.price * this.initialState.ssam.harvestPerYear;
+                // 분기별 매출 (연 매출의 1/4)
+                // 셀별 "월" 매출이므로 연 매출 = 월 매출 × 12개월
+                const monthsInPeriod = quarter ? 3 : 12;
+
+                const byungpulRevenue = cellState.byungpul * byungpulPrice * monthsInPeriod;
+                const basilRevenue = cellState.basil * this.cellPrices.basil * monthsInPeriod;
+                const ssamRevenue = cellState.ssam * this.cellPrices.ssam * monthsInPeriod;
 
                 return {
                     byungpul: byungpulRevenue,
@@ -411,49 +515,216 @@
                 };
             }
 
-            // 5개년 시뮬레이션 실행
+            // 5개년 시뮬레이션 실행 (1차년은 분기별, 2~5차년은 연별)
             simulate() {
                 const results = [];
-                let currentState = { ...this.initialState, byungpul: this.initialState.byungpul.greenhouses, basil: this.initialState.basil.greenhouses, ssam: this.initialState.ssam.greenhouses };
-                let cumulativeCash = 0;
+                let currentCells = {
+                    byungpul: this.initialCells.byungpul,
+                    basil: this.initialCells.basil,
+                    ssam: this.initialCells.ssam
+                };
 
-                for (let year = this.baseYear; year <= this.baseYear + 4; year++) {
-                    const revenue = this.calculateRevenue(year, currentState);
-                    const variableCost = revenue.total * this.variableCostRate * (1 - this.energySaving);
-                    const fixedCost = this.fixedCostPerYear + (currentState.byungpul + currentState.basil + currentState.ssam - 5) * 20_000_000; // 동당 추가 관리비
-                    const operatingProfit = revenue.total - variableCost - fixedCost;
-                    const reinvestAmount = operatingProfit * this.reinvestRate;
+                // 누적 현금 흐름 (ROI 계산용)
+                let cumulativeCash = this.initialInvestment; // 초기 투자금 20억
+                let totalInvested = this.initialInvestment;  // 총 투자액
+                let totalProfit = 0; // 누적 영업이익
+                let roiAchieved = false;
+                let roiYear = null;
 
-                    cumulativeCash += reinvestAmount;
+                // ========== 1차년: 월별 시뮬레이션 (2026년) ==========
+                for (let month = 1; month <= 12; month++) {
+                    // 고용 계획 (월별)
+                    let employees;
+                    if (month <= 3) employees = { disabled: 3, workSupporter: 1, manager: 1 };
+                    else if (month <= 6) employees = { disabled: 10, workSupporter: 3, manager: 2 };
+                    else if (month <= 9) employees = { disabled: 25, workSupporter: 6, manager: 3 };
+                    else employees = { disabled: 40, workSupporter: 10, manager: 5 };
 
-                    // 재투자로 증설 가능 동수 계산
-                    const newGreenhouses = Math.floor(cumulativeCash / this.expansionCostPerGreenhouse);
-                    if (newGreenhouses > 0) {
-                        // 병풀 우선 증설 (수익성 높음)
-                        currentState.byungpul += Math.ceil(newGreenhouses * 0.5);
-                        currentState.basil += Math.floor(newGreenhouses * 0.3);
-                        currentState.ssam += Math.floor(newGreenhouses * 0.2);
-                        cumulativeCash -= newGreenhouses * this.expansionCostPerGreenhouse;
+                    // 월 매출
+                    const monthlyRevenue = {
+                        byungpul: currentCells.byungpul * this.cellPrices.byungpul,
+                        basil: currentCells.basil * this.cellPrices.basil,
+                        ssam: currentCells.ssam * this.cellPrices.ssam,
+                        total: 0
+                    };
+                    monthlyRevenue.total = monthlyRevenue.byungpul + monthlyRevenue.basil + monthlyRevenue.ssam;
+
+                    // 월 비용 계산
+                    const variableCost = monthlyRevenue.total * this.variableCostRate * (1 - this.energySaving);
+
+                    // 인건비 (월)
+                    const disabledSalary = employees.disabled * this.disabledMonthlySalary;
+                    const workSupporterSalary = employees.workSupporter * this.workSupporterMonthlySalary;
+                    const managerSalary = employees.manager * this.managerMonthlySalary;
+
+                    // 정부 지원금 (월)
+                    const disabledSupport = employees.disabled * this.disabledSupportSevere;
+                    const workSupporterSupport = employees.workSupporter * this.workSupporterSalarySupport;
+
+                    // 실제 인건비 부담
+                    const totalSalary = disabledSalary + workSupporterSalary + managerSalary;
+                    const totalSupport = disabledSupport + workSupporterSupport;
+                    const netLaborCost = totalSalary - totalSupport;
+
+                    const totalCellsNow = currentCells.byungpul + currentCells.basil + currentCells.ssam;
+                    const fixedCost = this.getFixedCost(totalCellsNow);
+                    const totalCost = variableCost + netLaborCost + fixedCost;
+
+                    const operatingProfit = monthlyRevenue.total - totalCost;
+                    const reinvestAmount = operatingProfit > 0 ? operatingProfit * this.reinvestRate : 0;
+
+                    cumulativeCash += operatingProfit;
+                    totalProfit += operatingProfit;
+
+                    // ROI 체크
+                    if (!roiAchieved && totalProfit >= totalInvested) {
+                        roiAchieved = true;
+                        roiYear = `2026년 ${month}월`;
                     }
 
-                    const totalGreenhouses = currentState.byungpul + currentState.basil + currentState.ssam;
-                    const employees = {
-                        disabled: this.initialEmployees.disabled + (totalGreenhouses - 5) * 6,
-                        regular: this.initialEmployees.regular + (totalGreenhouses - 5) * 2
-                    };
+                    const totalCells = currentCells.byungpul + currentCells.basil + currentCells.ssam;
 
                     results.push({
-                        year,
-                        revenue,
+                        year: this.baseYear,
+                        month: month,
+                        period: `2026년 ${month}월`,
+                        revenue: monthlyRevenue,
                         variableCost,
+                        laborCost: netLaborCost,
+                        governmentSupport: totalSupport,
                         fixedCost,
+                        totalCost,
                         operatingProfit,
                         reinvestAmount,
                         cumulativeCash,
-                        greenhouses: { ...currentState },
-                        totalGreenhouses,
-                        employees
+                        totalProfit,
+                        roiAchieved,
+                        cells: { ...currentCells },
+                        totalCells,
+                        employees: { ...employees, totalEmployees: employees.disabled + employees.workSupporter + employees.manager, regular: employees.workSupporter + employees.manager }
                     });
+
+                    // 월말 재투자로 셀 증설 (2,200셀 달성 전까지만)
+                    const currentTotalCells = currentCells.byungpul + currentCells.basil + currentCells.ssam;
+                    if (currentTotalCells < 2200) {
+                        const newCells = Math.floor(reinvestAmount / this.costPerCell);
+                        if (newCells > 0) {
+                            // 2,200셀 초과하지 않도록 제한
+                            const maxNewCells = Math.min(newCells, 2200 - currentTotalCells);
+
+                            currentCells.byungpul += Math.round(maxNewCells * 0.5);
+                            currentCells.basil += Math.round(maxNewCells * 0.3);
+                            currentCells.ssam += Math.round(maxNewCells * 0.2);
+
+                            const investmentAmount = maxNewCells * this.costPerCell;
+                            cumulativeCash -= investmentAmount;
+                            totalInvested += investmentAmount;
+                        }
+                    }
+                    // 2,200셀 달성 후에는 재투자 없이 순이익만 누적
+                }
+
+                // ========== 2~5차년: 월별 시뮬레이션 (13~60개월) ==========
+                for (let month = 13; month <= 60; month++) {
+                    const year = this.baseYear + Math.floor((month - 1) / 12);
+                    const monthInYear = ((month - 1) % 12) + 1;
+
+                    // 장애인 40명 유지 (1차년 완료 후)
+                    const employees = { disabled: 40, workSupporter: 10, manager: 5 };
+
+                    // 월 매출 (병풀 가격 상승 반영)
+                    const yearIndex = year - this.baseYear;
+                    const byungpulPriceGrowth = Math.pow(1 + this.byungpulPriceGrowth, yearIndex);
+
+                    const monthlyRevenue = {
+                        byungpul: currentCells.byungpul * this.cellPrices.byungpul * byungpulPriceGrowth,
+                        basil: currentCells.basil * this.cellPrices.basil,
+                        ssam: currentCells.ssam * this.cellPrices.ssam,
+                        total: 0
+                    };
+                    monthlyRevenue.total = monthlyRevenue.byungpul + monthlyRevenue.basil + monthlyRevenue.ssam;
+
+                    // 월 비용 계산
+                    const variableCost = monthlyRevenue.total * this.variableCostRate * (1 - this.energySaving);
+
+                    // 인건비 (월) - 하루 4시간 근무 2교대
+                    const disabledSalary = employees.disabled * this.disabledMonthlySalary;
+                    const workSupporterSalary = employees.workSupporter * this.workSupporterMonthlySalary;
+                    const managerSalary = employees.manager * this.managerMonthlySalary;
+
+                    // 정부 지원금 (월)
+                    const disabledSupport = employees.disabled * this.disabledSupportSevere;
+                    const workSupporterSupport = employees.workSupporter * this.workSupporterSalarySupport;
+
+                    // 실제 인건비 부담
+                    const totalSalary = disabledSalary + workSupporterSalary + managerSalary;
+                    const totalSupport = disabledSupport + workSupporterSupport;
+                    const netLaborCost = totalSalary - totalSupport;
+
+                    const totalCellsNow = currentCells.byungpul + currentCells.basil + currentCells.ssam;
+                    const fixedCost = this.getFixedCost(totalCellsNow);
+                    const totalCost = variableCost + netLaborCost + fixedCost;
+
+                    const operatingProfit = monthlyRevenue.total - totalCost;
+                    const reinvestAmount = operatingProfit > 0 ? operatingProfit * this.reinvestRate : 0;
+
+                    cumulativeCash += operatingProfit;
+                    totalProfit += operatingProfit;
+
+                    // ROI 체크
+                    if (!roiAchieved && totalProfit >= totalInvested) {
+                        roiAchieved = true;
+                        roiYear = `${year}년 ${monthInYear}월`;
+                    }
+
+                    const totalCells = currentCells.byungpul + currentCells.basil + currentCells.ssam;
+
+                    // 연말(12월)에만 결과 저장 (타임라인 간결화)
+                    // 단, 2,200셀 달성한 월은 반드시 저장
+                    const is2200Achieved = totalCells >= 2200 && (results.length === 0 || results[results.length - 1].totalCells < 2200);
+
+                    if (monthInYear === 12 || is2200Achieved) {
+                        results.push({
+                            year: year,
+                            month: monthInYear,
+                            period: monthInYear === 12 ? `${year}년` : `${year}년 ${monthInYear}월`,
+                            revenue: monthlyRevenue,
+                            variableCost,
+                            laborCost: netLaborCost,
+                            governmentSupport: totalSupport,
+                            fixedCost,
+                            totalCost,
+                            operatingProfit,
+                            reinvestAmount,
+                            cumulativeCash,
+                            totalProfit,
+                            totalInvested,
+                            roiAchieved,
+                            roiYear,
+                            cells: { ...currentCells },
+                            totalCells,
+                            employees: { ...employees, totalEmployees: employees.disabled + employees.workSupporter + employees.manager, regular: employees.workSupporter + employees.manager }
+                        });
+                    }
+
+                    // 월말 재투자로 셀 증설 (2,200셀 달성 전까지만)
+                    const currentTotalCells2 = currentCells.byungpul + currentCells.basil + currentCells.ssam;
+                    if (currentTotalCells2 < 2200) {
+                        const newCells = Math.floor(reinvestAmount / this.costPerCell);
+                        if (newCells > 0) {
+                            // 2,200셀 초과하지 않도록 제한
+                            const maxNewCells = Math.min(newCells, 2200 - currentTotalCells2);
+
+                            currentCells.byungpul += Math.round(maxNewCells * 0.5);
+                            currentCells.basil += Math.round(maxNewCells * 0.3);
+                            currentCells.ssam += Math.round(maxNewCells * 0.2);
+
+                            const investmentAmount = maxNewCells * this.costPerCell;
+                            cumulativeCash -= investmentAmount;
+                            totalInvested += investmentAmount;
+                        }
+                    }
+                    // 2,200셀 달성 후에는 재투자 없이 순이익만 누적
                 }
 
                 return results;
@@ -571,10 +842,10 @@
         }
 
         function updateCharts() {
-            const years = simulationResults.map(r => r.year);
+            const periods = simulationResults.map(r => r.period);
 
             // 매출 추이
-            charts.revenue.data.labels = years;
+            charts.revenue.data.labels = periods;
             charts.revenue.data.datasets[0].data = simulationResults.map(r => r.revenue.total);
             charts.revenue.update();
 
@@ -583,15 +854,15 @@
             charts.crop.data.datasets[0].data = [lastYear.revenue.byungpul, lastYear.revenue.basil, lastYear.revenue.ssam];
             charts.crop.update();
 
-            // 시설 확장
-            charts.facility.data.labels = years;
-            charts.facility.data.datasets[0].data = simulationResults.map(r => r.greenhouses.byungpul);
-            charts.facility.data.datasets[1].data = simulationResults.map(r => r.greenhouses.basil);
-            charts.facility.data.datasets[2].data = simulationResults.map(r => r.greenhouses.ssam);
+            // 시설 확장 (셀 개수)
+            charts.facility.data.labels = periods;
+            charts.facility.data.datasets[0].data = simulationResults.map(r => r.cells.byungpul);
+            charts.facility.data.datasets[1].data = simulationResults.map(r => r.cells.basil);
+            charts.facility.data.datasets[2].data = simulationResults.map(r => r.cells.ssam);
             charts.facility.update();
 
             // 고용 인원
-            charts.employment.data.labels = years;
+            charts.employment.data.labels = periods;
             charts.employment.data.datasets[0].data = simulationResults.map(r => r.employees.disabled);
             charts.employment.data.datasets[1].data = simulationResults.map(r => r.employees.regular);
             charts.employment.update();
@@ -601,18 +872,30 @@
             const lastYear = simulationResults[simulationResults.length - 1];
             const firstYear = simulationResults[0];
 
-            document.getElementById('totalRevenue2030').textContent = (lastYear.revenue.total / 100000000).toFixed(1) + '억원';
-            document.getElementById('revenueDelta').textContent = '▲ ' + (((lastYear.revenue.total / firstYear.revenue.total - 1) * 100).toFixed(0)) + '% 증가';
+            // ROI 달성 시점 찾기
+            const roiResult = simulationResults.find(r => r.roiAchieved);
+            if (roiResult) {
+                document.getElementById('roiPeriod').textContent = roiResult.period;
+            } else {
+                document.getElementById('roiPeriod').textContent = '미달성';
+            }
 
-            document.getElementById('totalGreenhouses2030').textContent = lastYear.totalGreenhouses + '동';
-            document.getElementById('greenhouseDelta').textContent = '▲ ' + (lastYear.totalGreenhouses - firstYear.totalGreenhouses) + '동 증설';
+            // 2,200셀 달성 시점 찾기
+            const cell2200Result = simulationResults.find(r => r.totalCells >= 2200);
+            if (cell2200Result) {
+                document.getElementById('cellTarget2000').textContent = cell2200Result.period;
+            } else {
+                document.getElementById('cellTarget2000').textContent = '미달성';
+            }
 
-            const totalEmployees = lastYear.employees.disabled + lastYear.employees.regular;
-            document.getElementById('totalEmployees2030').textContent = totalEmployees + '명';
-            document.getElementById('employeeDelta').textContent = '▲ ' + (totalEmployees - (firstYear.employees.disabled + firstYear.employees.regular)) + '명 증가';
+            // 2030년 월평균 매출
+            document.getElementById('totalRevenue2030').textContent = (lastYear.revenue.total / 100000000).toFixed(1) + '억원/월';
 
-            const esgImpact = (lastYear.employees.disabled - firstYear.employees.disabled);
-            document.getElementById('esgImpact').textContent = '+' + esgImpact + '명';
+            // 1차년 월평균 매출 계산 (1~12월 평균)
+            const firstYearTotal = simulationResults.slice(0, 12).reduce((sum, r) => sum + r.revenue.total, 0);
+            const firstYearMonthly = firstYearTotal / 12;
+            // 2030년 월매출과 1차년 월평균 매출 비교
+            document.getElementById('revenueDelta').textContent = '▲ ' + (((lastYear.revenue.total / firstYearMonthly - 1) * 100).toFixed(0)) + '% 증가';
         }
 
         function updateTimeline() {
@@ -623,31 +906,49 @@
                 const yearBlock = document.createElement('div');
                 yearBlock.className = 'year-block';
 
-                const expansion = index > 0 ? result.totalGreenhouses - simulationResults[index-1].totalGreenhouses : 0;
-                const expansionText = expansion > 0 ? `<strong style="color: #50C878;">+${expansion}동 증설</strong>` : '유지';
+                const expansion = index > 0 ? result.totalCells - simulationResults[index-1].totalCells : 0;
+                const expansionText = expansion > 0 ? `<strong style="color: #50C878;">+${expansion}셀 증설</strong>` : '유지';
+
+                // ROI 달성 표시
+                const roiText = result.roiAchieved && !simulationResults[index-1]?.roiAchieved
+                    ? `<strong style="color: #FFB75D;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>ROI 달성!</strong>`
+                    : '';
+
+                // 총 셀 개수는 result.totalCells 사용
+                const cellsText = result.totalCells >= 2000 && (!simulationResults[index-1] || simulationResults[index-1].totalCells < 2000)
+                    ? `<strong style="color: #50C878;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>${result.totalCells.toLocaleString()}개 셀 (목표 2,000개 달성!)</strong>`
+                    : `<strong>${result.totalCells.toLocaleString()}개 셀</strong>`;
 
                 yearBlock.innerHTML = `
-                    <h3>${result.year}년</h3>
+                    <h3>${result.period} ${roiText}</h3>
                     <p style="margin-bottom: var(--spacing-medium);">
                         ${expansionText} |
-                        총 ${result.totalGreenhouses}동 운영 (병풀 ${result.greenhouses.byungpul}동, 바질 ${result.greenhouses.basil}동, 쌈채소 ${result.greenhouses.ssam}동)
+                        ${cellsText} (병풀 ${result.cells.byungpul}셀, 바질 ${result.cells.basil}셀, 쌈채소 ${result.cells.ssam}셀)
                     </p>
                     <div class="year-metrics">
                         <div class="metric-box">
-                            <div class="metric-label">연매출</div>
+                            <div class="metric-label">${result.month ? '월매출' : '월매출'}</div>
                             <div class="metric-value">${(result.revenue.total / 100000000).toFixed(1)}억</div>
                         </div>
                         <div class="metric-box">
-                            <div class="metric-label">영업이익</div>
-                            <div class="metric-value">${(result.operatingProfit / 100000000).toFixed(1)}억</div>
+                            <div class="metric-label">정부 지원금</div>
+                            <div class="metric-value" style="color: #00A1E0">${(result.governmentSupport / 100000000).toFixed(1)}억</div>
                         </div>
                         <div class="metric-box">
-                            <div class="metric-label">재투자 금액</div>
-                            <div class="metric-value">${(result.reinvestAmount / 100000000).toFixed(1)}억</div>
+                            <div class="metric-label">영업이익</div>
+                            <div class="metric-value" style="color: ${result.operatingProfit >= 0 ? '#50C878' : '#EA001E'}">${(result.operatingProfit / 100000000).toFixed(1)}억</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-label">누적 이익</div>
+                            <div class="metric-value">${(result.totalProfit / 100000000).toFixed(1)}억</div>
                         </div>
                         <div class="metric-box">
                             <div class="metric-label">장애인 고용</div>
                             <div class="metric-value">${result.employees.disabled}명</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-label">총 고용 (2교대)</div>
+                            <div class="metric-value">${result.employees.totalEmployees || result.employees.disabled + result.employees.workSupporter + result.employees.manager}명</div>
                         </div>
                     </div>
                 `;
