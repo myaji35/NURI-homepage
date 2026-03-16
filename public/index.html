@@ -197,17 +197,46 @@
             pointer-events: none;
         }
 
-        /* Subtle gradient orb */
-        .hero::after {
-            content: '';
+        /* Animated aurora orbs */
+        .hero-orb {
             position: absolute;
-            top: 20%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 800px;
-            height: 600px;
-            background: radial-gradient(ellipse, rgba(0,112,243,0.15) 0%, rgba(121,40,202,0.08) 40%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(80px);
             pointer-events: none;
+            will-change: transform;
+        }
+        .hero-orb-1 {
+            width: 600px; height: 600px;
+            top: -10%; left: -10%;
+            background: radial-gradient(circle, rgba(0,112,243,0.25) 0%, transparent 70%);
+            animation: orb-drift-1 8s ease-in-out infinite;
+        }
+        .hero-orb-2 {
+            width: 500px; height: 500px;
+            bottom: -15%; right: -10%;
+            background: radial-gradient(circle, rgba(121,40,202,0.2) 0%, transparent 70%);
+            animation: orb-drift-2 10s ease-in-out infinite;
+        }
+        .hero-orb-3 {
+            width: 300px; height: 300px;
+            top: 40%; left: 60%;
+            background: radial-gradient(circle, rgba(80,200,120,0.15) 0%, transparent 70%);
+            animation: orb-drift-3 12s ease-in-out infinite;
+        }
+
+        @keyframes orb-drift-1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(80px, 40px) scale(1.1); }
+            66% { transform: translate(-30px, 60px) scale(0.95); }
+        }
+        @keyframes orb-drift-2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(-60px, -30px) scale(1.05); }
+            66% { transform: translate(40px, -50px) scale(0.9); }
+        }
+        @keyframes orb-drift-3 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-50px, 30px) scale(1.15); }
         }
 
         .hero-content {
@@ -215,6 +244,21 @@
             z-index: 2;
             max-width: 800px;
             text-align: center;
+        }
+
+        /* Stagger fade-up entrance */
+        .hero-fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fade-up 0.8s ease-out forwards;
+        }
+        .hero-fade-up:nth-child(1) { animation-delay: 0.2s; }
+        .hero-fade-up:nth-child(2) { animation-delay: 0.5s; }
+        .hero-fade-up:nth-child(3) { animation-delay: 0.8s; }
+        .hero-fade-up:nth-child(4) { animation-delay: 1.1s; }
+
+        @keyframes fade-up {
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .hero-badge {
@@ -230,6 +274,23 @@
             font-weight: 500;
             margin-bottom: 2rem;
             backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Shimmer sweep on badge */
+        .hero-badge::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
         }
 
         .hero-badge-dot {
@@ -238,11 +299,12 @@
             background: var(--color-success);
             border-radius: 50%;
             animation: pulse-dot 2s infinite;
+            box-shadow: 0 0 8px rgba(80,200,120,0.6);
         }
 
         @keyframes pulse-dot {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
+            0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(80,200,120,0.6); }
+            50% { opacity: 0.4; box-shadow: 0 0 16px rgba(80,200,120,0.3); }
         }
 
         .hero-title {
@@ -255,10 +317,17 @@
         }
 
         .hero-title .gradient-text {
-            background: linear-gradient(135deg, #0070F3 0%, #7928CA 100%);
+            background: linear-gradient(135deg, #0070F3 0%, #7928CA 50%, #0070F3 100%);
+            background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: gradient-shift 4s ease-in-out infinite;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .hero-subtitle {
@@ -290,12 +359,24 @@
             text-decoration: none;
             border: none;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0,112,243,0.1), rgba(121,40,202,0.1));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .btn-primary:hover::before { opacity: 1; }
+
         .btn-primary:hover {
-            box-shadow: 0 8px 24px rgba(255,255,255,0.15);
-            transform: translateY(-1px);
+            box-shadow: 0 8px 32px rgba(255,255,255,0.2);
+            transform: translateY(-2px);
         }
 
         .btn-ghost {
@@ -311,13 +392,15 @@
             text-decoration: none;
             border: 1px solid rgba(255,255,255,0.2);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
         }
 
         .btn-ghost:hover {
             background: rgba(255,255,255,0.05);
             color: #FFFFFF;
             border-color: rgba(255,255,255,0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(255,255,255,0.1);
         }
 
         .hero-scroll {
@@ -332,6 +415,28 @@
         @keyframes float {
             0%, 100% { transform: translateX(-50%) translateY(0); }
             50% { transform: translateX(-50%) translateY(-8px); }
+        }
+
+        /* Floating particles */
+        .hero-particles {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            width: 2px; height: 2px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            animation: particle-rise linear infinite;
+        }
+        @keyframes particle-rise {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
         }
 
         /* ========== Social Proof Bar ========== */
@@ -1017,23 +1122,31 @@
 
     <!-- ==================== Hero ==================== -->
     <section class="hero">
+        <!-- Animated aurora orbs -->
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-orb hero-orb-2"></div>
+        <div class="hero-orb hero-orb-3"></div>
+
+        <!-- Floating particles -->
+        <div class="hero-particles" id="heroParticles"></div>
+
         <div class="hero-content">
-            <div class="hero-badge">
+            <div class="hero-badge hero-fade-up">
                 <span class="hero-badge-dot"></span>
                 AI 기반 장애인표준사업장 스마트팜
             </div>
 
-            <h1 class="hero-title">
+            <h1 class="hero-title hero-fade-up">
                 기술로 만드는<br/>
                 <span class="gradient-text">포용적 농업 생태계</span>
             </h1>
 
-            <p class="hero-subtitle">
+            <p class="hero-subtitle hero-fade-up">
                 누리셀 3세대 AI 스마트팜으로 장애인에게 안정적 일자리를,<br/>
                 기업에게 ESG 가치를 제공합니다
             </p>
 
-            <div class="hero-actions">
+            <div class="hero-actions hero-fade-up">
                 <a href="./goesan.html" class="btn-primary">
                     괴산점 둘러보기
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
@@ -1450,6 +1563,23 @@
         document.querySelectorAll('.count-up').forEach(function(el) {
             countObserver.observe(el);
         });
+    })();
+
+    // Floating Particles Generator
+    (function() {
+        var container = document.getElementById('heroParticles');
+        if (!container) return;
+        for (var i = 0; i < 20; i++) {
+            var p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.width = (1 + Math.random() * 2) + 'px';
+            p.style.height = p.style.width;
+            p.style.animationDuration = (6 + Math.random() * 10) + 's';
+            p.style.animationDelay = (Math.random() * 8) + 's';
+            p.style.opacity = (0.15 + Math.random() * 0.35);
+            container.appendChild(p);
+        }
     })();
     </script>
 
