@@ -44,6 +44,7 @@
             background: var(--color-background);
             color: var(--color-text-default);
             line-height: 1.6;
+            padding-top: 64px;
         }
 
         /* Header */
@@ -52,14 +53,6 @@
             color: white;
             padding: var(--spacing-large) var(--spacing-x-large);
             box-shadow: var(--shadow-card);
-        }
-
-        .header-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            max-width: 1400px;
-            margin: 0 auto;
         }
 
         .header h1 {
@@ -73,29 +66,56 @@
             font-size: 1.1rem;
         }
 
-        .header-nav {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            flex-shrink: 0;
-            margin-top: 0.25rem;
+        /* Unified Navigation */
+        .nav-fixed {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid #EAEAEA;
         }
-
-        .header-nav a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            font-size: 0.875rem;
-            font-weight: 500;
-            padding: 0.375rem 0.75rem;
-            border-radius: 6px;
-            transition: all 0.2s;
-            white-space: nowrap;
+        .nav-inner {
+            max-width: 1200px; margin: 0 auto; padding: 0.875rem 2rem;
+            display: flex; align-items: center; justify-content: space-between;
         }
-
-        .header-nav a:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.15);
+        .nav-logo {
+            display: flex; align-items: center; gap: 0.75rem; text-decoration: none;
         }
+        .nav-logo-icon {
+            width: 36px; height: 36px; background: #0070F3; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .nav-logo-text {
+            font-size: 1.25rem; font-weight: 700; color: #171717; letter-spacing: -0.03em;
+        }
+        .nav-links { display: flex; align-items: center; gap: 2rem; }
+        .nav-link {
+            font-size: 0.875rem; font-weight: 500; color: #666; text-decoration: none;
+            transition: color 0.2s;
+        }
+        .nav-link:hover { color: #171717; }
+        .nav-cta {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 1.25rem; background: #0070F3; color: #fff;
+            font-size: 0.875rem; font-weight: 600; border-radius: 8px;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .nav-cta:hover { background: #0050D0; box-shadow: 0 4px 12px rgba(0,112,243,0.3); }
+        @media (max-width: 768px) {
+            .nav-desktop { display: none; }
+            .nav-mobile-btn { background: none; border: none; cursor: pointer; padding: 0.5rem; }
+        }
+        @media (min-width: 769px) {
+            .nav-mobile-btn, .nav-mobile-menu { display: none; }
+        }
+        .nav-mobile-menu {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+            border-top: 1px solid #EAEAEA; padding: 1.5rem 2rem;
+        }
+        .nav-mobile-menu a {
+            display: block; padding: 0.75rem 0; font-size: 1rem; font-weight: 500;
+            color: #171717; text-decoration: none; border-bottom: 1px solid #EAEAEA;
+        }
+        .nav-mobile-menu a:last-child { border-bottom: none; }
 
         /* Container */
         .container {
@@ -305,31 +325,55 @@
 </head>
 <body>
     <!-- Header -->
-    <div class="header">
-        <div class="header-inner">
-            <div>
-                <h1>
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
-                        <line x1="12" y1="20" x2="12" y2="10"></line>
-                        <line x1="18" y1="20" x2="18" y2="4"></line>
-                        <line x1="6" y1="20" x2="6" y2="16"></line>
+    <!-- Unified Navigation -->
+    <nav x-data="{ mobileMenuOpen: false }" class="nav-fixed">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <div class="nav-logo-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                        <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
                     </svg>
-                    5개년 사업 계획
-                </h1>
-                <p>NuriFarm 괴산점 | 초기 투자 23억 (장애인고용공단 20억 + 괴산군 3억) → 이익금 재투자 시뮬레이션</p>
-                <p style="margin-top: 0.5rem; font-size: 1rem; opacity: 0.9;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    1년 내 장애인 40명 채용 (3개월 단위 10명씩) | 이후 이익금 재투자로 하우스 증설
-                </p>
+                </div>
+                <span class="nav-logo-text">NURI</span>
+            </a>
+            <div class="nav-desktop nav-links">
+                <a href="index.html" class="nav-link">홈</a>
+                <a href="goesan.html" class="nav-link">괴산점</a>
+                <a href="mailto:partnership@nuri.farm" class="nav-cta">
+                    파트너십 문의
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </a>
             </div>
-            <nav class="header-nav">
-                <a href="index.html">홈</a>
-                <a href="goesan.html">괴산점</a>
-                <a href="dashboard.html">관제</a>
-            </nav>
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="nav-mobile-btn" aria-label="메뉴">
+                <svg x-show="!mobileMenuOpen" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#171717" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                <svg x-show="mobileMenuOpen" x-cloak width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#171717" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
         </div>
+        <div x-show="mobileMenuOpen" x-cloak x-transition class="nav-mobile-menu">
+            <a href="index.html" @click="mobileMenuOpen = false">홈</a>
+            <a href="goesan.html">괴산점</a>
+            <a href="mailto:partnership@nuri.farm">파트너십 문의</a>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="header">
+        <h1>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
+                <line x1="12" y1="20" x2="12" y2="10"></line>
+                <line x1="18" y1="20" x2="18" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="16"></line>
+            </svg>
+            5개년 사업 계획
+        </h1>
+        <p>NuriFarm 괴산점 | 초기 투자 23억 (장애인고용공단 20억 + 괴산군 3억) → 이익금 재투자 시뮬레이션</p>
+        <p style="margin-top: 0.5rem; font-size: 1rem; opacity: 0.9;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            1년 내 장애인 40명 채용 (3개월 단위 10명씩) | 이후 이익금 재투자로 하우스 증설
+        </p>
     </div>
 
     <div class="container">
