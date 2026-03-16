@@ -620,13 +620,9 @@
         /* ========== Map Container ========== */
         .map-container {
             height: 400px;
-            background: var(--color-background-shade);
             border-radius: var(--radius-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--color-text-weak);
-            border: 2px dashed var(--color-border);
+            overflow: hidden;
+            border: 1px solid var(--color-border);
         }
 
         /* ========== CTA Section ========== */
@@ -731,6 +727,9 @@
             }
         }
     </style>
+
+    <!-- Kakao Maps SDK -->
+    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=a63d90809c12a1ab306437407ee04834&libraries=services"></script>
 </head>
 <body>
     <!-- Feather Icons 라이브러리 -->
@@ -1489,14 +1488,16 @@
                     </div>
                 </div>
 
-                <!-- 지도 영역 (향후 추가) -->
+                <!-- 카카오맵 위치 지도 -->
                 <div style="margin-top: var(--spacing-x-large);">
-                    <div class="map-container">
-                        <div>
-                            <p style="font-size: 1.2rem; margin-bottom: 0.5rem;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>위치 지도 (추후 Google Maps 연동)</p>
-                            <p>충청북도 괴산군 사리면 방축리 499, 531-1, 531-2, 531-3</p>
-                        </div>
-                    </div>
+                    <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--color-text-default); margin-bottom: var(--spacing-medium); display: flex; align-items: center; gap: 0.5rem;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+                        사업장 위치
+                    </h3>
+                    <div class="map-container" id="kakaoMap"></div>
+                    <p style="margin-top: var(--spacing-small); font-size: 0.85rem; color: var(--color-text-weak);">
+                        충청북도 괴산군 사리면 방축리 449, 531-1, 531-2, 531-3 (4필지 총 2,000평)
+                    </p>
                 </div>
             </div>
         </div>
@@ -1547,7 +1548,7 @@
                 </div>
 
                 <!-- 병풀 비즈니스 모델 상세 -->
-                <div class="slds-alert" style="margin-top: var(--spacing-x-large);">
+                <div id="centella" class="slds-alert" style="margin-top: var(--spacing-x-large);">
                     <h3 class="slds-alert__heading"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>병풀 비즈니스 모델 (연계고용 감면 제도)</h3>
                     <p><strong>시장 기회:</strong> 글로벌 9,000억 시장, 국내 수입 500~600억 (95% 수입 의존)</p>
                     <p style="margin-top: var(--spacing-small);"><strong>핵심 전략:</strong> 병풀 원료 10억 구매 시 → 고용 부담금 5억 감면 = <strong style="color: var(--color-brand);">실질 50% 할인</strong></p>
@@ -1994,6 +1995,7 @@
                     </p>
                 </div>
 
+                <div id="employment"></div>
                 <div id="careers" class="slds-alert" style="margin-top: var(--spacing-x-large);">
                     <h3 class="slds-alert__heading"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>채용 안내 - 발달장애·경계성장애인에게 맞춤형 일자리를</h3>
                     <p>NURI는 <strong>발달장애·경계성장애인</strong>에게 안정적이고 지속 가능한 일자리를 제공합니다.</p>
@@ -2140,5 +2142,66 @@
             <p style="color: var(--color-text-weak);">© 2026 NURI 누리팜 | 장애인표준사업장 스마트팜 플랫폼</p>
         </div>
     </footer>
+
+    <!-- Kakao Map 초기화 -->
+    <script>
+    (function() {
+        // 괴산군 사리면 방축리 449 좌표
+        var FARM_LAT = 36.7892;
+        var FARM_LNG = 127.8614;
+
+        function initKakaoMap() {
+            var container = document.getElementById('kakaoMap');
+            if (!container || container.clientWidth === 0) {
+                requestAnimationFrame(initKakaoMap);
+                return;
+            }
+
+            var map = new kakao.maps.Map(container, {
+                center: new kakao.maps.LatLng(FARM_LAT, FARM_LNG),
+                level: 4
+            });
+
+            // 줌 컨트롤
+            map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
+
+            // 마커
+            var marker = new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(FARM_LAT, FARM_LNG),
+                map: map
+            });
+
+            // 정보창
+            var infowindow = new kakao.maps.InfoWindow({
+                content: '<div style="padding:8px 12px;font-size:13px;font-weight:600;white-space:nowrap;">NuriFarm 괴산점 (1호 사업장)</div>'
+            });
+            infowindow.open(map, marker);
+
+            // 4필지 영역 표시 (대략적 범위)
+            new kakao.maps.Circle({
+                center: new kakao.maps.LatLng(FARM_LAT, FARM_LNG),
+                radius: 120,
+                strokeWeight: 2,
+                strokeColor: '#00A1E0',
+                strokeOpacity: 0.8,
+                strokeStyle: 'solid',
+                fillColor: '#00A1E0',
+                fillOpacity: 0.15
+            }).setMap(map);
+
+            // 탭 전환 시 지도 리사이즈
+            document.querySelectorAll('.tab-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    setTimeout(function() { map.relayout(); }, 100);
+                });
+            });
+        }
+
+        // SDK 로드 후 초기화
+        if (window.kakao && window.kakao.maps) {
+            kakao.maps.load(initKakaoMap);
+        }
+    })();
+    </script>
 </body>
 </html>
