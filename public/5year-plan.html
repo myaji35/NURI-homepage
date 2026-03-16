@@ -54,6 +54,14 @@
             box-shadow: var(--shadow-card);
         }
 
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
         .header h1 {
             font-size: 2rem;
             font-weight: 700;
@@ -63,6 +71,30 @@
         .header p {
             opacity: 0.9;
             font-size: 1.1rem;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            flex-shrink: 0;
+            margin-top: 0.25rem;
+        }
+
+        .header-nav a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .header-nav a:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.15);
         }
 
         /* Container */
@@ -274,21 +306,30 @@
 <body>
     <!-- Header -->
     <div class="header">
-        <h1>
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
-                <line x1="12" y1="20" x2="12" y2="10"></line>
-                <line x1="18" y1="20" x2="18" y2="4"></line>
-                <line x1="6" y1="20" x2="6" y2="16"></line>
-            </svg>
-            NuriFarm 괴산점 5개년 ROI 시뮬레이션
-        </h1>
-        <p>초기 투자 23억 (장애인고용공단 20억 + 괴산군 3억) → 이익금 재투자 → ROI 달성 시점 확인</p>
-        <p style="margin-top: 0.5rem; font-size: 1rem; opacity: 0.9;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;">
-                <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-            1년 내 장애인 40명 채용 (3개월 단위 10명씩) | 이후 이익금 재투자로 하우스 증설
-        </p>
+        <div class="header-inner">
+            <div>
+                <h1>
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
+                        <line x1="12" y1="20" x2="12" y2="10"></line>
+                        <line x1="18" y1="20" x2="18" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="16"></line>
+                    </svg>
+                    NuriFarm 괴산점 5개년 ROI 시뮬레이션
+                </h1>
+                <p>초기 투자 23억 (장애인고용공단 20억 + 괴산군 3억) → 이익금 재투자 → ROI 달성 시점 확인</p>
+                <p style="margin-top: 0.5rem; font-size: 1rem; opacity: 0.9;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    1년 내 장애인 40명 채용 (3개월 단위 10명씩) | 이후 이익금 재투자로 하우스 증설
+                </p>
+            </div>
+            <nav class="header-nav">
+                <a href="index.html">홈</a>
+                <a href="goesan.html">괴산점</a>
+                <a href="dashboard.html">관제 시스템</a>
+            </nav>
+        </div>
     </div>
 
     <div class="container">

@@ -1205,407 +1205,124 @@
                 <p class="section-subtitle">Software Defined Farm - 소프트웨어가 정의하는 농장</p>
             </div>
 
+            <!-- 세대별 비교표 -->
             <div class="slds-card">
                 <div class="slds-card-header">
                     <h3 class="slds-card-title">왜 3세대 이상인가?</h3>
                 </div>
                 <div class="slds-card-body">
-                    <div class="grid-2">
-                        <div>
-                            <h4 style="color: var(--color-brand); margin-bottom: 1rem; font-size: 1.1rem;">세대별 비교</h4>
-                            <ul class="feature-list">
-                                <li><strong>1세대</strong>: 원격 제어 (리모컨) - 기본 포함</li>
-                                <li><strong>2세대</strong>: 규칙 기반 자동화 (타이머) - 기본 포함</li>
-                                <li><strong>3세대</strong>: 데이터 기반 AI (자율주행) - <strong>누리셀 핵심</strong></li>
-                                <li><strong>3세대+</strong>: 생성형 에이전트 협업 (AI 농장장) - <strong>누리셀 지향점</strong></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 style="color: var(--color-brand); margin-bottom: 1rem; font-size: 1.1rem;">Farm8 대비 경쟁 우위</h4>
-                            <ul class="feature-list">
-                                <li><strong>기술</strong>: H/W 자동화 → S/W & AI (3세대)</li>
-                                <li><strong>작물</strong>: 저가 샐러드 → 고가 원료 (병풀 10배+)</li>
-                                <li><strong>통신</strong>: 유선 중심 → LoRa 무선 메시 (시공비 70% 절감)</li>
-                                <li><strong>사회가치</strong>: 일반 → 장애인 고용 72.7% + ESG</li>
-                            </ul>
-                        </div>
-                    </div>
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+                        <thead style="background: var(--color-background-alt);">
+                            <tr>
+                                <th style="padding: 0.75rem 1rem; text-align: left; border-bottom: 2px solid var(--color-brand);">세대</th>
+                                <th style="padding: 0.75rem 1rem; text-align: left; border-bottom: 2px solid var(--color-brand);">구동 방식</th>
+                                <th style="padding: 0.75rem 1rem; text-align: left; border-bottom: 2px solid var(--color-brand);">비유</th>
+                                <th style="padding: 0.75rem 1rem; text-align: center; border-bottom: 2px solid var(--color-brand);">누리셀</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid #E5E5E5;">
+                                <td style="padding: 0.75rem 1rem;">1세대</td>
+                                <td style="padding: 0.75rem 1rem;">원격 제어</td>
+                                <td style="padding: 0.75rem 1rem;">리모컨</td>
+                                <td style="padding: 0.75rem 1rem; text-align: center; color: var(--color-success); font-weight: 600;">기본 포함</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #E5E5E5;">
+                                <td style="padding: 0.75rem 1rem;">2세대</td>
+                                <td style="padding: 0.75rem 1rem;">규칙 기반 자동화</td>
+                                <td style="padding: 0.75rem 1rem;">타이머/온도계</td>
+                                <td style="padding: 0.75rem 1rem; text-align: center; color: var(--color-success); font-weight: 600;">기본 포함</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #E5E5E5; background: #F0F9FF;">
+                                <td style="padding: 0.75rem 1rem; font-weight: 700;">3세대</td>
+                                <td style="padding: 0.75rem 1rem;">데이터 기반 AI</td>
+                                <td style="padding: 0.75rem 1rem;">자율주행차</td>
+                                <td style="padding: 0.75rem 1rem; text-align: center; color: var(--color-brand); font-weight: 700;">핵심 기술</td>
+                            </tr>
+                            <tr style="background: #E8F4F8;">
+                                <td style="padding: 0.75rem 1rem; font-weight: 700;">3세대+</td>
+                                <td style="padding: 0.75rem 1rem;">생성형 에이전트 협업</td>
+                                <td style="padding: 0.75rem 1rem;">AI 농장장</td>
+                                <td style="padding: 0.75rem 1rem; text-align: center; color: var(--color-brand); font-weight: 700;">지향점</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <div class="grid-2">
-                <div class="slds-card">
-                    <div class="slds-card-header">
-                        <h3 class="slds-card-title">🧠 AI Brain - Multi-Agent</h3>
-                    </div>
-                    <div class="slds-card-body">
-                        <p style="margin-bottom: 1rem; color: var(--color-text-weak);">
-                            LangGraph 기반 에이전트가 상황을 판단하여 최적 제어
-                        </p>
-                        <ul class="feature-list">
-                            <li><strong>환경 제어 에이전트</strong>: 온도/습도/CO2/조도 최적화</li>
-                            <li><strong>병해충 진단 에이전트</strong>: Vision AI 조기 탐지</li>
-                            <li><strong>설비 관리 에이전트</strong>: 고장 감지 및 예측 정비</li>
-                        </ul>
-                    </div>
+            <!-- 4대 핵심 기술 요약 카드 -->
+            <div class="grid-4">
+                <div class="value-card">
+                    <div class="value-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00A1E0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line></svg></div>
+                    <h3 class="value-title">AI Brain</h3>
+                    <p class="value-desc">LangGraph Multi-Agent가 환경/병해충/설비를 자율 판단. 단순 규칙이 아닌 상황 맥락 기반 제어.</p>
                 </div>
-
-                <div class="slds-card">
-                    <div class="slds-card-header">
-                        <h3 class="slds-card-title">🧠 Knowledge Memory - GraphRAG</h3>
-                    </div>
-                    <div class="slds-card-body">
-                        <p style="margin-bottom: 1rem; color: var(--color-text-weak);">
-                            과거 재배 경험을 지식 그래프로 학습하여 예측 방제
-                        </p>
-                        <ul class="feature-list">
-                            <li><strong>인과관계 학습</strong>: "작년 습도 80% → 흰가루병 발생"</li>
-                            <li><strong>패턴 인식</strong>: 유사 상황 감지 → 조기 대응</li>
-                            <li><strong>Neo4j 지식 그래프</strong>: 데이터 간 맥락 이해</li>
-                        </ul>
-                    </div>
+                <div class="value-card">
+                    <div class="value-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#50C878" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></div>
+                    <h3 class="value-title">Knowledge Graph</h3>
+                    <p class="value-desc">GraphRAG로 재배 이력의 인과관계를 학습. "습도 80% -> 흰가루병" 같은 패턴을 예측 방제에 활용.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#FFB75D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
+                    <h3 class="value-title">Wireless Mesh</h3>
+                    <p class="value-desc">ESP32 + LoRa 무선 메시 네트워크로 Plug & Play 확장. 유선 대비 시공비 70% 절감.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9370DB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg></div>
+                    <h3 class="value-title">Process Mining</h3>
+                    <p class="value-desc">MLOps로 생육 병목을 실시간 탐지. LSTM 수확일 예측 정확도 85%+, 에너지 효율 30% 개선.</p>
                 </div>
             </div>
 
-            <div class="highlight-box">
-                <h3>⚡ Wireless Nerves + Efficiency</h3>
-                <div class="grid-2">
-                    <div>
-                        <strong>ESP32 + LoRa 메시 네트워크</strong>
-                        <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
-                            <li>Plug & Play 확장 (레고처럼 센서 추가)</li>
-                            <li>시공비 70% 절감 (유선 불필요)</li>
-                            <li>자가 치유 (한 센서 고장 시 우회)</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <strong>MLOps + Process Mining</strong>
-                        <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
-                            <li>생육 병목 구간 실시간 탐지</li>
-                            <li>LSTM 수확일 예측 (정확도 85%+)</li>
-                            <li>에너지 효율 30% 개선</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 누리셀 적층형 랙 시스템 상세 설명 -->
-            <div class="slds-card" style="margin-top: 2rem;">
-                <div class="slds-card-header">
-                    <h3 class="slds-card-title">📦 누리셀 적층형 랙 시스템 - 특허 출원 기술</h3>
-                </div>
-                <div class="slds-card-body">
-                    <!-- 누리셀 랙 이미지 -->
-                    <div style="margin-bottom: 2rem;">
-                        <img src="images/nuricell_rack.png" alt="누리셀 적층형 랙 시스템" style="width: 100%; border-radius: var(--radius-border); box-shadow: var(--shadow-card);">
-                        <p style="text-align: center; margin-top: 1rem; color: var(--color-text-weak); font-size: 0.9rem;">
-                            누리셀 적층형 랙 시스템 - LED 조명 일체형 원형 재배 포트
+            <!-- 누리셀 랙 간략 소개 -->
+            <div class="slds-card" style="margin-top: 1.5rem;">
+                <div class="slds-card-body" style="display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
+                    <img src="images/nuricell_rack.png" alt="누리셀 적층형 랙 시스템" style="width: 300px; border-radius: var(--radius-border); box-shadow: var(--shadow-card);">
+                    <div style="flex: 1; min-width: 280px;">
+                        <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--color-brand-dark); margin-bottom: 0.75rem;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="6" x2="15" y2="6"></line><line x1="9" y1="10" x2="15" y2="10"></line><line x1="9" y1="14" x2="15" y2="14"></line></svg>
+                            누리셀 적층형 랙 시스템
+                        </h3>
+                        <p style="color: var(--color-text-weak); line-height: 1.7; margin-bottom: 1rem;">
+                            4층 적층형 x 5연동 = <strong style="color: var(--color-brand);">총 2,240개 재배 유닛</strong>. LED 풀스펙트럼 조명 일체형 원형 포트, 독립 양액 순환, AGV 자동 이송 시스템을 갖춘 특허 출원 기술입니다. Farm8(국내 1위 스마트팜)과 MOU 체결, 생산성 3~5배 향상 검증 완료.
                         </p>
-                    </div>
-
-                    <!-- 누리셀 구조 상세 설명 -->
-                    <div style="background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%); padding: 2rem; border-radius: var(--radius-border); margin-bottom: 2rem;">
-                        <h4 style="font-size: 1.3rem; font-weight: 700; color: var(--color-brand-dark); margin-bottom: 1rem;">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
-                                <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
-                                <line x1="9" y1="6" x2="15" y2="6"></line>
-                                <line x1="9" y1="10" x2="15" y2="10"></line>
-                                <line x1="9" y1="14" x2="15" y2="14"></line>
-                                <line x1="9" y1="18" x2="15" y2="18"></line>
-                            </svg>
-                            누리셀 구조: 4층 적층형 × 5연동 = 2,240개 재배 유닛
-                        </h4>
-                        <div class="grid-2" style="gap: 1.5rem;">
-                            <div>
-                                <h5 style="color: var(--color-brand); font-weight: 700; margin-bottom: 0.75rem;">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <line x1="2" y1="12" x2="22" y2="12"></line>
-                                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                                    </svg>
-                                    1개 하우스 구조
-                                </h5>
-                                <ul style="list-style: none; padding: 0;">
-                                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #E5E5E5;">
-                                        <strong>4층 적층형 랙:</strong> 각 층마다 독립 제어
-                                    </li>
-                                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #E5E5E5;">
-                                        <strong>4열 구성:</strong> 중앙 통로 양쪽 2열씩
-                                    </li>
-                                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #E5E5E5;">
-                                        <strong>28칸 (열 당):</strong> 원형 재배 포트 28개
-                                    </li>
-                                    <li style="padding: 0.5rem 0;">
-                                        <strong style="color: var(--color-brand);">= 448개 누리셀/하우스</strong> (4층 × 4열 × 28칸)
-                                    </li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h5 style="color: var(--color-brand); font-weight: 700; margin-bottom: 0.75rem;">🏭 전체 농장 규모</h5>
-                                <ul style="list-style: none; padding: 0;">
-                                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #E5E5E5;">
-                                        <strong>5연동 하우스:</strong> A, B, C, D, E동
-                                    </li>
-                                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #E5E5E5;">
-                                        <strong>하우스당 재배 면적:</strong> 약 100평 (500평 하우스 / 5동)
-                                    </li>
-                                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #E5E5E5;">
-                                        <strong>적층 효과:</strong> 100평 × 4층 = <strong style="color: var(--color-success);">400평 상당 생산</strong>
-                                    </li>
-                                    <li style="padding: 0.5rem 0;">
-                                        <strong style="color: var(--color-brand);">= 총 2,240개 누리셀</strong> (448 × 5동)
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 누리셀 핵심 기술 -->
-                    <div class="grid-3">
-                        <div style="background: white; padding: 1.5rem; border-radius: var(--radius-border); box-shadow: var(--shadow-card);">
-                            <div style="margin-bottom: 0.75rem;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
-                            <h5 style="font-weight: 700; margin-bottom: 0.5rem; color: var(--color-brand-dark);">LED 조명 일체형</h5>
-                            <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
-                                각 원형 포트에 <strong>LED 풀스펙트럼 조명</strong>이 내장되어 있습니다. 작물별 최적 파장(청색 450nm, 적색 660nm)을 AI가 자동 조절하여 광합성 효율을 극대화합니다.
-                            </p>
-                        </div>
-
-                        <div style="background: white; padding: 1.5rem; border-radius: var(--radius-border); box-shadow: var(--shadow-card);">
-                            <div style="font-size: 2rem; margin-bottom: 0.75rem;">🔄</div>
-                            <h5 style="font-weight: 700; margin-bottom: 0.5rem; color: var(--color-brand-dark);">양액 순환 시스템</h5>
-                            <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
-                                각 층마다 <strong>독립 양액 공급 라인</strong>이 설치되어 있으며, 사용하지 않은 양액은 하단 탱크로 회수되어 재사용됩니다. <strong>물 사용량 80% 절감</strong> 효과.
-                            </p>
-                        </div>
-
-                        <div style="background: white; padding: 1.5rem; border-radius: var(--radius-border); box-shadow: var(--shadow-card);">
-                            <div style="font-size: 2rem; margin-bottom: 0.75rem;">🤖</div>
-                            <h5 style="font-weight: 700; margin-bottom: 0.5rem; color: var(--color-brand-dark);">AGV 자동 이송 시스템</h5>
-                            <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
-                                수확 시점이 되면 <strong>AGV(무인운반차)가 누리셀을 통째로 작업동으로 자동 이송</strong>합니다. 발달장애·경계성장애인 근로자가 <strong>밝고 쾌적한 작업동에서 편안하게 수확·포장 작업</strong>을 수행합니다. 랙 환경의 압박감 제거.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Farm8 기술 파트너십 검증 -->
-                    <div style="background: #FFF5E6; padding: 1.5rem; border-radius: var(--radius-border); border-left: 4px solid var(--color-warning); margin-top: 2rem;">
-                        <h5 style="font-weight: 700; margin-bottom: 0.75rem; color: var(--color-warning);">🤝 Farm8 기술 파트너십 - MOU 체결</h5>
-                        <p style="font-size: 0.95rem; color: var(--color-text-default); line-height: 1.7;">
-                            누리셀 적층형 랙 시스템은 <strong>(주)가가호호의 독자 기술</strong>로 개발되었으며, <strong>Farm8(국내 1위 스마트팜)</strong>과 MOU를 체결하여 기술 검증을 완료했습니다.
-                            Farm8은 누리셀의 <strong>4층 적층형 구조 및 AGV 자동 이송 시스템</strong>을 검토한 결과, 기존 단층 수경재배 대비 <strong>생산성 3~5배 향상</strong> 가능성을 확인했습니다.
-                            특히, <strong>AGV 기반 누리셀 자동 이송 시스템</strong>은 발달장애·경계성장애인 근로자가 랙 환경에서 벗어나 작업동에서 편안하게 일할 수 있도록 하는 핵심 기술로, <strong>가가호호 자체 특허 출원 진행 중</strong>입니다 (출원번호: 10-2024-0161602).
-                        </p>
+                        <a href="goesan.html#tech" class="slds-button" style="font-size: 0.9rem; padding: 0.5rem 1.25rem;">
+                            누리셀 기술 자세히 보기
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 0.5rem;"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Physical AI Section -->
+        <!-- Physical AI Section - 요약 -->
         <section class="section" id="physical-ai">
-            <div class="section-header">
-                <h2 class="section-title">🤖 피지컬 AI - 로봇 자동화 시스템</h2>
-                <p class="section-subtitle">Software Defined Robot Farm - AI가 제어하는 물리적 작업 자동화</p>
-            </div>
-
-            <!-- 피지컬 AI 개요 -->
             <div class="slds-card" style="background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%); border: 2px solid var(--color-brand);">
-                <div class="slds-card-body">
-                    <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--color-brand-dark); margin-bottom: 1rem;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
-                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                        </svg>
-                        피지컬 AI란? - 디지털 지능을 물리 세계로 확장
-                    </h3>
-                    <p style="font-size: 1.1rem; color: var(--color-text-default); line-height: 1.8; margin-bottom: 1.5rem;">
-                        기존 스마트팜은 <strong>센서로 읽고 → AI가 판단하고 → 사람이 실행</strong>하는 구조였습니다.
-                        누리셀 3세대+는 <strong>센서로 읽고 → AI가 판단하고 → 로봇이 실행</strong>하는 <strong style="color: var(--color-brand);">완전 자동화 피지컬 AI 시스템</strong>입니다.
-                        장애인 근로자는 무거운 육체 노동 대신, <strong>AI와 로봇을 관리·감독하는 스마트 워커</strong>로 전환됩니다.
+                <div class="slds-card-body" style="text-align: center; padding: 2.5rem 1.5rem;">
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--color-brand-dark); margin-bottom: 1rem;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line></svg>
+                        피지컬 AI - 로봇 자동화 시스템
+                    </h2>
+                    <p style="font-size: 1.05rem; color: var(--color-text-default); line-height: 1.8; max-width: 700px; margin: 0 auto 1.5rem;">
+                        <strong>자동 관수 로봇</strong>, <strong>AGV 수확 이송</strong>, <strong>방제 드론</strong>, <strong>환경 제어 자동화</strong> -
+                        장애인이 "할 수 없는 일"을 로봇에게 맡기고, "할 수 있는 일"에 집중하는 포용적 자동화 시스템입니다.
                     </p>
-                    <div style="background: white; padding: 1.5rem; border-radius: var(--radius-border); border-left: 4px solid var(--color-success);">
-                        <p style="font-size: 1rem; color: var(--color-text-weak); margin: 0;">
-                            <strong style="color: var(--color-success);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>핵심 가치:</strong>
-                            장애인이 <strong>"할 수 없는 일"을 로봇에게 맡기고</strong>, <strong>"할 수 있는 일"에 집중</strong>할 수 있도록 설계된 포용적 자동화 시스템입니다.
-                        </p>
-                    </div>
+                    <a href="goesan.html" class="slds-button" style="font-size: 0.95rem; padding: 0.6rem 1.5rem;">
+                        피지컬 AI 상세 보기
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 0.5rem;"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
                 </div>
-            </div>
-
-            <!-- 피지컬 AI 4대 핵심 시스템 -->
-            <div class="grid-2">
-                <!-- 1. 자동 관수 로봇 -->
-                <div class="slds-card">
-                    <div class="slds-card-header" style="background: linear-gradient(135deg, #00A1E0 0%, #0070D2 100%); color: white;">
-                        <h3 class="slds-card-title" style="color: white;">💧 자동 관수·양액 로봇</h3>
-                    </div>
-                    <div class="slds-card-body">
-                        <p style="margin-bottom: 1rem; color: var(--color-text-weak); font-size: 0.95rem;">
-                            <strong>문제:</strong> 물통/양액통 들기 → 장애인 근로자에게 가장 힘든 작업
-                        </p>
-                        <p style="margin-bottom: 1rem; color: var(--color-brand); font-weight: 700;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><polyline points="20 6 9 17 4 12"></polyline></svg>해결: 레일 기반 자동 관수 로봇 (누리셀 특허 출원 예정)
-                        </p>
-                        <ul class="feature-list">
-                            <li><strong>AI 센서 연동:</strong> 토양 수분 20% 이하 → 자동 급수</li>
-                            <li><strong>레일 이동:</strong> 5동 하우스 순회 관수 (시간당 500주)</li>
-                            <li><strong>양액 자동 혼합:</strong> 작물별 NPK 비율 AI 최적화</li>
-                            <li><strong>휠체어 작업자 대응:</strong> 작업자는 태블릿으로 원격 모니터링만</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- 2. 수확 작업 시스템 (누리셀 이동식) -->
-                <div class="slds-card">
-                    <div class="slds-card-header" style="background: linear-gradient(135deg, #50C878 0%, #3CB371 100%); color: white;">
-                        <h3 class="slds-card-title" style="color: white;">🌿 수확 작업 시스템 (누리셀 이동식)</h3>
-                    </div>
-                    <div class="slds-card-body">
-                        <p style="margin-bottom: 1rem; color: var(--color-text-weak); font-size: 0.95rem;">
-                            <strong>문제:</strong> 랙 환경에서 직접 수확 → 발달장애·경계성장애인에게 압박감
-                        </p>
-                        <p style="margin-bottom: 1rem; color: var(--color-success); font-weight: 700;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><polyline points="20 6 9 17 4 12"></polyline></svg>해결: 누리셀을 작업동으로 이동 → 밝고 쾌적한 공간에서 작업
-                        </p>
-                        <ul class="feature-list">
-                            <li><strong>Vision AI 수확 시기 판단:</strong> LSTM 예측 → "오늘 A동 누리셀 #42~#58 수확 권장"</li>
-                            <li><strong>누리셀 자동 이동:</strong> AGV(무인운반차)가 해당 누리셀을 작업동으로 운반</li>
-                            <li><strong>작업동 환경:</strong> 발달장애인 근로자가 밝은 조명·넓은 공간에서 편안하게 수확·포장</li>
-                            <li><strong>AI 음성 안내:</strong> "오른쪽 잎부터 수확하세요" 단계별 작업 지시</li>
-                            <li><strong>무게 센서 자동 분류:</strong> 규격 미달 자동 제거 → 근로자는 포장만 집중</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- 3. 방제 드론 -->
-                <div class="slds-card">
-                    <div class="slds-card-header" style="background: linear-gradient(135deg, #FFB75D 0%, #FF9A3C 100%); color: white;">
-                        <h3 class="slds-card-title" style="color: white;">🚁 병해충 방제 드론</h3>
-                    </div>
-                    <div class="slds-card-body">
-                        <p style="margin-bottom: 1rem; color: var(--color-text-weak); font-size: 0.95rem;">
-                            <strong>문제:</strong> 농약 분무 → 호흡기·피부 위험 (장애인 근로자 건강 우려)
-                        </p>
-                        <p style="margin-bottom: 1rem; color: var(--color-warning); font-weight: 700;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><polyline points="20 6 9 17 4 12"></polyline></svg>해결: 자율비행 방제 드론 (Farm8 협력)
-                        </p>
-                        <ul class="feature-list">
-                            <li><strong>Vision AI 병해 조기 감지:</strong> 카메라 촬영 → 흰가루병 85% 정확도 탐지</li>
-                            <li><strong>정밀 국소 방제:</strong> 감염된 구역만 선택적 분무 (농약 50% 절감)</li>
-                            <li><strong>자율비행 경로 생성:</strong> SLAM 알고리즘으로 장애물 회피</li>
-                            <li><strong>야간 자동 작업:</strong> 근로자 퇴근 후 무인 방제</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- 4. 환경 제어 로봇 -->
-                <div class="slds-card">
-                    <div class="slds-card-header" style="background: linear-gradient(135deg, #9370DB 0%, #7B68EE 100%); color: white;">
-                        <h3 class="slds-card-title" style="color: white;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path></svg>환경 제어 로봇 (천창/측창 자동화)</h3>
-                    </div>
-                    <div class="slds-card-body">
-                        <p style="margin-bottom: 1rem; color: var(--color-text-weak); font-size: 0.95rem;">
-                            <strong>문제:</strong> 천창/측창 수동 개폐 → 장애인 근로자 접근 불가
-                        </p>
-                        <p style="margin-bottom: 1rem; color: #9370DB; font-weight: 700;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><polyline points="20 6 9 17 4 12"></polyline></svg>해결: BLDC 모터 기반 자동 개폐기 (누리셀 통합 제어)
-                        </p>
-                        <ul class="feature-list">
-                            <li><strong>AI 온도 예측 제어:</strong> "30분 후 32도 예상" → 미리 천창 개방</li>
-                            <li><strong>강풍 자동 감지:</strong> 풍속 15m/s 초과 시 긴급 폐쇄</li>
-                            <li><strong>CO2 자동 공급:</strong> 농도 300ppm 이하 → CO2 발생기 가동</li>
-                            <li><strong>스마트폰 원격 제어:</strong> 근로자가 집에서도 긴급 대응 가능</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 피지컬 AI 기술 스택 -->
-            <div class="slds-card" style="margin-top: 2rem;">
-                <div class="slds-card-header">
-                    <h3 class="slds-card-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><circle cx="12" cy="12" r="3"></circle><path d="M12 1v6m0 6v6m5.2-13.2l-4.2 4.2m0 0l-4.2 4.2m0-8.4l4.2 4.2m0 0l4.2 4.2M1 12h6m6 0h6"></path></svg>피지컬 AI 기술 스택</h3>
-                </div>
-                <div class="slds-card-body">
-                    <div class="grid-3">
-                        <div>
-                            <h4 style="color: var(--color-brand); margin-bottom: 0.75rem; font-size: 1.05rem;">🧠 AI Layer</h4>
-                            <ul class="feature-list" style="font-size: 0.9rem;">
-                                <li><strong>Vision AI:</strong> YOLOv8 (병해충 탐지)</li>
-                                <li><strong>Predictive AI:</strong> LSTM (수확일 예측)</li>
-                                <li><strong>Optimization AI:</strong> 강화학습 (에너지 최적화)</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 style="color: var(--color-brand); margin-bottom: 0.75rem; font-size: 1.05rem;">🤖 Robot Layer</h4>
-                            <ul class="feature-list" style="font-size: 0.9rem;">
-                                <li><strong>ROS2:</strong> Robot Operating System</li>
-                                <li><strong>SLAM:</strong> 자율주행 경로 생성</li>
-                                <li><strong>BLDC Motor:</strong> 정밀 제어 구동기</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 style="color: var(--color-brand); margin-bottom: 0.75rem; font-size: 1.05rem;">📡 Communication Layer</h4>
-                            <ul class="feature-list" style="font-size: 0.9rem;">
-                                <li><strong>ESP32 + LoRa:</strong> 무선 메시 네트워크</li>
-                                <li><strong>MQTT:</strong> IoT 메시지 브로커</li>
-                                <li><strong>WebSocket:</strong> 실시간 대시보드</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Farm8 vs 누리셀 피지컬 AI 비교 -->
-            <div class="highlight-box" style="margin-top: 2rem; background: #FFF5E6; border-left-color: var(--color-warning);">
-                <h3 style="color: var(--color-warning);">🏆 Farm8 vs 누리셀 - 피지컬 AI 비교</h3>
-                <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
-                    <thead style="background: var(--color-background-alt);">
-                        <tr>
-                            <th style="padding: 1rem; text-align: left; border: 1px solid var(--color-border);">구분</th>
-                            <th style="padding: 1rem; text-align: left; border: 1px solid var(--color-border);">Farm8 (2세대)</th>
-                            <th style="padding: 1rem; text-align: left; border: 1px solid var(--color-border); background: #E8F4F8;">누리셀 3세대+ (Physical AI)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="padding: 1rem; border: 1px solid var(--color-border);"><strong>자동화 수준</strong></td>
-                            <td style="padding: 1rem; border: 1px solid var(--color-border);">Rule 기반 (타이머/온도계)</td>
-                            <td style="padding: 1rem; border: 1px solid var(--color-border); background: #F0F9FF;"><strong>AI + 로봇 완전 자동화</strong></td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 1rem; border: 1px solid var(--color-border);"><strong>관수 시스템</strong></td>
-                            <td style="padding: 1rem; border: 1px solid var(--color-border);">수동 물통 운반 (노동 집약)</td>
-                            <td style="padding: 1rem; border: 1px solid var(--color-border); background: #F0F9FF;"><strong>레일 로봇 자동 관수</strong> (특허 출원 예정)</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 1rem; border: 1px solid var(--color-border);"><strong>수확 방식</strong></td>
-                            <td style="padding: 1rem; border: 1px solid var(--color-border);">100% 인력 수확</td>
-                            <td style="padding: 1rem; border: 1px solid var(--color-border); background: #F0F9FF;"><strong>인간-로봇 협업</strong> (컨베이어 자동 이동)</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 1rem; border: 1px solid var(--color-border);"><strong>방제</strong></td>
-                            <td style="padding: 1rem; border: 1px solid var(--color-border);">사람이 분무기 들고 직접 살포</td>
-                            <td style="padding: 1rem; border: 1px solid var(--color-border); background: #F0F9FF;"><strong>자율비행 드론</strong> (Vision AI 병해 감지)</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 1rem; border: 1px solid var(--color-border);"><strong>장애인 고용</strong></td>
-                            <td style="padding: 1rem; border: 1px solid var(--color-border);">❌ 육체 노동 필요 → 고용 어려움</td>
-                            <td style="padding: 1rem; border: 1px solid var(--color-border); background: #F0F9FF;"><strong><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><polyline points="20 6 9 17 4 12"></polyline></svg>로봇 관리·감독 역할</strong> → 72.7% 고용률</td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </section>
 
-        <!-- Centella (병풀) Section -->
+        <!-- Centella (병풀) Section - 경량화 -->
         <section class="section" id="centella">
             <div class="section-header">
                 <h2 class="section-title">병풀(시카) 사업: 게임 체인저</h2>
-                <p class="section-subtitle">수입 대체 국산화로 연 매출 50~100억 원 목표</p>
+                <p class="section-subtitle">K-뷰티 핵심 원료, 수입 대체 국산화</p>
             </div>
 
             <div class="slds-card">
-                <div class="slds-card-header">
-                    <h3 class="slds-card-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>시장 기회</h3>
-                </div>
                 <div class="slds-card-body">
                     <div class="grid-3">
                         <div class="stat-card" style="background: linear-gradient(135deg, var(--color-brand) 0%, var(--color-brand-dark) 100%); color: white;">
@@ -1622,209 +1339,46 @@
                         </div>
                     </div>
 
-                    <div class="highlight-box" style="margin-top: 2rem;">
-                        <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>타겟 고객사</h3>
-                        <div class="grid-3">
-                            <div>
-                                <strong style="color: var(--color-brand);">1군 (화장품)</strong>
-                                <p style="font-size: 0.9rem; margin-top: 0.5rem;">아모레퍼시픽<br/>LG생활건강<br/>한국콜마, 코스맥스</p>
-                            </div>
-                            <div>
-                                <strong style="color: var(--color-brand);">2군 (제약)</strong>
-                                <p style="font-size: 0.9rem; margin-top: 0.5rem;">동국제약 (마데카솔)<br/>대웅제약</p>
-                            </div>
-                            <div>
-                                <strong style="color: var(--color-brand);">3군 (건기식)</strong>
-                                <p style="font-size: 0.9rem; margin-top: 0.5rem;">KGC인삼공사<br/>한국야쿠르트</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="slds-card">
-                <div class="slds-card-header">
-                    <h3 class="slds-card-title">🚀 핵심 영업 무기: 연계고용 감면 제도</h3>
-                </div>
-                <div class="slds-card-body">
-                    <div style="background: linear-gradient(135deg, #FFB75D 0%, #FFA500 100%); color: white; padding: 2rem; border-radius: var(--radius-border); text-align: center; margin-bottom: 1.5rem;">
-                        <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">
-                            병풀 원료 10억 원 구매 → 고용 부담금 5억 원 감면
-                        </div>
-                        <div style="font-size: 1.2rem; opacity: 0.95;">
-                            = 실질 원료비 <strong>50% 할인</strong> 효과
-                        </div>
-                    </div>
-
-                    <div class="grid-3">
-                        <div class="value-card" style="border-left-color: var(--color-success);">
-                            <h4 style="color: var(--color-success); margin-bottom: 0.5rem;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><polyline points="20 6 9 17 4 12"></polyline></svg>Cost Save</h4>
-                            <p style="font-size: 0.9rem;">구매액 최대 50% 부담금 감면</p>
-                        </div>
-                        <div class="value-card" style="border-left-color: var(--color-brand);">
-                            <h4 style="color: var(--color-brand); margin-bottom: 0.5rem;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><polyline points="20 6 9 17 4 12"></polyline></svg>ESG Value</h4>
-                            <p style="font-size: 0.9rem;">"장애인이 키운 시카" 스토리</p>
-                        </div>
-                        <div class="value-card" style="border-left-color: var(--color-warning);">
-                            <h4 style="color: var(--color-warning); margin-bottom: 0.5rem;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;"><polyline points="20 6 9 17 4 12"></polyline></svg>High Quality</h4>
-                            <p style="font-size: 0.9rem;">유효 성분 2~3배, 중금속 제로</p>
+                    <div style="margin-top: 1.5rem; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 280px;">
+                            <p style="color: var(--color-text-weak); line-height: 1.7; margin-bottom: 1rem;">
+                                무농약 청정 AI 재배로 유효 성분(마데카소사이드) 함량 2~3배 향상. 화장품/제약/건기식 대기업 대상 계약재배 + 연계고용 감면 제도 활용으로 <strong style="color: var(--color-brand);">실질 원료비 50% 할인 효과</strong>를 제공합니다.
+                            </p>
+                            <a href="goesan.html#centella" class="slds-button" style="font-size: 0.9rem; padding: 0.5rem 1.25rem;">
+                                병풀 사업 상세 보기
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 0.5rem;"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- NuriFarm Goesan -->
+        <!-- NuriFarm Goesan - 경량화 -->
         <section class="section">
             <div class="section-header">
                 <h2 class="section-title">NuriFarm 괴산점 (1호 사업장)</h2>
-                <p class="section-subtitle">충청북도 괴산군 사리면 방축리 449, 531-1, 2, 3 (4필지)</p>
+                <p class="section-subtitle">충청북도 괴산군 사리면 방축리 | 부지 2,000평 | 2027년 Q1 개소</p>
             </div>
 
             <div class="slds-card">
                 <div class="slds-card-body">
-                    <div class="grid-4">
-                        <div class="value-card" style="border-left-color: var(--color-success);">
-                            <div class="value-icon" style="font-size: 2rem;">📍</div>
-                            <h4 style="font-size: 0.9rem; color: var(--color-text-weak); margin-bottom: 0.25rem;">위치</h4>
-                            <p style="font-weight: 700;">괴산군 사리면 방축리</p>
+                    <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;">
+                        <div style="flex: 1; min-width: 350px;">
+                            <img src="images/01_MasterPlan_Render.png" alt="NuriFarm 괴산점 마스터플랜" style="width: 100%; border-radius: var(--radius-border); box-shadow: var(--shadow-card);">
                         </div>
-                        <div class="value-card" style="border-left-color: var(--color-brand);">
-                            <div class="value-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></div>
-                            <h4 style="font-size: 0.9rem; color: var(--color-text-weak); margin-bottom: 0.25rem;">규모</h4>
-                            <p style="font-weight: 700;">부지 2,000평 / 하우스 500평</p>
-                        </div>
-                        <div class="value-card" style="border-left-color: var(--color-warning);">
-                            <div class="value-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
-                            <h4 style="font-size: 0.9rem; color: var(--color-text-weak); margin-bottom: 0.25rem;">고용 (5차년 최종)</h4>
-                            <p style="font-weight: 700;">장애인 40명 + 작업지원인 10명 + 관리직 5명</p>
-                        </div>
-                        <div class="value-card" style="border-left-color: #9370DB;">
-                            <div class="value-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></div>
-                            <h4 style="font-size: 0.9rem; color: var(--color-text-weak); margin-bottom: 0.25rem;">개소</h4>
-                            <p style="font-weight: 700;">2027년 Q1 예정</p>
+                        <div style="flex: 1; min-width: 300px;">
+                            <p style="color: var(--color-text-default); line-height: 1.8; font-size: 1.05rem; margin-bottom: 1.5rem;">
+                                5동 스마트팜 하우스 + 관리동 + 기숙사 + 다목적홀을 갖춘 <strong style="color: var(--color-brand);">통합형 농업 복합 시설</strong>입니다.
+                                장애인 40명 + 작업지원인 10명 + 관리직 5명, 총 55명이 근무하며
+                                괴산군과의 컨소시엄으로 정부 지원금 20~30억 원을 활용합니다.
+                            </p>
+                            <a href="./goesan.html" class="slds-button" style="font-size: 1rem; padding: 0.75rem 2rem;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                괴산점 상세 보기
+                            </a>
                         </div>
                     </div>
-
-                    <!-- 괴산점 이미지 갤러리 -->
-                    <div style="margin-top: 2rem;">
-                        <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--color-text-default);">
-                            📸 NuriFarm 괴산점 시설 렌더링
-                        </h3>
-                        <p style="font-size: 1rem; color: var(--color-text-weak); margin-bottom: 1.5rem; line-height: 1.8;">
-                            2026년 상반기 개소 예정인 <strong style="color: var(--color-brand);">NuriFarm 괴산점</strong>은 단순한 스마트팜을 넘어, <strong>장애인과 비장애인이 함께 일하는 포용적 농업 공간</strong>입니다.
-                            2,000평 부지에 최첨단 누리셀 3세대 스마트팜 하우스와 함께 직원 기숙사, 다목적홀, 카페를 갖춘 <strong style="color: var(--color-brand);">통합형 농업 복합 시설</strong>로 설계되었습니다.
-                            장애인 근로자 40명이 휠체어로 이동 가능한 넓은 통로와 높이 조절 가능한 작업대에서 편안하게 근무할 수 있으며,
-                            AI가 환경을 자동 제어해 누구나 쉽게 작물을 재배할 수 있습니다.
-                            <strong style="color: var(--color-success);">누리팜과 괴산군의 컨소시엄</strong>으로 운영되며, 정부 지원금 20~30억 원과 인건비 지원 연 8억 원을 활용해 지속 가능한 사회적 기업 모델을 구축합니다.
-                        </p>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
-                            <!-- 마스터 플랜 -->
-                            <div style="background: white; border-radius: var(--radius-border); overflow: hidden; box-shadow: var(--shadow-card); transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
-                                <img src="images/01_MasterPlan_Render.png" alt="NuriFarm 괴산점 마스터플랜" style="width: 100%; height: 250px; object-fit: cover;">
-                                <div style="padding: 1rem;">
-                                    <h4 style="font-weight: 700; margin-bottom: 0.5rem; color: var(--color-brand-dark);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>마스터 플랜 - 지속가능한 농업 생태계</h4>
-                                    <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
-                                        2,000평 부지에 <strong>5동의 스마트팜 하우스</strong>가 일렬로 배치되어 효율적인 작물 관리를 실현합니다.
-                                        중앙 관리동에서 AI가 전체 하우스를 통합 제어하며, 직원 기숙사와 다목적홀이 인접해 <strong>생활-근무 통합형 복지 환경</strong>을 제공합니다.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <!-- 메인 건물 -->
-                            <div style="background: white; border-radius: var(--radius-border); overflow: hidden; box-shadow: var(--shadow-card); transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
-                                <img src="images/k1NURIfarm01_rendering.png" alt="K1 NURI Farm 메인 건물" style="width: 100%; height: 250px; object-fit: cover;">
-                                <div style="padding: 1rem;">
-                                    <h4 style="font-weight: 700; margin-bottom: 0.5rem; color: var(--color-brand-dark);">🏢 메인 건물 - 기술과 디자인의 만남</h4>
-                                    <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
-                                        <strong>K1NURIfarm01</strong>은 현대적인 콘크리트와 유리 외관에 친환경 목재를 결합한 미래형 스마트팜입니다.
-                                        3층 관리동은 AI 제어실, 연구실, 사무실로 구성되며, 후면의 투명한 유리 하우스에서 직접 <strong>작물 생육 과정을 관찰</strong>할 수 있습니다.
-                                        장애인 근로자를 위한 엘리베이터와 경사로가 모든 층에 설치되어 있습니다.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <!-- 정문 입구 -->
-                            <div style="background: white; border-radius: var(--radius-border); overflow: hidden; box-shadow: var(--shadow-card); transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
-                                <img src="images/K1NUIRIfarm01_Main_Entrance_Perspective.png" alt="정문 입구 투시도" style="width: 100%; height: 250px; object-fit: cover;">
-                                <div style="padding: 1rem;">
-                                    <h4 style="font-weight: 700; margin-bottom: 0.5rem; color: var(--color-brand-dark);">🚪 정문 입구 - 첫인상이 만드는 신뢰</h4>
-                                    <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
-                                        <strong>"K1NURIfarm01"</strong> 사인이 새겨진 메인 게이트는 방문객을 맞이하는 첫 번째 공간입니다.
-                                        좌측 보안 게이트에서 출입 관리를 하며, 우측으로는 <strong>휠체어 접근 가능한 완만한 경사로</strong>가 설치되어 있습니다.
-                                        후면에 보이는 유리 하우스는 병풀과 바질이 재배되는 누리셀 3세대 시스템의 심장부입니다.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <!-- 다목적홀 -->
-                            <div style="background: white; border-radius: var(--radius-border); overflow: hidden; box-shadow: var(--shadow-card); transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
-                                <img src="images/multipurpose_hall_interior.png" alt="다목적홀 내부" style="width: 100%; height: 250px; object-fit: cover;">
-                                <div style="padding: 1rem;">
-                                    <h4 style="font-weight: 700; margin-bottom: 0.5rem; color: var(--color-brand-dark);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>다목적홀 - 쉬고, 배우고, 소통하는 공간</h4>
-                                    <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
-                                        3층 높이의 개방감 있는 다목적홀은 <strong>카페테리아, 교육 공간, 휴게실</strong>을 겸합니다.
-                                        중앙의 계단형 좌석에서는 스마트팜 기술 교육과 직원 회의가 진행되며, 전면 유리창 너머로 <strong>실시간 작물 생육 모니터링 대시보드</strong>가 보입니다.
-                                        장애인 직원들이 편안하게 휴식하고 동료들과 소통할 수 있도록 바리스타 카페와 라운지 공간이 마련되어 있습니다.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <!-- 부지 설계도 -->
-                            <div style="background: white; border-radius: var(--radius-border); overflow: hidden; box-shadow: var(--shadow-card); transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
-                                <img src="images/02_Site_Blueprint.png" alt="부지 설계도" style="width: 100%; height: 250px; object-fit: cover;">
-                                <div style="padding: 1rem;">
-                                    <h4 style="font-weight: 700; margin-bottom: 0.5rem; color: var(--color-brand-dark);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>부지 설계도 - 치밀한 공간 전략</h4>
-                                    <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
-                                        <strong>4필지(499, 531-1, 531-2, 531-3)</strong>를 통합한 2,000평 부지에 5동의 하우스가 격자형으로 배치됩니다.
-                                        각 하우스는 8.6m 간격으로 배치되어 채광을 최대화하고, 중앙 통로는 <strong>소형 트럭 진입 가능</strong>한 4m 폭으로 설계되어 수확물 운송이 용이합니다.
-                                        좌측 하단의 인덱스 건축선과 도로 접점 표시는 괴산군 건축 심의를 위한 법적 도면입니다.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <!-- 조닝 컨셉 -->
-                            <div style="background: white; border-radius: var(--radius-border); overflow: hidden; box-shadow: var(--shadow-card); transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
-                                <img src="images/03_Zoning_Concept_ISO.png" alt="조닝 컨셉 ISO" style="width: 100%; height: 250px; object-fit: cover;">
-                                <div style="padding: 1rem;">
-                                    <h4 style="font-weight: 700; margin-bottom: 0.5rem; color: var(--color-brand-dark);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="6" x2="15" y2="6"></line><line x1="9" y1="10" x2="15" y2="10"></line><line x1="9" y1="14" x2="15" y2="14"></line><line x1="9" y1="18" x2="15" y2="18"></line></svg>조닝 컨셉 - 기능별 최적 배치</h4>
-                                    <p style="font-size: 0.9rem; color: var(--color-text-weak); line-height: 1.6;">
-                                        부지는 4개 기능 구역으로 나뉩니다.
-                                        <strong style="color: var(--color-success);">Smart Farm (녹색)</strong> 5동은 중앙에 배치되어 핵심 생산 공간을 확보하고,
-                                        <strong style="color: #FFB75D);">Cafe & Office (주황)</strong>는 정문 인접 위치로 방문객 응대에 최적화됩니다.
-                                        <strong style="color: #00A1E0);">Manufacturing Factory (파랑)</strong>는 병풀 가공 시설이며,
-                                        <strong style="color: #FFD700);">Dormitory (노랑)</strong>는 후면에 배치되어 직원들의 프라이버시를 보호합니다.
-                                        모든 구역은 원형 순환 동선(Circulation)으로 연결됩니다.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="highlight-box" style="margin-top: 2rem;">
-                        <h3>🌾 재배 작물 포트폴리오</h3>
-                        <div class="grid-4">
-                            <div>
-                                <strong>🍃 상추류</strong><br/>
-                                <span style="font-size: 0.85rem; color: var(--color-text-weak);">Cash Cow - 안정 수익</span>
-                            </div>
-                            <div>
-                                <strong>🌿 바질</strong><br/>
-                                <span style="font-size: 0.85rem; color: var(--color-text-weak);">High Margin - 단가 3~5배</span>
-                            </div>
-                            <div>
-                                <strong>🥬 허브류</strong><br/>
-                                <span style="font-size: 0.85rem; color: var(--color-text-weak);">Niche - 소포장 판매</span>
-                            </div>
-                            <div>
-                                <strong>🍃 병풀</strong><br/>
-                                <span style="font-size: 0.85rem; color: var(--color-text-weak);">Future - 단가 10배+</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="slds-card-footer">
-                    <a href="./goesan.html" class="slds-button">괴산점 상세 보기 →</a>
                 </div>
             </div>
         </section>
@@ -1858,8 +1412,8 @@
             <a href="mailto:partnership@nuri.farm" class="slds-button" style="background: white; color: var(--color-brand-dark); font-size: 1.1rem; padding: 1rem 2.5rem;">
                 파트너십 문의하기
             </a>
-            <a href="tel:043-XXX-XXXX" class="slds-button slds-button-neutral" style="background: rgba(255,255,255,0.2); border-color: white; color: white; font-size: 1.1rem; padding: 1rem 2.5rem;">
-                전화 상담 (043-XXX-XXXX)
+            <a href="tel:043-830-3000" class="slds-button slds-button-neutral" style="background: rgba(255,255,255,0.2); border-color: white; color: white; font-size: 1.1rem; padding: 1rem 2.5rem;">
+                전화 상담 (043-830-3000)
             </a>
         </div>
     </section>
