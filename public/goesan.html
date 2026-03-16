@@ -91,6 +91,7 @@
             transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
+            white-space: nowrap;
         }
 
         .nav-link:hover {
@@ -767,7 +768,7 @@
                 </a>
 
                 <!-- Desktop Menu -->
-                <div class="nav-desktop" style="display: flex; align-items: center; gap: 0.25rem;">
+                <div class="nav-desktop" style="display: flex; align-items: center; gap: 0.25rem; flex-wrap: nowrap;">
 
                     <!-- 회사소개 -->
                     <div style="position: relative;" @mouseenter="aboutMenuOpen = true" @mouseleave="aboutMenuOpen = false">
