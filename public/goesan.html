@@ -657,6 +657,51 @@
             flex-wrap: wrap;
         }
 
+        /* ========== Tab UI Styles ========== */
+        .tab-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-x-large);
+        }
+        .tab-nav {
+            display: flex;
+            gap: 0.25rem;
+            border-bottom: 2px solid var(--color-border);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .tab-nav::-webkit-scrollbar { display: none; }
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-text-weak);
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+        .tab-btn:hover { color: var(--color-brand); }
+        .tab-btn.tab-active {
+            color: var(--color-brand) !important;
+            border-bottom-color: var(--color-brand) !important;
+        }
+        .tab-panel {
+            animation: tabFadeIn 0.3s ease;
+        }
+        @keyframes tabFadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* ========== Responsive ========== */
         @media (max-width: 768px) {
             .slds-page-header__title {
@@ -674,6 +719,15 @@
 
             .slds-container {
                 padding: 0 var(--spacing-medium);
+            }
+
+            .tab-container {
+                padding: 0 var(--spacing-medium);
+            }
+
+            .tab-btn {
+                padding: 0.625rem 1rem;
+                font-size: 0.8125rem;
             }
         }
     </style>
@@ -700,7 +754,7 @@
             <div style="display: flex; justify-content: space-between; align-items: center; height: 80px;">
 
                 <!-- Logo -->
-                <a href="/" class="nav-logo">
+                <a href="index.html" class="nav-logo">
                     <div class="nav-logo-icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -1050,7 +1104,7 @@
 
                 <!-- CTA Buttons -->
                 <div class="nav-desktop" style="display: flex; align-items: center; gap: 1rem;">
-                    <a href="/dashboard.html" class="nav-link" style="display: flex; align-items: center; gap: 0.5rem;">
+                    <a href="dashboard.html" class="nav-link" style="display: flex; align-items: center; gap: 0.5rem;">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line>
                         </svg>
@@ -1144,9 +1198,11 @@
     </header>
 
     <!-- ========== Main Content ========== -->
-    <main class="slds-container slds-container--large">
+    <main id="overview">
+        <!-- k1 브랜딩 설명 (탭 외부 - 항상 표시) -->
+        <div class="slds-container" style="padding-top: var(--spacing-xx-large);">
         <!-- k1 브랜딩 설명 -->
-        <div class="slds-alert slds-alert--info" style="background: linear-gradient(135deg, rgba(0, 161, 224, 0.1), rgba(80, 200, 120, 0.1)); border-left: 4px solid var(--color-brand); margin-bottom: var(--spacing-x-large);">
+        <div id="about" class="slds-alert slds-alert--info" style="background: linear-gradient(135deg, rgba(0, 161, 224, 0.1), rgba(80, 200, 120, 0.1)); border-left: 4px solid var(--color-brand); margin-bottom: var(--spacing-x-large);">
             <h3 class="slds-alert__heading" style="color: var(--color-brand); font-size: 1.3rem; margin-bottom: var(--spacing-medium); display: flex; align-items: center; gap: 0.75rem;">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
                 k1NURIfarm01 - Korea's First, Global Beginning
@@ -1200,7 +1256,7 @@
         </div>
 
         <!-- 핵심 차별화: 기숙사형 생활지도 사업장 -->
-        <div style="background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%); padding: 2rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(255, 107, 107, 0.3);">
+        <div id="vision" style="background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%); padding: 2rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(255, 107, 107, 0.3);">
             <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
                 <div style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
                     <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
@@ -1275,7 +1331,7 @@
         </div>
 
         <!-- 사업장 기본 정보 -->
-        <div class="slds-card">
+        <div id="location" class="slds-card">
             <div class="slds-card__header">
                 <h2 class="slds-card__header-title"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>사업장 기본 정보</h2>
             </div>
@@ -1403,7 +1459,7 @@
         </div>
 
         <!-- 재배 작물 포트폴리오 -->
-        <div class="slds-card">
+        <div id="crops" class="slds-card">
             <div class="slds-card__header">
                 <h2 class="slds-card__header-title"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>재배 작물 포트폴리오</h2>
             </div>
@@ -1463,7 +1519,7 @@
         </div>
 
         <!-- 핵심 기술: 누리셀 3세대+ -->
-        <div class="slds-card">
+        <div id="tech" class="slds-card">
             <div class="slds-card__header">
                 <h2 class="slds-card__header-title"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>핵심 기술: 누리셀 3세대++ (Farm8 대비 경쟁 우위)</h2>
             </div>
@@ -1745,7 +1801,7 @@
         </div>
 
         <!-- 판매처 및 파트너십 전략 -->
-        <div class="slds-card">
+        <div id="partnership" class="slds-card">
             <div class="slds-card__header">
                 <h2 class="slds-card__header-title"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>판매처 및 파트너십 전략</h2>
             </div>
@@ -1795,7 +1851,7 @@
         </div>
 
         <!-- 고용 계획 및 장애인 친화 환경 -->
-        <div class="slds-card">
+        <div id="team" class="slds-card">
             <div class="slds-card__header">
                 <h2 class="slds-card__header-title"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>고용 계획 및 장애인 친화 환경</h2>
             </div>
@@ -1877,7 +1933,7 @@
                     </p>
                 </div>
 
-                <div class="slds-alert" style="margin-top: var(--spacing-x-large);">
+                <div id="careers" class="slds-alert" style="margin-top: var(--spacing-x-large);">
                     <h3 class="slds-alert__heading"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>채용 안내 - 발달장애·경계성장애인에게 맞춤형 일자리를</h3>
                     <p>NURI는 <strong>발달장애·경계성장애인</strong>에게 안정적이고 지속 가능한 일자리를 제공합니다.</p>
                     <ul style="margin-top: var(--spacing-medium); margin-left: var(--spacing-large);">
@@ -1907,7 +1963,7 @@
         </div>
 
         <!-- CTA Section - Card Style -->
-        <div style="background: linear-gradient(135deg, #16325C 0%, #00A1E0 100%); padding: 3rem var(--spacing-x-large); margin-top: 3rem;">
+        <div id="contact" style="background: linear-gradient(135deg, #16325C 0%, #00A1E0 100%); padding: 3rem var(--spacing-x-large); margin-top: 3rem;">
             <div class="slds-container">
                 <h2 style="text-align: center; font-size: 2rem; font-weight: 700; color: white; margin-bottom: 1rem;">
                     k1NURIfarm01과 함께하세요
@@ -1976,7 +2032,7 @@
                     </a>
 
                     <!-- Card 4: NURI 메인 -->
-                    <a href="/NURI-homepage/index.html" style="text-decoration: none;">
+                    <a href="index.html" style="text-decoration: none;">
                         <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;">
                             <div style="margin-bottom: 1rem;">
                                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#16325C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
