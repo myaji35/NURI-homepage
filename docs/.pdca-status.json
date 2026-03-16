@@ -1,0 +1,27 @@
+{
+  "version": "2.0",
+  "lastUpdated": "2026-03-16T02:05:22.597Z",
+  "activeFeatures": [],
+  "primaryFeature": null,
+  "features": {
+    "nuri-ia-restructure": {
+      "phase": "archived",
+      "matchRate": 100,
+      "iterationCount": 0,
+      "startedAt": "2026-03-16T02:05:22.597Z",
+      "archivedAt": "2026-03-16T15:30:00Z",
+      "archivedTo": "docs/archive/2026-03/nuri-ia-restructure/"
+    }
+  },
+  "pipeline": {
+    "currentPhase": 1,
+    "level": "Dynamic",
+    "phaseHistory": []
+  },
+  "session": {
+    "startedAt": "2026-03-16T02:05:22.597Z",
+    "onboardingCompleted": false,
+    "lastActivity": "2026-03-16T02:05:22.597Z"
+  },
+  "history": []
+}
