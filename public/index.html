@@ -250,8 +250,70 @@
         .hero-content {
             position: relative;
             z-index: 2;
-            max-width: 800px;
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .hero-text { text-align: left; }
+        .hero-globe-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .globe-canvas {
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            position: relative;
+        }
+        .farm-status-cards {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            width: 100%;
+            justify-content: center;
+        }
+        .farm-card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            backdrop-filter: blur(10px);
+            flex: 1;
+            max-width: 180px;
             text-align: center;
+            transition: all 0.3s;
+        }
+        .farm-card:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(0,112,243,0.4);
+            transform: translateY(-2px);
+        }
+        .farm-card-status {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 100px;
+            font-size: 0.625rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+        .status-active { background: rgba(80,200,120,0.2); color: #50C878; }
+        .status-planned { background: rgba(255,187,93,0.2); color: #FFB75D; }
+        .farm-card-name {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.25rem;
+        }
+        .farm-card-detail {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.5);
         }
 
         /* Stagger fade-up entrance */
@@ -322,6 +384,7 @@
             letter-spacing: -0.04em;
             color: #FFFFFF;
             margin-bottom: 1.5rem;
+            text-align: left;
         }
 
         .hero-title .gradient-text {
@@ -343,14 +406,15 @@
             color: rgba(255,255,255,0.5);
             line-height: 1.7;
             max-width: 600px;
-            margin: 0 auto 2.5rem;
+            margin: 0 0 2.5rem;
             font-weight: 400;
+            text-align: left;
         }
 
         .hero-actions {
             display: flex;
             gap: 1rem;
-            justify-content: center;
+            justify-content: flex-start;
             flex-wrap: wrap;
         }
 
@@ -470,6 +534,21 @@
             40% { opacity: 1; }
             60% { opacity: 1; }
             100% { transform: translateX(30%) rotate(-2deg); opacity: 0; }
+        }
+
+        /* Globe responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+            .hero-text { text-align: center; }
+            .hero-title { text-align: center; }
+            .hero-subtitle { text-align: center; margin: 0 auto 2.5rem; }
+            .hero-actions { justify-content: center; }
+            .globe-canvas { width: 280px; height: 280px; }
+            .farm-status-cards { flex-wrap: wrap; }
         }
 
         /* ========== Social Proof Bar ========== */
@@ -1166,29 +1245,56 @@
         <div class="hero-beam"></div>
 
         <div class="hero-content">
-            <div class="hero-badge hero-fade-up">
-                <span class="hero-badge-dot"></span>
-                AI 기반 장애인표준사업장 스마트팜
+            <!-- 좌측: 텍스트 -->
+            <div class="hero-text">
+                <div class="hero-badge hero-fade-up">
+                    <span class="hero-badge-dot"></span>
+                    AI 기반 장애인표준사업장 스마트팜
+                </div>
+
+                <h1 class="hero-title hero-fade-up">
+                    기술로 만드는<br/>
+                    <span class="gradient-text">글로벌 스마트팜</span>
+                </h1>
+
+                <p class="hero-subtitle hero-fade-up">
+                    누리셀 3세대 AI 스마트팜으로 장애인에게 안정적 일자리를,<br/>
+                    기업에게 ESG 가치를 제공합니다
+                </p>
+
+                <div class="hero-actions hero-fade-up">
+                    <a href="./goesan.html" class="btn-primary">
+                        괴산점 둘러보기
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                    <a href="mailto:partnership@nuri.farm" class="btn-ghost">
+                        파트너십 문의
+                    </a>
+                </div>
             </div>
 
-            <h1 class="hero-title hero-fade-up">
-                기술로 만드는<br/>
-                <span class="gradient-text">포용적 농업 생태계</span>
-            </h1>
+            <!-- 우측: 지구본 + 사업장 현황 -->
+            <div class="hero-globe-wrapper hero-fade-up" style="animation-delay: 0.6s;">
+                <canvas id="globeCanvas" class="globe-canvas" width="840" height="840"></canvas>
 
-            <p class="hero-subtitle hero-fade-up">
-                누리셀 3세대 AI 스마트팜으로 장애인에게 안정적 일자리를,<br/>
-                기업에게 ESG 가치를 제공합니다
-            </p>
-
-            <div class="hero-actions hero-fade-up">
-                <a href="./goesan.html" class="btn-primary">
-                    괴산점 둘러보기
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </a>
-                <a href="mailto:partnership@nuri.farm" class="btn-ghost">
-                    파트너십 문의
-                </a>
+                <!-- 사업장 현황 카드 -->
+                <div class="farm-status-cards">
+                    <div class="farm-card">
+                        <div class="farm-card-status status-active">운영 준비</div>
+                        <div class="farm-card-name">괴산점</div>
+                        <div class="farm-card-detail">500평 · 55명</div>
+                    </div>
+                    <div class="farm-card">
+                        <div class="farm-card-status status-planned">2027 계획</div>
+                        <div class="farm-card-name">2호점</div>
+                        <div class="farm-card-detail">확장 예정</div>
+                    </div>
+                    <div class="farm-card">
+                        <div class="farm-card-status status-planned">2028 계획</div>
+                        <div class="farm-card-name">3호점</div>
+                        <div class="farm-card-detail">해외 진출</div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1616,6 +1722,187 @@
             p.style.animationDelay = (Math.random() * 10) + 's';
             container.appendChild(p);
         }
+    })();
+
+    // 3D Wireframe Globe
+    (function() {
+        var canvas = document.getElementById('globeCanvas');
+        if (!canvas) return;
+        var ctx = canvas.getContext('2d');
+        var w = canvas.width, h = canvas.height;
+        var cx = w/2, cy = h/2, r = w * 0.42;
+        var rotation = 0;
+        var speed = 0.003;
+
+        // Farm locations [lat, lng, name, status]
+        var farms = [
+            [36.79, 127.86, '괴산점', 'active'],
+            [35.15, 129.05, '2호점', 'planned'],
+            [1.35, 103.82, '3호점', 'planned'],
+        ];
+
+        // Simplified world coastline points
+        var coastlines = generateCoastlineData();
+
+        function latLngTo3D(lat, lng, radius) {
+            var phi = (90 - lat) * Math.PI / 180;
+            var theta = (lng + rotation * 180 / Math.PI) * Math.PI / 180;
+            var x = radius * Math.sin(phi) * Math.cos(theta);
+            var y = radius * Math.cos(phi);
+            var z = radius * Math.sin(phi) * Math.sin(theta);
+            return { x: cx + x, y: cy - y, z: z };
+        }
+
+        function generateCoastlineData() {
+            return [
+                // East Asia (Korea, Japan, China coast)
+                [[40,117],[38,118],[36,120],[34,120],[32,121],[30,122],[28,121],[25,120],[23,117],[22,114],[21,110],[18,109],[20,106],[22,108]],
+                [[38,125],[37,127],[35,129],[33,130],[33,132],[34,131],[35,133],[37,137],[39,140],[41,140],[43,145],[45,143],[45,142],[43,140],[41,139],[39,138]],
+                // Korea peninsula detail
+                [[38,126],[37,126],[36,127],[35,128],[34,127],[35,126],[34,126]],
+                // Southeast Asia
+                [[10,106],[8,105],[6,106],[2,104],[1,104],[-1,104],[-2,106],[-5,106],[-6,107],[-7,110],[-8,114],[-8,116],[-5,119],[-2,117],[0,109],[2,106]],
+                // India
+                [[23,68],[21,70],[19,73],[17,73],[15,74],[13,75],[10,77],[8,77],[8,79],[10,80],[13,80],[15,80],[17,83],[19,85],[21,87],[22,89],[23,89]],
+                // Africa outline
+                [[35,10],[33,10],[30,10],[25,10],[20,10],[15,-17],[10,-14],[5,-5],[0,10],[-5,12],[-10,14],[-15,12],[-20,15],[-25,17],[-30,18],[-34,18],[-34,26],[-30,31],[-25,33],[-20,35],[-15,40],[-10,42],[-5,40],[0,43],[5,45],[10,45],[12,50],[15,42],[20,40],[25,35],[30,32],[33,12],[35,10]],
+                // Europe outline
+                [[36,-6],[37,-8],[39,-9],[40,-9],[43,-2],[44,0],[44,3],[46,5],[48,5],[51,4],[53,5],[55,8],[57,10],[60,5],[63,5],[65,14],[70,20],[70,28],[65,30],[60,28],[57,24],[55,20],[54,14],[52,10],[51,7]],
+                [[36,-6],[38,-1],[40,0],[42,3],[44,8],[45,12],[44,13],[42,12],[41,16],[40,18],[38,22],[36,28],[38,26],[40,28],[42,25],[45,15]],
+                // Americas - North
+                [[50,-130],[45,-125],[40,-124],[35,-120],[30,-118],[25,-110],[20,-105],[15,-100],[15,-90],[18,-88],[20,-87],[22,-90],[25,-90],[30,-88],[30,-82],[25,-80],[27,-80],[30,-82],[32,-80],[35,-76],[40,-74],[43,-70],[45,-67],[47,-65],[50,-60],[52,-56],[55,-60],[60,-65],[65,-65],[70,-60]],
+                // Americas - South
+                [[12,-75],[10,-76],[5,-77],[0,-80],[-5,-81],[-10,-78],[-15,-75],[-20,-70],[-25,-65],[-30,-60],[-35,-57],[-40,-65],[-45,-68],[-50,-70],[-55,-68],[-55,-65],[-50,-60],[-45,-55],[-40,-55],[-35,-52],[-30,-50],[-25,-48],[-20,-40],[-15,-39],[-10,-37],[-5,-35],[0,-50],[5,-60],[8,-63],[10,-67],[12,-75]],
+                // Australia
+                [[-15,129],[-12,131],[-12,136],[-15,136],[-18,140],[-20,149],[-25,150],[-28,153],[-33,152],[-35,150],[-37,145],[-38,141],[-35,137],[-33,134],[-30,131],[-25,129],[-20,119],[-18,122],[-15,124],[-13,126],[-15,129]],
+            ];
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, w, h);
+
+            // Outer glow
+            var glow = ctx.createRadialGradient(cx, cy, r*0.8, cx, cy, r*1.3);
+            glow.addColorStop(0, 'rgba(0,112,243,0.08)');
+            glow.addColorStop(1, 'transparent');
+            ctx.fillStyle = glow;
+            ctx.fillRect(0, 0, w, h);
+
+            // Globe sphere
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(0,112,243,0.03)';
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(0,112,243,0.15)';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Latitude lines
+            ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+            ctx.lineWidth = 0.5;
+            for (var lat = -60; lat <= 60; lat += 30) {
+                ctx.beginPath();
+                for (var lng = 0; lng <= 360; lng += 3) {
+                    var p = latLngTo3D(lat, lng, r);
+                    if (p.z > 0) {
+                        if (lng === 0 || latLngTo3D(lat, lng - 3, r).z <= 0) ctx.moveTo(p.x, p.y);
+                        else ctx.lineTo(p.x, p.y);
+                    }
+                }
+                ctx.stroke();
+            }
+
+            // Longitude lines
+            for (var lng = 0; lng < 360; lng += 30) {
+                ctx.beginPath();
+                for (var lat = -90; lat <= 90; lat += 3) {
+                    var p = latLngTo3D(lat, lng, r);
+                    if (p.z > 0) {
+                        if (lat === -90 || latLngTo3D(lat - 3, lng, r).z <= 0) ctx.moveTo(p.x, p.y);
+                        else ctx.lineTo(p.x, p.y);
+                    }
+                }
+                ctx.stroke();
+            }
+
+            // Draw coastlines
+            ctx.strokeStyle = 'rgba(0,160,243,0.35)';
+            ctx.lineWidth = 1.2;
+            coastlines.forEach(function(coast) {
+                ctx.beginPath();
+                var started = false;
+                for (var i = 0; i < coast.length; i++) {
+                    var p = latLngTo3D(coast[i][0], coast[i][1], r);
+                    if (p.z > 0) {
+                        if (!started) { ctx.moveTo(p.x, p.y); started = true; }
+                        else ctx.lineTo(p.x, p.y);
+                    } else {
+                        started = false;
+                    }
+                }
+                ctx.stroke();
+            });
+
+            // Draw farm markers
+            farms.forEach(function(farm) {
+                var p = latLngTo3D(farm[0], farm[1], r);
+                if (p.z > 0) {
+                    var alpha = Math.min(1, (p.z / r) * 1.5);
+                    var isActive = farm[3] === 'active';
+                    var color = isActive ? [80, 200, 120] : [255, 187, 93];
+                    var pulseScale = 1 + 0.3 * Math.sin(Date.now() / (isActive ? 500 : 800));
+
+                    // Pulse ring
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 12 * pulseScale, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(' + color.join(',') + ',' + (0.1 * alpha) + ')';
+                    ctx.fill();
+
+                    // Outer ring
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 8, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(' + color.join(',') + ',' + (0.25 * alpha) + ')';
+                    ctx.fill();
+
+                    // Core dot
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(' + color.join(',') + ',' + alpha + ')';
+                    ctx.fill();
+
+                    // Label
+                    if (p.z > r * 0.3) {
+                        ctx.font = '600 ' + (w > 600 ? '13' : '11') + 'px -apple-system, sans-serif';
+                        ctx.fillStyle = 'rgba(255,255,255,' + (alpha * 0.9) + ')';
+                        ctx.textAlign = 'left';
+                        ctx.fillText(farm[2], p.x + 14, p.y + 4);
+                    }
+                }
+            });
+
+            // Connection arcs between active and planned farms
+            for (var i = 1; i < farms.length; i++) {
+                var p1 = latLngTo3D(farms[0][0], farms[0][1], r);
+                var p2 = latLngTo3D(farms[i][0], farms[i][1], r);
+                if (p1.z > 0 && p2.z > 0) {
+                    ctx.beginPath();
+                    ctx.setLineDash([4, 4]);
+                    ctx.strokeStyle = 'rgba(0,112,243,' + (0.2 * Math.min(p1.z, p2.z) / r) + ')';
+                    ctx.lineWidth = 1;
+                    var mx = (p1.x + p2.x) / 2;
+                    var my = (p1.y + p2.y) / 2 - 30;
+                    ctx.moveTo(p1.x, p1.y);
+                    ctx.quadraticCurveTo(mx, my, p2.x, p2.y);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                }
+            }
+
+            rotation += speed;
+            requestAnimationFrame(draw);
+        }
+
+        draw();
     })();
     </script>
 
